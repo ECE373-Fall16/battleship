@@ -45,8 +45,9 @@ public  class SignUp extends JFrame{
 					String password = newpasswordField.getText();
 					boolean found = false;
 			         
-					if((username.matches(".*\\s+.*")) || password.matches(".*\\s+.*")){
-						JOptionPane.showMessageDialog(null,"Error! No Spaces between Usernames/Passwords!");
+					if((username.matches(".*\\s+.*")) || password.matches(".*\\s+.*") || username.equals("") || password.equals("")){
+					    JOptionPane.showMessageDialog(null,"Error! No Spaces between Usernames/Passwords!","ERROR", 2);
+
 						newuserField.setText("");
 						newpasswordField.setText("");
 						newuserField.requestFocus();
@@ -63,7 +64,7 @@ public  class SignUp extends JFrame{
 						newpasswordField.setText("");
 						newuserField.requestFocus();
 					
-						JOptionPane.showMessageDialog(null,"Error! Username Is Already In Use!");
+						JOptionPane.showMessageDialog(null,"Error! Username Is Already In Use!", "ERROR", 2);
 				}
 			         }
 			}

@@ -68,7 +68,7 @@ public class PlayerDatabase{
 			      newPerson.setUser(user);
 			      newPerson.setPassword(pass);
 			      players.add(newPerson);
-			      System.out.println("*" + user + "-" + pass + "*");
+			     // System.out.println("*" + user + "-" + pass + "*");
 
 			 }
 		} catch (IOException e) {

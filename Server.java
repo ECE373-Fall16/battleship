@@ -7,7 +7,6 @@ public class Server {
 	static Socket socket;
 	static DataOutputStream out;
 	static DataInputStream in;
-	static boolean player1turn = true;
 
 
 	static Users[] user = new Users[2];
@@ -17,10 +16,10 @@ public class Server {
 		serverSocket = new ServerSocket(22231);
 		Thread.sleep(1000);
 		System.out.println("Server Started");
-		
 		while(true){
 		socket = serverSocket.accept();
 		for(int i = 0; i < 2; i++){
+			
 		System.out.println("Connection from: " + socket.getInetAddress());
 		out = new DataOutputStream(socket.getOutputStream());
 		in = new DataInputStream(socket.getInputStream());
@@ -28,15 +27,16 @@ public class Server {
 			user[i] = new Users(out,in,user);
 		Thread thread = new Thread(user[i]);
 		thread.start();
+
 		break;
-		}
-		}
 		
 		}
-
+		}
+	
+		}
 	}
-}
 
+}
 class Users implements Runnable{
 
 	DataOutputStream out;
@@ -45,7 +45,7 @@ class Users implements Runnable{
 	String name;
 	String shiplocations;
 	boolean opponentturn = false;
-	int lastplayer = 1;
+
 	
 	public Users(DataOutputStream out, DataInputStream in, Users[] user){
 		this.out = out;
@@ -53,68 +53,79 @@ class Users implements Runnable{
 		this.user = user;
 	}
 
-	public void run() {
-		
+	static int loggers = 0;
+	static boolean playeronesturn = true;
+	static String playerone  = "";
+	static String playertwo = "" ;
 	
-		for(int i = 0; i < 2; i++){
-			if(user[i] != null){
-				if(i == 0){
-					try {
-						 name = in.readUTF();
-						} catch (IOException e1) {
-							e1.printStackTrace();
-						}
-						
-						try {
-							shiplocations = in.readUTF();
-							} catch (IOException e1) {
-								e1.printStackTrace();
-							}
-						
-					System.out.println("Player " + i + "'s ship locations are: " + shiplocations);
-					user[0] = null;
-				}
-			}
-				if(user[i] != null){
-
-				if(i == 1){
-					try {
-						 name = in.readUTF();
-						} catch (IOException e1) {
-							e1.printStackTrace();
-						}
-						
-						try {
-							shiplocations = in.readUTF();
-							} catch (IOException e1) {
-								e1.printStackTrace();
-							}
-						
-					System.out.println("Player " + i + "'s ship locations are: " + shiplocations);
-					user[1]=null;
-				}
-			}
-		}	
-	/**	
+	public void run() {
 		try {
 		 name = in.readUTF();
 		} catch (IOException e1) {
-			e1.printStackTrace();
+			//e1.printStackTrace();
 		}
 		
 		try {
 			shiplocations = in.readUTF();
 			} catch (IOException e1) {
-				e1.printStackTrace();
+				//e1.printStackTrace();
 			}
-		*/
+
+		if(loggers == 0){
+			playerone = name;
+			loggers++;	
+		}else if(loggers == 1){
+			playertwo = name;
+			//loggers++;
+		}
+		
+		ShipSetup.setUserShips(shiplocations);
+		System.out.println("Player one is: " + playerone + " player two is: " + playertwo);
+
+		
 		while(true){
 			try {
 				String message = in.readUTF();
-				System.out.println("I got a message that said" + message);
+
 				for(int i = 0; i < 2; i++){
 					if(user[i] != null){
-						user[i].out.writeUTF(name + ": " + message + "user is " + i);
+
+						user[i].out.writeUTF("Player One's name is " + name + ": " + message + "user is " );
+						System.out.println("Player one is: " + playerone + " player two is: " + playertwo);
+						user[i].out.writeUTF(name + "'s ship locations are: " + shiplocations + "user is " + i);	
+						
+						/*
+							System.out.println("Player one is: " + playerone + " player two is: " + playertwo + "name is " + name);
+							String xxx = "";
+							if(playeronesturn && (name.equals(playerone))){
+							xxx = "here 1";
+								//user[i].out.writeUTF(name + "'s ship locations are: " + shiplocations);
+							playeronesturn = false;
+							//printed = 1;
+									//break;
+							} 
+								
+								if (playeronesturn && (!(name.equals(playerone)))){
+								//user[i].out.writeUTF("It is not " + name + "'s turn!");
+									xxx = "here2";
+								//break;
+							}
+							 if(!playeronesturn && (name.equals(playertwo))){
+								//user[i].out.writeUTF(name + "'s ship locations are: " + shiplocations);
+								playeronesturn = true;
+								xxx = "here3";
+								//printed = 1;
+								//break;
+
+								} if ((!playeronesturn && (!(name.equals(playertwo))) && (printed != 1))){
+									//user[i].out.writeUTF("It is not " + name + "'s turn!");
+									//break;
+									xxx="here 4";
+								}
+								user[i].out.writeUTF("Here we have: " + xxx);
+								*/
+
+							//}
 						
 						//should be a boolean
 						//create a variable for whos turn
@@ -125,14 +136,23 @@ class Users implements Runnable{
 					}
 				}
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				this.out = null;
-				this.in = null;
+				//this.out = null;
+				//this.in = null;
+				LogIn.endofgamelog();
 				}
 		}
 		
-		
-		
 	}
 	
+	
 }
+
+
+
+
+
+
+
+
+
+

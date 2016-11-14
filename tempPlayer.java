@@ -2,17 +2,17 @@
 /**
  * Fake Player Class
  */
-public class Player{
+public class tempPlayer{
 
     String username,password;
 	static String currentUser;
-    public Player(){
+    public tempPlayer(){
     	username = null;
     	password = null;
     }
        
 
-    public Player(String user, String pass){
+    public tempPlayer(String user, String pass){
         username = user;
         password = pass;
     }
@@ -20,7 +20,7 @@ public class Player{
     public void setUser(String user){
         this.username = user;
     }
-    public static void setCurrentUser(String cuser){
+    public void setCurrentUser(String cuser){
     	Player.currentUser = cuser;
     }
     public static String getCurrentUser(){
