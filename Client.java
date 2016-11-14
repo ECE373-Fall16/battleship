@@ -44,11 +44,13 @@ public static void main(String[] args) throws Exception{//run
 	
 	out.writeUTF(GameEngine.getFinalCoordinates());
 	
-	
+	BufferedReader br = new BufferedReader(new FileReader("firecoordinant"));
+
 
 	while(true){
 		String sendmessage = sc.nextLine();
-		out.writeUTF(sendmessage);	
+		String line = br.readLine();
+		out.writeUTF(line);	
 	}
 	}
 }
@@ -65,7 +67,7 @@ class Input implements Runnable{
 			String message;
 			try {
 				 message = in.readUTF();
-				System.out.println("My message is: " + message);
+				System.out.println(message);
  
 			} catch (IOException e) {
 				//e.printStackTrace();

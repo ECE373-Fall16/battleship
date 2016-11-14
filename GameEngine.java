@@ -216,7 +216,7 @@ public void createAndDisplayGUI()
 				e.printStackTrace();
 			}
 			
-			//buttonF[c].setBackground(Color.red);
+			buttonF[firecoordx].setBackground(Color.red);
 			textField.setText("");
 			
 			}

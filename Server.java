@@ -1,4 +1,5 @@
 import java.net.*;
+import java.awt.Color;
 import java.io.*;
 
 public class Server {
@@ -86,13 +87,13 @@ class Users implements Runnable{
 		while(true){
 			try {
 				String message = in.readUTF();
+				int firepoints = Integer.parseInt(message);
+				//GameEngine.buttonF[firepoints].setBackground(Color.red);
 
 				for(int i = 0; i < 2; i++){
 					if(user[i] != null){
 
-						user[i].out.writeUTF("Player One's name is " + name + ": " + message + "user is " );
-						System.out.println("Player one is: " + playerone + " player two is: " + playertwo);
-						user[i].out.writeUTF(name + "'s ship locations are: " + shiplocations + "user is " + i);	
+						user[i].out.writeUTF(name + " just shot at " + message + "!");
 						
 						/*
 							System.out.println("Player one is: " + playerone + " player two is: " + playertwo + "name is " + name);
