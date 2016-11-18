@@ -32,9 +32,12 @@ public class GameEngine extends JFrame
 	public JButton eDestroyer;
 	public JButton FireButton;
 	public JButton FinalizeShips;
+	
+	public static JButton buttonF2[] = new JButton[100];
 	public static JButton buttonF[] = new JButton[100];
 	public static JButton button[] = new JButton[100];
-   
+    static int iterator = 0; 
+	
 	private static int gridSize = 10;
     static String Action;
 	
@@ -206,9 +209,9 @@ public void createAndDisplayGUI()
 			{
 			System.out.println("The entered text is: " + textField.getText());
 			String FireCoordinates = textField.getText();
-			int a = Character.getNumericValue(FireCoordinates.charAt(0));
-			int b =Character.getNumericValue(FireCoordinates.charAt(2));
-			int firecoordx = a*10 +b;
+			FireCoordinates = FireCoordinates.replace(",", "").replaceAll(" ", "");
+			int firecoordx = Integer.parseInt(FireCoordinates);
+			///EDIT HERE NO PARSING NEED TO GET INDIVIDUAL CHARACTERS MULTIPLY AND ADDD
 			try {
 				setFire(firecoordx);
 			} catch (IOException e) {
@@ -218,7 +221,8 @@ public void createAndDisplayGUI()
 			
 			buttonF[firecoordx].setBackground(Color.red);
 			textField.setText("");
-			
+			buttonF2[firecoordx].setBackground(Color.green);
+			textField.setText("");
 			}
 		
 		}
@@ -446,6 +450,8 @@ public void createAndDisplayGUI()
 //firing Grid	
 		JPanel FirePanel = new JPanel();
 			FirePanel.setBounds(520,50,400,400);
+
+		if(iterator == 0){
 			for (int a = 0; a < gridSize; a++)
 			{
 				for (int b = 0; b < gridSize; b++)
@@ -464,22 +470,36 @@ public void createAndDisplayGUI()
 				    
 				    FirePanel.add(buttonF[z]);
 					
-					/*
-					buttonF[z].addActionListener(new ActionListener()
-					{
-				
-						public void actionPerformed(ActionEvent ae)
-						{
-							buttonF[z].setBackground(Color.RED);
-							buttonF[z].setOpaque(true);
-							buttonF[z].setBorderPainted(false);
 
-							
-						}
-	                });
-	                */
 						}
 				}
+			iterator++;
+		}
+			
+		if(iterator == 1){	
+			
+			for (int a = 0; a < gridSize; a++)
+			{
+				for (int b = 0; b < gridSize; b++)
+				{
+					int y = b*10;
+					int z = y+a;
+					
+				    buttonF2[z] = new JButton();
+					
+				    buttonF2[z].setPreferredSize(new Dimension(35,35));
+				    buttonF2[z].setOpaque(true);
+				    buttonF2[z].setBorderPainted(false);
+				    buttonF2[z].setBackground(Color.GREEN);
+				    
+				    buttonF2[z].setActionCommand( b + "," + a );
+				    
+				    FirePanel.add(buttonF[z]);
+					
+
+						}
+				}
+		}
 //-------------------------------------------------------------------
 //-------------------------------------------------------------------
 			

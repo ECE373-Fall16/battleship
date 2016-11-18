@@ -111,7 +111,7 @@ public  class LogIn extends JFrame{
 	}
 
 	public static void endofgamelog(){
-			FileWriter writer,p1writer,p2writer;
+			FileWriter writer,p1writer,p2writer,p3writer;
 			try {
 				writer = new FileWriter("loggedinplayers");
 				writer.write("");
@@ -122,9 +122,13 @@ public  class LogIn extends JFrame{
 				p2writer = new FileWriter("player_two's_ships");
 				p2writer.write("");
 				
+				p3writer = new FileWriter("firecoordinant");
+				p3writer.write("");
+				
 				writer.close();		
 				p1writer.close();
 				p2writer.close();
+				p3writer.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

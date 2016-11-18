@@ -1,5 +1,6 @@
 import java.net.*;
 import java.util.Scanner;
+import java.awt.Color;
 import java.io.*;
 
 public class Client {
@@ -46,11 +47,12 @@ public static void main(String[] args) throws Exception{//run
 	
 	BufferedReader br = new BufferedReader(new FileReader("firecoordinant"));
 
-
+	String line = br.readLine();
 	while(true){
 		String sendmessage = sc.nextLine();
-		String line = br.readLine();
-		out.writeUTF(line);	
+		 //line = br.readLine();
+		out.writeUTF(sendmessage);	
+		
 	}
 	}
 }
@@ -68,6 +70,7 @@ class Input implements Runnable{
 			try {
 				 message = in.readUTF();
 				System.out.println(message);
+				//GameEngine.buttonF[ShipSetup.getRealHit(message)].setBackground(Color.red);
  
 			} catch (IOException e) {
 				//e.printStackTrace();
