@@ -207,22 +207,19 @@ public void createAndDisplayGUI()
 		
 		public void actionPerformed(ActionEvent event)
 			{
+			Client.setFire(textField.getText());
 			System.out.println("The entered text is: " + textField.getText());
 			String FireCoordinates = textField.getText();
 			FireCoordinates = FireCoordinates.replace(",", "").replaceAll(" ", "");
 			int firecoordx = Integer.parseInt(FireCoordinates);
 			///EDIT HERE NO PARSING NEED TO GET INDIVIDUAL CHARACTERS MULTIPLY AND ADDD
-			try {
-				setFire(firecoordx);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			//ALSO MAKE SURE THROWSA EXCEPTION IF NUMBERS MORE THAN TWO DIGITS
 			
-			buttonF[firecoordx].setBackground(Color.red);
+			//*****buttonF[firecoordx].setBackground(Color.black);
 			textField.setText("");
-			buttonF2[firecoordx].setBackground(Color.green);
-			textField.setText("");
+			//buttonF2[firecoordx].setBackground(Color.green);
+			//textField.setText("");
+			//******delete later*****
 			}
 		
 		}
@@ -1063,17 +1060,7 @@ public static void Reset(Integer[] Coor, int x){
 		count = 0;
 }
 
-public void setFire(int fire) throws IOException{
-	int firecoord = fire;
-	
-	PrintWriter printer = new PrintWriter(new FileWriter(new File("firecoordinant")));
-	String sendme = ("" + firecoord);
-	printer.write(sendme);
 
-	printer.flush();
-	printer.close();
-	System.out.println(firecoord);
-}
 
 
 

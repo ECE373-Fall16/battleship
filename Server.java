@@ -1,4 +1,9 @@
 import java.net.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JOptionPane;
+
 import java.awt.Color;
 import java.io.*;
 
@@ -9,6 +14,7 @@ public class Server {
 	static DataOutputStream out;
 	static DataInputStream in;
 
+	
 
 	static Users[] user = new Users[2];
 	
@@ -36,7 +42,9 @@ public class Server {
 	
 		}
 	}
+	
 
+	
 }
 class Users implements Runnable{
 
@@ -92,12 +100,16 @@ class Users implements Runnable{
 				for(int i = 0; i < 2; i++){
 					if(user[i] != null){
 						if(name.equals(playertwo)){
+						    //JOptionPane.showMessageDialog(null,playerone + "'s turn currently, not " + playertwo + "!","ERROR", 0);
+
 							user[i].out.writeUTF(playerone + "'s turn currently, not " + playertwo + "!");
 							changed = true;
 						}else{
+						  //  JOptionPane.showMessageDialog(null,name + ":(p1's turn) Message Here: " + message,"ERROR", 0);
+
 						user[i].out.writeUTF(name + ":(p1's turn) Message Here: " + message);
 						ShipSetup.removeEnemyShip(ShipSetup.getRealHit(message));
-						//GameEngine.buttonF[ShipSetup.getRealHit(message)].setBackground(Color.red);
+						//GameEngine.buttonF[ShipSetup.getRealHit(message)].setBackground(Color.green);
 						}
 					}
 				}
@@ -110,11 +122,16 @@ class Users implements Runnable{
 					for(int i = 0; i < 2; i++){
 						if(user[i] != null){
 							if(name.equals(playerone)){
+							    //JOptionPane.showMessageDialog(null,playertwo + "'s turn currently, not " + playerone + "!","ERROR", 0);
 								user[i].out.writeUTF(playertwo + "'s turn currently, not " + playerone + "!");
 								changed = true;
 							}else{
+							   // JOptionPane.showMessageDialog(null,name + ":(p2's turn) Message Here: " + message,"ERROR", 0);
+
 							user[i].out.writeUTF(name + ":(p2's turn) Message Here: " + message);
 							ShipSetup.removeShip(ShipSetup.getRealHit(message));
+							//GameEngine.buttonF[ShipSetup.getRealHit(message)].setBackground(Color.green);
+
 						}
 					}
 				}
@@ -128,7 +145,12 @@ class Users implements Runnable{
 			catch (IOException e) {
 			}
 			}
-		}}}
+		}
+	}
+
+
+
+}
 	
 	
 	

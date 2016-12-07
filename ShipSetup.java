@@ -32,11 +32,18 @@ public class ShipSetup {
 		if(counterrs == 0){
 		if(intList.contains(location)){
 			System.out.println(Arrays.toString(intList.toArray()));
-			System.out.println("HIT");
+		    JOptionPane.showMessageDialog(null,"HIT","HIT RESULT", 0);
+
+			//System.out.println("HIT");
 			intList.remove(new Integer(location));
 			System.out.println(Arrays.toString(intList.toArray()));
+			ran_through = true;
 		}else{
-			System.out.println("MISS");
+			if(ran_through == false){
+			    JOptionPane.showMessageDialog(null,"MISS","HIT RESULT", 0);
+
+			//System.out.println("MISS");
+			}
 		}	
 		counterrs++;
 		}else{
@@ -44,15 +51,22 @@ public class ShipSetup {
 		}
 	}
 	
-
+	static boolean ran_through = false;
 	public static void removeEnemyShip(int location){
 		if(intListEnemy.contains(location)){
 			System.out.println(Arrays.toString(intListEnemy.toArray()));
-			System.out.println("HIT");
+			//System.out.println("HIT");
+		    JOptionPane.showMessageDialog(null,"HIT","HIT RESULT", 0);
+
 			intListEnemy.remove(new Integer(location));
 			System.out.println(Arrays.toString(intListEnemy.toArray()));
+			ran_through = true;
 		}else{
-			System.out.println("MISS");
+			if(ran_through == false){
+			    JOptionPane.showMessageDialog(null,"MISS","HIT RESULT", 0);
+
+				//System.out.println("MISS");
+			}
 		}
 	}	
 	

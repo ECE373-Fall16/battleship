@@ -151,5 +151,22 @@ public class PlayerDatabase{
          return added;
      
      }
+     static ArrayList<String> loggedinplayers = new ArrayList<String>();
      
+     synchronized static void login(String xuserx){
+     	loggedinplayers.add(xuserx);
+     	System.out.println("added: " + xuserx);
+         System.out.println(loggedinplayers);
+
+     }
+     
+     synchronized static void alreadyloggedin(String xuserx){
+         System.out.println("current is: " + loggedinplayers);
+             if(loggedinplayers.contains(xuserx)){
+             	System.out.println("error already logged in");
+                 System.out.println("****" + loggedinplayers);
+
+             
+         }
+     } 
 }

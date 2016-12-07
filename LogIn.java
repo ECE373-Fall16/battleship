@@ -47,8 +47,10 @@ public  class LogIn extends JFrame{
 					String username = userField.getText().toLowerCase();
 					String password = passwordField.getText();
 					 found = PlayerDatabase.runme(username,password);
+					 
 					if(found && !alreadyLoggedIn(username)){
 						Player.setCurrentUser(username);
+						PlayerDatabase.login(username);
 						loggingin(username);
 						JOptionPane.showMessageDialog(null,"Login Verified");
 						HomeScreen home = new HomeScreen();
@@ -63,6 +65,8 @@ public  class LogIn extends JFrame{
 
 						
 				}else if(alreadyLoggedIn(username)){
+					PlayerDatabase.alreadyloggedin(username);
+
 					userField.setText("");
 					passwordField.setText("");
 					userField.requestFocus();

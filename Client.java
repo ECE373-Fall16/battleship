@@ -49,12 +49,30 @@ public static void main(String[] args) throws Exception{//run
 
 	String line = br.readLine();
 	while(true){
-		String sendmessage = sc.nextLine();
+		//while(fiya){
+		//String sendmessage = sc.nextLine();
 		 //line = br.readLine();
-		out.writeUTF(sendmessage);	
+		while(!fiya)
+		{
+		  Thread.sleep(1000);
+		}
+		out.writeUTF("recieved " + firecoordinate);
+		//System.out.println("waiting:" + firecoordinate);
+
+		fiya=false;
+		//}
+		//System.out.println("waiting");
 		
 	}
 	}
+	
+	static String firecoordinate;
+	static boolean fiya = false;
+	public static void setFire(String x){
+		firecoordinate = x;
+		fiya = true;
+	}
+	
 }
 
 class Input implements Runnable{
