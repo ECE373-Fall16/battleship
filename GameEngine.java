@@ -1068,6 +1068,7 @@ public static void Reset(Integer[] Coor, int x){
 //-----------------------MAINNNNNNNNNN-------------------------------
 //-------------------------------------------------------------------
 //-------------------------------------------------------------------
+//Just Checking
 	
 public static void main(String[] args){
          SwingUtilities.invokeLater(new Runnable()
