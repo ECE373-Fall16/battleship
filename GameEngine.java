@@ -5,10 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
-import java.util.Random;
 import java.util.Scanner;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class GameEngine extends JFrame
@@ -34,7 +31,6 @@ public class GameEngine extends JFrame
 	public JButton dCruiser;
 	public JButton eDestroyer;
 	public JButton FireButton;
-	public JButton RandomizeShips;
 	public JButton FinalizeShips;
 	
 	public static JButton buttonF2[] = new JButton[100];
@@ -57,10 +53,11 @@ public class GameEngine extends JFrame
     static Integer Cpoints[] = new Integer [5];
     static Integer Dpoints[] = new Integer [5];
     
+    
     int ShipLocation[] = new int[20];
     
  // Creating booleans for the ActionListener  
-    static boolean AircraftCarrier = false;
+    static  boolean AircraftCarrier = false;
 	static boolean BattleShip = false;
 	static boolean Submarine = false;
 	static boolean Cruiser = false;
@@ -74,7 +71,6 @@ public class GameEngine extends JFrame
 	static boolean FullSizeD = false;
 	
 	static boolean HideShipButtons = true;
-	static boolean SettingUpShips = true;
 	
 	int ShipX;
 	int ShipY; int ASx,ASy,BSx,BSy,SSx,SSy,CSx,CSy,DSx,DSy =0;
@@ -103,9 +99,9 @@ public void createAndDisplayGUI()
         JPanel contentPane = new JPanel();
 		contentPane.setLayout(null);
 		contentPane.setPreferredSize(new Dimension (1500,600));
+        //contentPane.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 20));
         contentPane.setBackground(Color.WHITE);
 		JPanel leftPanel = new JPanel();
-		leftPanel.setBounds(50,50,260,300);
         leftPanel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 2));
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));    
         JPanel LeftPanelFire = new JPanel();
@@ -126,9 +122,9 @@ public void createAndDisplayGUI()
 		x2.setForeground(Color.WHITE);
 		
 		JLabel y1 = new JLabel("<html>0<br>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</html>");
-		y1.setFont(new Font("Serif", Font.BOLD, 31));
+		y1.setFont(new Font("Serif", Font.BOLD, 40));
 		contentPane.add(y1);
-		y1.setBounds(960,3,530,500);
+		y1.setBounds(955,6,530,500);
 		y1.setForeground(Color.WHITE);
 		
 		JLabel Opp = new JLabel("Target Range");
@@ -142,18 +138,18 @@ public void createAndDisplayGUI()
 			Home.setFont(new Font("Times New Roman", Font.BOLD, 26));
 			Home.setForeground(Color.green);
 			contentPane.add(Home);
-			
-        //Tells your coordinate pressed on your ships grid
-        JPanel labelPanel = new JPanel();
-        positionLabel = new JLabel();
-        positionLabel.setFont(new Font("Algerian", Font.BOLD, 22));
-        labelPanel.setBounds(0, 100, 100, 100);			
-			
-			
 //--------------------------------------------------------------------------------------------		
 //--------------------------------------------------------------------------------------------	
-
-        	
+		
+        
+        JPanel labelPanel = new JPanel();
+        positionLabel = new JLabel(INITIAL_TEXT, JLabel.CENTER);
+        
+		JPanel buttonLeftPanel = new JPanel();
+		buttonLeftPanel.setLayout(new BoxLayout(buttonLeftPanel, BoxLayout.Y_AXIS));
+		
+		leftPanel.setBounds(50,50,260,300);
+		
 //left side panel buttons
         resetButton = new JButton("Reset");
 		aCarrier = new JButton("Set Aircraft Carrier");
@@ -161,265 +157,56 @@ public void createAndDisplayGUI()
 		cSub = new JButton("Set Submarine");
 		dCruiser = new JButton("Set Cruiser");
 		eDestroyer = new JButton("Set Destroyer");
-		RandomizeShips = new JButton("Randomize Ships");
 		FinalizeShips = new JButton("Finalize Ships");
 		FireButton = new JButton("Fire on Location");
-		FireButton.setBackground(Color.red);
 
 //left panel graphics
 		labelPanel.add(positionLabel);
+		buttonLeftPanel.add(resetButton);
 		leftPanel.add(labelPanel);
-		
-		JPanel buttonLeftPanel = new JPanel();
-		buttonLeftPanel.setLayout(new BoxLayout(buttonLeftPanel, BoxLayout.Y_AXIS));		
-		
 		leftPanel.add(buttonLeftPanel);
 		contentPane.add(leftPanel);
-
-
-		buttonLeftPanel.add(resetButton);
 		buttonLeftPanel.add(aCarrier);
 		buttonLeftPanel.add(bShip);
 		buttonLeftPanel.add(cSub);
 		buttonLeftPanel.add(dCruiser);
 		buttonLeftPanel.add(eDestroyer);
-		buttonLeftPanel.add(RandomizeShips);
 		buttonLeftPanel.add(FinalizeShips);
 		buttonLeftPanel.add(FireButton);
-		buttonLeftPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
-//--------------------------------------------------------------------------------------------		
-//--------------------------------------------------------------------------------------------			
-			
-		//protocol for placing the Aircraft Carrier
-	aCarrier.addActionListener(new ActionListener() 
-				{
-				public void actionPerformed(ActionEvent ae){ 
-					AircraftCarrier = true;
-					BattleShip = false;
-					Submarine = false;
-					Cruiser = false;
-					Destroyer = false;
-					JOptionPane.showMessageDialog(null, "Pick first and last coordinate for"
-							+ " your AircraftCarrier (5 spaces long)");
-
-					
-					if(AircraftCoordinates[2] != null){
-						Reset(AircraftCoordinates,5);
-						FullSizeAC = false;
-					}
-
-					;}
-				});
-	
-		//protocol for placing the Battleship
-	bShip.addActionListener(new ActionListener() 
-				{
-				public void actionPerformed(ActionEvent ae){ 
-					AircraftCarrier = false;
-					BattleShip = true;
-					Submarine = false;
-					Cruiser = false;
-					Destroyer = false;
-					JOptionPane.showMessageDialog(null, "Pick first and last coordinate for"
-							+ " your BattleShip (4 spaces long)");
-					
-
-					if(BattleShipCoordinates[2] != null){
-						Reset(BattleShipCoordinates,4);
-						FullSizeBS = false;
-					}
-				
-				}});
-		
-		//protocol for placing the Submarine
-	cSub.addActionListener(new ActionListener() 
-				{
-				public void actionPerformed(ActionEvent ae){ 
-					AircraftCarrier = false;
-					BattleShip = false;
-					Submarine = true;
-					Cruiser = false;
-					Destroyer = false;
-					JOptionPane.showMessageDialog(null, "Pick first and last coordinate for"
-							+ " your Submarine (3 spaces long)");
-					
-					if(SubmarineCoordinates[2] != null){
-						Reset(SubmarineCoordinates,3);
-						FullSizeSUB = false;
-					}
-					
-				}});
-		
-		//protocol for placing the Cruiser
-	dCruiser.addActionListener(new ActionListener() 
-				{
-				public void actionPerformed(ActionEvent ae){ 
-					AircraftCarrier = false;
-					BattleShip = false;
-					Submarine = false;
-					Cruiser = true;
-					Destroyer = false;
-					JOptionPane.showMessageDialog(null, "Pick first and last coordinate for"
-							+ " your Cruiser (3 spaces long)");
-					
-					if(CruiserCoordinates[2] != null){
-						Reset(CruiserCoordinates,3);
-						FullSizeC = false;
-					}
-				}});
-
-		//protocol for placing the Destroyer
-	eDestroyer.addActionListener(new ActionListener() 
-
-				{
-				public void actionPerformed(ActionEvent ae){ 
-					AircraftCarrier = false;
-					BattleShip = false;
-					Submarine = false;
-					Cruiser = false;
-					Destroyer = true;
-					JOptionPane.showMessageDialog(null, "Pick first and last coordinate for"
-							+ " your Destroyer (2 spaces long)");
-					
-					if(DestroyerCoordinates[2] != null){
-						Reset(DestroyerCoordinates,2);
-						FullSizeD = false;
-					}
-					}});
-
-	
-//-------------------------------------------------------------------
-//-------------------------------------------------------------------		
-					//Randomly places ships on board (not finished)
-
-//Can't put any ships on the board b4 using hard wire it wont move the black boxes
-RandomizeShips.addActionListener(new ActionListener() 
-{
-	public void actionPerformed(ActionEvent ae){
-		
-		int i = 0;
-		while( i<5){
-			
-			Random rand = new Random();
-			int RxCoor1 = rand.nextInt(9);
-			int RxCoor2 = rand.nextInt(9);
-			int RyCoor1 = rand.nextInt(9);
-			int RyCoor2 = rand.nextInt(9);
-			
-			if(i == 0){
-					//aCarrier(RxCoor1,RyCoor1);
-					//aCarrier(RxCoor2,RyCoor2);
-					AircraftCarrier = true;
-					takeCoordinates(0, 0, AircraftCoordinates, FullSizeAC,4);
-					takeCoordinates(4, 0, AircraftCoordinates, FullSizeAC,4);
-					
-					if(FullSizeAC == true){
-						FillInShip(AircraftCoordinates,5, ACpoints);
-						i=1;
-					}		
-			}
-			
-			if(i == 1){
-				
-					//bBattleShip(RxCoor1,RyCoor1);
-					//bBattleShip(RxCoor2,RyCoor2);
-					BattleShip = true;
-					takeCoordinates(0, 1, BattleShipCoordinates, FullSizeBS,3 );
-					takeCoordinates(3, 1, BattleShipCoordinates, FullSizeBS,3 );;
-					
-					if(FullSizeBS == true){
-						FillInShip(BattleShipCoordinates,4, BSpoints);
-						i=2;
-					}		
-			}
-			
-			if(i == 2){
-					//cSubmarine(RxCoor1,RyCoor1);
-					//cSubmarine(RxCoor2,RyCoor2);
-					Submarine = true;
-					takeCoordinates(0, 2, SubmarineCoordinates, FullSizeSUB,2 );
-					takeCoordinates(2, 2, SubmarineCoordinates, FullSizeSUB,2 );
-					
-					if(FullSizeSUB == true){
-						FillInShip(SubmarineCoordinates,3, SUBpoints);
-						i=3;
-						}		
-			}
-		
-			if(i == 3){
-					//dCruiser(RxCoor1,RyCoor1);
-					//dCruiser(RxCoor2,RyCoor2);
-					Cruiser = true;
-					takeCoordinates(0, 3, CruiserCoordinates, FullSizeC,2 );
-					takeCoordinates(2, 3, CruiserCoordinates, FullSizeC,2 );
-						
-					if(FullSizeC == true){
-						FillInShip(CruiserCoordinates,3, Cpoints);
-						i=4;
-						}		
-			}
-			
-			if(i == 4){
-					//eDestroyer(RxCoor1,RyCoor1);
-					//eDestroyer(RxCoor2,RyCoor2);
-					Destroyer = true;
-					takeCoordinates(0, 4, DestroyerCoordinates, FullSizeD,1 );
-					takeCoordinates(1, 4, DestroyerCoordinates, FullSizeD,1 );
-					
-						
-					if(FullSizeD == true){
-						FillInShip(DestroyerCoordinates,2, Dpoints);
-						i=5;
-						}		
-			} 
-		}
-	}});
-
-//-------------------------------------------------------------------	
-//-------------------------------------------------------------------			
-	
-	//Firing Functionality
 		
 // JTEXTFIELD FOCUS,WHERE WE ENTER COORDINATES	
 		JTextField textField = new JTextField("Enter Coordiantes to Fire!",5);
 		leftPanel.add(textField);
 		textField.requestFocusInWindow();
 		textField.setColumns(10);
-		
+		content = textField.getText();
 		fire = true;
 		textField.requestFocusInWindow();
 		
 		textField.setVisible(false);
 		FireButton.setVisible(false);
 		
-		//clear text field and re populates when focus lost
+		
 		textField.addFocusListener(new FocusListener() {
-				public void focusGained(FocusEvent e) {
-				  textField.setText("");
-				  
-		      }
-		      public void focusLost(FocusEvent e) {
-		    	  //textField.setText("Enter Fire Coordinates Here");
-		      }});
+		public void focusGained(FocusEvent e) {
+		  textField.setText("");
+        
+      }
 		
 		
-		//grabs coordinates for fire box
-		textField.addActionListener(new ActionListener()
+
+      public void focusLost(FocusEvent e) {
+        
+      }
+          });
+		
+		
+		
+			FireButton.addActionListener(new ActionListener()
 		{
 		
 		public void actionPerformed(ActionEvent event)
 			{
-			content = textField.getText();
-			System.out.print(content);
-			}
-		});
-		
-		//button for firing on coordinates
-		FireButton.addActionListener(new ActionListener()
-		{
-		
-		public void actionPerformed(ActionEvent event) {
 			//Client.setFire(textField.getText());
 			System.out.println("The entered text is: " + textField.getText());
 			String FireCoordinates = textField.getText();
@@ -432,22 +219,218 @@ RandomizeShips.addActionListener(new ActionListener()
 			textField.setText("");
 			//buttonF2[firecoordx].setBackground(Color.green);
 			//textField.setText("");
-			//******delete later****
-			content = textField.getText();
-			System.out.print(content);
+			//******delete later*****
 			}
-
 		
-		});
+		}
+		
+		);
 		
 //----------------------------------------------------------------------------------------------------------------	
 //----------------------------------------------------------------------------------------------------------------		
-				// Brings back a button after the ship has been set on the board (more to come)
+	
 
+//protocol for locking in ships
+			
+			
+
+		FinalizeShips.addActionListener(new ActionListener(){
+			
+
+				public void actionPerformed(ActionEvent ae){
+					
+					if (FullSizeAC == true && FullSizeBS == true && FullSizeSUB == true 
+							&& FullSizeC == true && FullSizeD == true){
+						
+							aCarrier.setVisible(false);
+							bShip.setVisible(false);
+							cSub.setVisible(false);
+							dCruiser.setVisible(false);
+							eDestroyer.setVisible(false);
+							
+							FinalizeShips.setVisible(false);
+							textField.setVisible(true);
+							FireButton.setVisible(true);
+							
+							resetButton.setVisible(false);
+							
+						
+						//puts all ship coordinates into 1 array 
+							
+							JOptionPane.showMessageDialog(null, "Your ships are set begin game play");
+								int x = 0;
+								for(int z = 0; z < 20; z++){
+								
+									if(x == 4)
+									{x = 0;}
+									
+									if (z<4){
+										ShipLocation[z] = AircraftCoordinates[x];
+										x++;
+									}
+									else if(z>=4 && z<8){
+										ShipLocation[z] = BattleShipCoordinates[x];
+										x++;
+									}
+									else if(z>=8 && z<12){
+										ShipLocation[z] = SubmarineCoordinates[x];
+										x++;
+									}
+									else if(z>=12 && z<16){
+										ShipLocation[z] = CruiserCoordinates[x];
+										x++;
+									}
+									else if(z>=16 && z<20){
+										ShipLocation[z] = DestroyerCoordinates[x];
+										x++;
+									}	
+								}
+								String shipfinalcoordinates = "";
+								for(int i = 0 ; i <20; i++){
+									if(i==0){
+										shipfinalcoordinates += "AircraftCarrier ";
+									}
+									if(i==4){
+										shipfinalcoordinates += " BattleShip ";
+									}
+									if(i==8){
+										shipfinalcoordinates += " Submarine ";
+									}
+									if(i==12){
+										shipfinalcoordinates += " Cruiser ";
+									}
+									if(i==16){
+										shipfinalcoordinates += " Destroyer ";
+									}
+		
+									shipfinalcoordinates += "" + ShipLocation[i];
+									
+								}
+								setFinalCoordinates(shipfinalcoordinates);
+				}
+					
+					else{
+						JOptionPane.showMessageDialog(null, "You haven't set up all of your ships yet");
+					}
+					set=true;
+			}
+		}
+	);
+
+//---------------------------------------------------------------
+
+ 
+		
+		//protocol for placing the Aircraft Carrier
+	aCarrier.addActionListener(new ActionListener() 
+				{
+				public void actionPerformed(ActionEvent ae){ 
+					AircraftCarrier = true;
+					BattleShip = false;
+					Submarine = false;
+					Cruiser = false;
+					Destroyer = false;
+					JOptionPane.showMessageDialog(null, "Pick first and last coordinate for"
+							+ " your AircraftCarrier (5 spaces long)");
+					aCarrier.setBackground(Color.DARK_GRAY);
+
+					
+					if(AircraftCoordinates[2] != null){
+						Reset(AircraftCoordinates,5);
+						FullSizeAC = false;
+					}
+
+					;}
+				});
+	
+
+				//protocol for placing the Battleship
+	bShip.addActionListener(new ActionListener() 
+				{
+				public void actionPerformed(ActionEvent ae){ 
+					AircraftCarrier = false;
+					BattleShip = true;
+					Submarine = false;
+					Cruiser = false;
+					Destroyer = false;
+					JOptionPane.showMessageDialog(null, "Pick first and last coordinate for"
+							+ " your BattleShip (4 spaces long)");
+					bShip.setBackground(Color.DARK_GRAY);
+					
+
+					if(BattleShipCoordinates[2] != null){
+						Reset(BattleShipCoordinates,4);
+						FullSizeBS = false;
+					}
+				
+				}});
+		
+				//protocol for placing the Submarine
+	cSub.addActionListener(new ActionListener() 
+				{
+				public void actionPerformed(ActionEvent ae){ 
+					AircraftCarrier = false;
+					BattleShip = false;
+					Submarine = true;
+					Cruiser = false;
+					Destroyer = false;
+					JOptionPane.showMessageDialog(null, "Pick first and last coordinate for"
+							+ " your Submarine (3 spaces long)");
+					cSub.setBackground(Color.DARK_GRAY);
+					
+					if(SubmarineCoordinates[2] != null){
+						Reset(SubmarineCoordinates,3);
+						FullSizeSUB = false;
+					}
+					
+				}});
+		
+				//protocol for placing the Cruiser
+	dCruiser.addActionListener(new ActionListener() 
+				{
+				public void actionPerformed(ActionEvent ae){ 
+					AircraftCarrier = false;
+					BattleShip = false;
+					Submarine = false;
+					Cruiser = true;
+					Destroyer = false;
+					JOptionPane.showMessageDialog(null, "Pick first and last coordinate for"
+							+ " your Cruiser (3 spaces long)");
+					dCruiser.setBackground(Color.DARK_GRAY);
+					
+					if(CruiserCoordinates[2] != null){
+						Reset(CruiserCoordinates,3);
+						FullSizeC = false;
+					}
+				}});
+
+				//protocol for placing the Destroyer
+	eDestroyer.addActionListener(new ActionListener() 
+				{
+				public void actionPerformed(ActionEvent ae){ 
+					AircraftCarrier = false;
+					BattleShip = false;
+					Submarine = false;
+					Cruiser = false;
+					Destroyer = true;
+					JOptionPane.showMessageDialog(null, "Pick first and last coordinate for"
+							+ " your Destroyer (2 spaces long)");
+					eDestroyer.setBackground(Color.DARK_GRAY);
+					
+					if(DestroyerCoordinates[2] != null){
+						Reset(DestroyerCoordinates,2);
+						FullSizeD = false;
+					}
+					}});
+//-------------------------------------------------------------------
+//-------------------------------------------------------------------
+//-------------------------------------------------------------------	
+//Right side Grid of buttons
 		resetButton.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent ae)
 			{
+				positionLabel.setText(INITIAL_TEXT);
 				aCarrier.setVisible(true);
 				bShip.setVisible(true);
 				cSub.setVisible(true);
@@ -457,98 +440,6 @@ RandomizeShips.addActionListener(new ActionListener()
 			}
 		}
 				);
-//-------------------------------------------------------------------
-//-------------------------------------------------------------------	
-		//protocol for locking in ships
-
-	FinalizeShips.addActionListener(new ActionListener(){
-		
-			public void actionPerformed(ActionEvent ae){
-				
-				if (FullSizeAC == true && FullSizeBS == true && FullSizeSUB == true 
-						&& FullSizeC == true && FullSizeD == true){
-					
-						aCarrier.setVisible(false);
-						bShip.setVisible(false);
-						cSub.setVisible(false);
-						dCruiser.setVisible(false);
-						eDestroyer.setVisible(false);
-						
-						AircraftCarrier = false;
-						BattleShip = false;
-						Submarine = false;
-						Cruiser = false;
-						Destroyer = false;
-						
-						FinalizeShips.setVisible(false);
-						textField.setVisible(true);
-						FireButton.setVisible(true);
-						resetButton.setVisible(false);
-						RandomizeShips.setVisible(false);
-						
-						
-					
-					//puts all ship coordinates into 1 array 
-						
-						JOptionPane.showMessageDialog(null, "Your ships are set begin game play");
-							int x = 0;
-							for(int z = 0; z < 20; z++){
-							
-								if(x == 4)
-								{x = 0;}
-								
-								if (z<4){
-									ShipLocation[z] = AircraftCoordinates[x];
-									x++;
-								}
-								else if(z>=4 && z<8){
-									ShipLocation[z] = BattleShipCoordinates[x];
-									x++;
-								}
-								else if(z>=8 && z<12){
-									ShipLocation[z] = SubmarineCoordinates[x];
-									x++;
-								}
-								else if(z>=12 && z<16){
-									ShipLocation[z] = CruiserCoordinates[x];
-									x++;
-								}
-								else if(z>=16 && z<20){
-									ShipLocation[z] = DestroyerCoordinates[x];
-									x++;
-								}	
-							}
-							String shipfinalcoordinates = "";
-							for(int i = 0 ; i <20; i++){
-								if(i==0){
-									shipfinalcoordinates += "AircraftCarrier ";
-								}
-								if(i==4){
-									shipfinalcoordinates += " BattleShip ";
-								}
-								if(i==8){
-									shipfinalcoordinates += " Submarine ";
-								}
-								if(i==12){
-									shipfinalcoordinates += " Cruiser ";
-								}
-								if(i==16){
-									shipfinalcoordinates += " Destroyer ";
-								}
-	
-								shipfinalcoordinates += "" + ShipLocation[i];
-								
-							}
-							setFinalCoordinates(shipfinalcoordinates);
-			}
-				
-				else{
-					JOptionPane.showMessageDialog(null, "You haven't set up all of your ships yet");
-				}
-				set=true;
-		}
-	}
-);
 //-------------------------------------------------------------------
 //-------------------------------------------------------------------
 		
@@ -611,7 +502,7 @@ RandomizeShips.addActionListener(new ActionListener()
 			
 			
 
-//Home ships grid
+//place ships grid
 		JPanel buttonPanel = new JPanel();
 			buttonPanel.setBounds(1020,50,400,400);
 			for (int i = 0; i < gridSize; i++)
@@ -635,24 +526,19 @@ RandomizeShips.addActionListener(new ActionListener()
 					button[z].setOpaque(true);
 					
 					button[z].setActionCommand( j + "," + i );
-					
-					buttonPanel.add(button[z]);
 //-------------------------------------------------------------------
 //-------------------------------------------------------------------			
 					
-//Action Listener for Home Ships Grid	
-	
-button[z].addActionListener(new ActionListener()
-{
-		
-	
-			
-
+					button[z].addActionListener(new ActionListener()
+					{
+				
 	public void actionPerformed(ActionEvent ae)
 						{
 							if(AircraftCarrier == true){
 							 count = count +1;
 							JButton but = (JButton) ae.getSource();
+							positionLabel.setText(
+									but.getActionCommand() + ADDED_TEXT); 
 							Action = but.getActionCommand();
 							String [] strArray = Action.split(",");
 							int [] intArray = new int [strArray.length];
@@ -663,8 +549,7 @@ button[z].addActionListener(new ActionListener()
 									ASx = intArray[0];
 									ASy = intArray[1];
 								}
-								//aCarrier(ASx,ASy);
-								takeCoordinates(ASx, ASy, AircraftCoordinates, FullSizeAC,4);
+								aCarrier(ASx,ASy);
 								
 								z1 = (ASx*10)+ASy;
 								button[z1].setBackground(Color.black);
@@ -688,7 +573,9 @@ button[z].addActionListener(new ActionListener()
 							
 							else if(BattleShip == true){
 								count = count + 1;
-							JButton but = (JButton) ae.getSource(); 
+							JButton but = (JButton) ae.getSource();
+							positionLabel.setText(
+									but.getActionCommand() + ADDED_TEXT); 
 							Action = but.getActionCommand();
 							String [] strArray = Action.split(",");
 							int [] intArray = new int [strArray.length];
@@ -699,9 +586,7 @@ button[z].addActionListener(new ActionListener()
 									BSy = intArray[1];
 									
 								}
-									//bBattleShip(BSx,BSy);
-									takeCoordinates(BSx, BSy, BattleShipCoordinates, FullSizeBS,3 );
-									
+									bBattleShip(BSx,BSy);
 									z1 = ((BSx*10)+BSy);
 									
 									button[z1].setBackground(Color.black);
@@ -721,7 +606,9 @@ button[z].addActionListener(new ActionListener()
 							}
 							else if (Submarine == true){
 								count = count + 1;
-							JButton but = (JButton) ae.getSource(); 
+							JButton but = (JButton) ae.getSource();
+							positionLabel.setText(
+									but.getActionCommand() + ADDED_TEXT); 
 							Action = but.getActionCommand();
 							String [] strArray = Action.split(",");
 							int [] intArray = new int [strArray.length];
@@ -732,8 +619,7 @@ button[z].addActionListener(new ActionListener()
 									SSy = intArray[1];	
 
 								}
-									//cSubmarine(SSx,SSy);
-									takeCoordinates(SSx, SSy, SubmarineCoordinates, FullSizeSUB,2 );
+									cSubmarine(SSx,SSy);
 									
 									z1 = (SSx*10)+SSy;
 									button[z1].setBackground(Color.black);
@@ -754,6 +640,8 @@ button[z].addActionListener(new ActionListener()
 							else if (Cruiser == true){
 								count = count+1;
 							JButton but = (JButton) ae.getSource();
+							positionLabel.setText(
+									but.getActionCommand() + ADDED_TEXT); 
 							Action = but.getActionCommand();
 							String [] strArray = Action.split(",");
 							int [] intArray = new int [strArray.length];
@@ -764,9 +652,8 @@ button[z].addActionListener(new ActionListener()
 									CSy = intArray[1];
 
 								}
-									//dCruiser(CSx,CSy);
-									takeCoordinates(CSx, CSy, CruiserCoordinates, FullSizeC,2 );
-							
+									dCruiser(CSx,CSy);
+									
 									z1 = (CSx*10)+CSy;
 									button[z1].setBackground(Color.black);
 									
@@ -786,7 +673,9 @@ button[z].addActionListener(new ActionListener()
 							else if (Destroyer == true){
 								count = count +1;
 							JButton but = (JButton) ae.getSource();
-							//but.setBackground(Color.gray); 
+							//but.setBackground(Color.gray);
+							positionLabel.setText(
+									but.getActionCommand() + ADDED_TEXT); 
 							Action = but.getActionCommand();
 							String [] strArray = Action.split(",");
 							int [] intArray = new int [strArray.length];
@@ -797,8 +686,7 @@ button[z].addActionListener(new ActionListener()
 									DSy = intArray[1];
 
 								}
-									//eDestroyer(DSx,DSy);
-									takeCoordinates(DSx, DSy, DestroyerCoordinates, FullSizeD,1 );
+									eDestroyer(DSx,DSy);
 									
 									z1 = (DSx*10)+DSy;
 									button[z1].setBackground(Color.black);
@@ -817,11 +705,12 @@ button[z].addActionListener(new ActionListener()
 									}
 							}
 							
-							
-							/*JButton but = (JButton) ae.getSource();
-							positionLabel.setText(but.getActionCommand() + ADDED_TEXT); 
+							{
+							JButton but = (JButton) ae.getSource();
+							positionLabel.setText(
+									but.getActionCommand() + ADDED_TEXT); 
 							Action = but.getActionCommand();
-							String [] strArray = Action.split(",");
+							/*String [] strArray = Action.split(",");
 							int [] intArray = new int [strArray.length];
 						
 							for (int i = 0; i < strArray.length; i++)
@@ -831,13 +720,15 @@ button[z].addActionListener(new ActionListener()
 									y = intArray[1];
 								}
 									aCarrier(x,y);*/
+							}
 							
-			
-						}});
-				
-				
-					
-				}
+							
+							
+							
+							
+                }});
+				buttonPanel.add(button[z]);
+            }
         }
 						contentPane.add(buttonPanel);
 						contentPane.add(FirePanel);
@@ -845,84 +736,152 @@ button[z].addActionListener(new ActionListener()
 						pack();
 						setLocationByPlatform(true);
 						setVisible(true);
-						//setExtendedState(JFrame.MAXIMIZED_BOTH);
-						
-						/*
-						ImageIcon BackgroundWater = new ImageIcon("Background water.jpg"); // load the image to a imageIcon
-						Image image = BackgroundWater.getImage(); // transform it 
-						Image newimg = image.getScaledInstance(120, 120,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way  
-						BackgroundWater = new ImageIcon(newimg);  // transform it back			
-						contentPane.add(BackgroundWater)
-						 */
-					    
+						setExtendedState(JFrame.MAXIMIZED_BOTH);
     }
 //-------------------------------------------------------------------
 //-------------------------------------------------------------------
 //-------------------------------------------------------------------
 
-
-					//Places ship coordinates in their arrays
-// Almost there just can't get this method to change the FullSize bo0leans ie. FullsizeAC wont change when Full changes
-public void takeCoordinates(int X, int Y, Integer Coordinates[], boolean Full, int Size ){
-	
-	if(Coordinates[0] == null){
-		Coordinates[0] = X;
-		Coordinates[1] = Y;
-	}else{
-			Coordinates[2] = X;
-			Coordinates[3] = Y;
-	}
-	
-	if (Coordinates[2] != null){
-		int x1 = Coordinates[0];
-		int y1 = Coordinates[1];
-		int x2 = Coordinates[2];
-		int y2 = Coordinates[3];
-		int DeltaY = y2-y1;
-		int DeltaX = x2-x1;
-			
-			if((x1 == x2) && (Math.abs(DeltaY)==Size)){ 
-				
-				Full = true;
-				System.out.println("Array" + Arrays.toString(Coordinates));
-				//System.out.println("DY"+DeltaX+","+DeltaY);
-				
-				//Temporary until we get Full to manipulate the actual booleans		
-				if (AircraftCarrier == true){FullSizeAC = true;}
-				if(BattleShip == true){FullSizeBS = true;}
-				if(Submarine == true){FullSizeSUB = true;}
-				if(Cruiser == true){FullSizeC = true;}
-				if(Destroyer == true){FullSizeD = true;}
+/*static void fillShip(Integer array[],int x){
+	if( array[0] == array[2]){
+		if(array[1]<array[3]){
+			for(int a = 1; a>x;a++){
+				int t = (array[0]*10) + array[1];
+				t = t + a;
+				button[t].setBackground(Color.gray);
 			}
-			else if((y1==y2) && (Math.abs(DeltaX)==Size)){
-				
-				Full = true;
-				System.out.println("Array" + Arrays.toString(Coordinates));
-				//System.out.println("DX"+ DeltaX+","+DeltaY);
-				
-				//Temporary until we get Full to manipulate the actual booleans		
-				if (AircraftCarrier == true){FullSizeAC = true;}
-				if(BattleShip == true){FullSizeBS = true;}
-				if(Submarine == true){FullSizeSUB = true;}
-				if(Cruiser == true){FullSizeC = true;}
-				if(Destroyer == true){FullSizeD = true;}
-			}		
+		}
 	}
+	}
+	else{
+		
+	}
+	}*/
+
+
+public void aCarrier(int ASx, int ASy){
+
+		if(AircraftCoordinates[0] == null){
+					AircraftCoordinates[0] = ASx;
+					AircraftCoordinates[1] = ASy;
+				}
+		else{
+					AircraftCoordinates[2] = ASx;
+					AircraftCoordinates[3] = ASy;
+		}
+			
+		
+		if (AircraftCoordinates[2] != null){
+				int x1 = AircraftCoordinates[0];
+				int y1 = AircraftCoordinates[1];
+				int x2 = AircraftCoordinates[2];
+				int y2 = AircraftCoordinates[3];
+				
+				if ( Math.hypot((x2-x1),(y2-y1)) == 4 ){
+					FullSizeAC = true;
+					
+				}
+	
+		}
+
 }
 
+public void bBattleShip(int BSx, int BSy){
+		
+	if(BattleShipCoordinates[0] == null){
+				BattleShipCoordinates[0] = BSx;
+				BattleShipCoordinates[1] = BSy;
+			}
+	else{
+				BattleShipCoordinates[2] = BSx;
+				BattleShipCoordinates[3] = BSy;
+				
+			}
+	
+		if (BattleShipCoordinates[2] != null){
+			int x1 = BattleShipCoordinates[0];
+			int y1 = BattleShipCoordinates[1];
+			int x2 = BattleShipCoordinates[2];
+			int y2 = BattleShipCoordinates[3];
+			if ( Math.hypot((x2-x1),(y2-y1)) == 3 ){
+				FullSizeBS = true;
+			}
+		}
+	}
+public void cSubmarine(int SSx, int SSy){
+		
+	if(SubmarineCoordinates[0] == null){
+				SubmarineCoordinates[0] = SSx;
+				SubmarineCoordinates[1] = SSy;
+			}
+	else{
+				SubmarineCoordinates[2] = SSx;
+				SubmarineCoordinates[3] = SSy;
+			}
+	if (SubmarineCoordinates[2] != null){
+		int x1 = SubmarineCoordinates[0];
+		int y1 = SubmarineCoordinates[1];
+		int x2 = SubmarineCoordinates[2];
+		int y2 = SubmarineCoordinates[3];
+		if ( Math.hypot((x2-x1),(y2-y1)) == 2 ){
+			FullSizeSUB = true;
+		}
+	}
+			
+	}
+public void dCruiser(int CSx, int CSy){
+	if(CruiserCoordinates[0] == null){
+				CruiserCoordinates[0] = CSx;
+				CruiserCoordinates[1] = CSy;
+			}
+	else{
+				CruiserCoordinates[2] = CSx;
+				CruiserCoordinates[3] = CSy;
+			}
+		
+	if (CruiserCoordinates[2] != null){
+		int x1 = CruiserCoordinates[0];
+		int y1 = CruiserCoordinates[1];
+		int x2 = CruiserCoordinates[2];
+		int y2 = CruiserCoordinates[3];
+		if ( Math.hypot((x2-x1),(y2-y1)) == 2 ){
+			FullSizeC = true;
+		}
+	}
+	}
+public void eDestroyer(int DSx, int DSy){	
+	if(DestroyerCoordinates[0] == null){
+				DestroyerCoordinates[0] = DSx;
+				DestroyerCoordinates[1] = DSy;
+			}
+	else{
+				DestroyerCoordinates[2] = DSx;
+				DestroyerCoordinates[3] = DSy;
+			}
+	if (DestroyerCoordinates[2] != null){
+		int x1 = DestroyerCoordinates[0];
+		int y1 = DestroyerCoordinates[1];
+		int x2 = DestroyerCoordinates[2];
+		int y2 = DestroyerCoordinates[3];
+		if ( Math.hypot((x2-x1),(y2-y1)) == 1 ){
+			FullSizeD = true;
+		}
+	}
+	}
 
 /// HADIIIIII
 static String shiplocations = "";
 public void setFinalCoordinates(String fcoord){
 	shiplocations = fcoord;
 }
+
 public static String getFinalCoordinates(){
 	return shiplocations;
 }
 //////Hadi
 
 
-		//Places ship on board and checks for overlap (might want to split to two methods)
+
 public static void FillInShip(Integer[] Coor,int x, Integer[] blocks){
 	Integer[] points = blocks;
 	//int x = points.length;
@@ -1050,11 +1009,9 @@ public static void FillInShip(Integer[] Coor,int x, Integer[] blocks){
 				}
 			}
 			
-			//Thread.flush();
-			
 }
 
-		//Takes ship off the board and replaces the 'overlap block' for the other ship
+
 public static void Reset(Integer[] Coor, int x){
 		
 	
