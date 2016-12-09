@@ -31,10 +31,10 @@ public void createLeaderBoard()
 	frame.setSize(500,500);
 	frame.setBackground(Color.BLACK);
 	
-	//frame.pack();
+	
 	frame.setVisible(true);
 	JPanel contentPane = new JPanel();
-	//contentPane.setLayout();
+	
 	contentPane.setPreferredSize(new Dimension(1500,1500));
 	contentPane.setOpaque(true);
 	frame.getContentPane().setBackground(new Color(204,204,255));
@@ -45,11 +45,9 @@ public void createLeaderBoard()
 	contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.X_AXIS));
 	
 	Font font = new Font("Comic Sans MS", Font.BOLD, 18);
-//Border border = BorderFactory.createLineBorder(Color.BLUE, 5);
 	
 	JTextArea Position = new JTextArea(5,5);
 	Position.setFont(font);
-	//Position.setBorder(border);
 	Position.setForeground(Color.BLUE);
 	Position.setText("Position");
 	Position.setEditable(false);
@@ -70,6 +68,7 @@ public void createLeaderBoard()
 	Wins.setText("Wins");
 	Wins.setEditable(false);
 	//contentPane.add(Wins);
+	
 	
 	JTextArea Loses = new JTextArea();
 	Loses.setFont(font);
