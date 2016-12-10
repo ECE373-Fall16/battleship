@@ -1,4 +1,5 @@
 import java.net.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.awt.Color;
 import java.io.*;
@@ -7,31 +8,41 @@ public class Client {
 	static Socket socket;//new socket
 	static DataInputStream in;//new input stream
 	static DataOutputStream out;//new output stream	
-@SuppressWarnings("resource")
-
-
+	
+	static String playernumber = "x";
+	
+	static boolean myturn;
+	
+	static boolean hitconnected = false;
+	static boolean hitrecieved = false;
+	static boolean hitlaunched = false;
+	static String hitrecievedvalue;
+	static int hitcounter, realhit;
+	static String message = "";
+	static ArrayList<Integer> mylocations = new ArrayList<>();
+	
 public static void main(String[] args) throws Exception{//run
 	System.out.println("Connecting...");//connecting
 	Thread.sleep(1000);
-	socket = new Socket("localhost",22231);//sets socket to ipaddress and port
+	socket = new Socket("localhost",3389);//sets socket to ipaddress and port
 	System.out.println("Connection Successful");//print it connected
 	Thread.sleep(1000);
-
+System.out.println();
 	in = new DataInputStream(socket.getInputStream());//get input 
 	out = new DataOutputStream(socket.getOutputStream());//send ooutput
 	Input input = new Input(in);
 	Thread thread = new Thread(input);
 	thread.start();
-	Scanner sc = new Scanner(System.in);
+
 	PlayerDatabase.initializedb();
 
 	while(!LogIn.found ){
-	  Thread.sleep(1000);
+		Thread.sleep(1000);
 	}
 	
 	while(LogIn.loggedin ){
-		  Thread.sleep(1000);
-		}
+		Thread.sleep(1000);
+	}
 		
 	String current = Player.getCurrentUser();
 	
@@ -41,37 +52,123 @@ public static void main(String[] args) throws Exception{//run
 	while(!GameEngine.set){
 	Thread.sleep(1000);
 	}
-	System.out.println(GameEngine.getFinalCoordinates());
 	
+	System.out.println(GameEngine.getFinalCoordinates());
 	out.writeUTF(GameEngine.getFinalCoordinates());
 	
-	BufferedReader br = new BufferedReader(new FileReader("firecoordinant"));
+	playernumber = in.readUTF();
 
-	String line = br.readLine();
-	while(true){
-		//while(fiya){
-		//String sendmessage = sc.nextLine();
-		 //line = br.readLine();
-		while(!fiya)
-		{
-		  Thread.sleep(1000);
+	check_which_player(playernumber);
+	
+	System.out.println("my number is " + playernumber);
+
+	
+	ShipSetup.setUserShips(GameEngine.getFinalCoordinates());
+	mylocations = ShipSetup.intList;
+	
+	System.out.println("my ships are " + mylocations);
+
+	
+	
+	while((mylocations.size() !=0) || (hitcounter != 17)){
+		System.out.println("I'm in here #1");
+		if(!myturn){
+			System.out.println("I'm in here #2 because Im 2");
+
+			String hitR = in.readUTF();
+			System.out.println("here we have hitR: " + hitR);
+			while(!hitrecieved){
+				Thread.sleep(1000);
+			}
+			System.out.println("I'm in here #3 I got a hit");
+
+			hitrecievedvalue = in.readUTF();
+			System.out.println("hitrecievedvalue" + hitrecievedvalue);
+
+			checkifhit(Integer.parseInt(hitrecievedvalue));
+			hitrecieved = false;
 		}
-		out.writeUTF("recieved " + firecoordinate);
-		//System.out.println("waiting:" + firecoordinate);
-
-		fiya=false;
-		//}
-		//System.out.println("waiting");
 		
-	}
+		while(!hitlaunched){
+			Thread.sleep(1000);
+		}
+		
+		System.out.println("I'm in here #100 I sent a hit!: " + realhit);
+
+		String hitting = "" + realhit;
+		out.writeUTF(hitting);//see if it will send int
+		//Thread.sleep(1000);
+		checkifhitconnected();
 	}
 	
-	static String firecoordinate;
-	static boolean fiya = false;
-	public static void setFire(String x){
-		firecoordinate = x;
-		fiya = true;
+	gameStatus();
+	
+}
+
+	public static void check_which_player(String x){
+		if(x.equals("1")){
+			myturn = true;
+		}else if(x.equals("2")){
+			myturn = false;
+		}
 	}
+	
+	public static void checkifhit(int hit){
+		int location = hit;
+		
+		if(mylocations.contains(location)){
+			GameEngine.button[location].setBackground(Color.RED);
+			mylocations.remove(location);
+		}else{
+			GameEngine.button[location].setBackground(Color.WHITE);
+		}
+		
+	}
+	
+	public static void checkifhitconnected() throws IOException{
+		String hit = in.readUTF();
+		System.out.println(hit);
+		if(hit.equals("HIT")){
+			hitconnected = true;
+			GameEngine.buttonF[realhit].setBackground(Color.RED);
+			hitcounter++;
+			System.out.println("the hit counter is: " + hitcounter);
+			hitconnected = false;
+		}else if(hit.equals("MISS")){
+			GameEngine.buttonF[realhit].setBackground(Color.WHITE);
+	}
+		
+		hitlaunched = false;
+		myturn = false;
+
+	}
+	
+	public static void gameStatus(){
+		if(mylocations.size() == 0){
+			System.out.println("You Lost!");
+		}else if(hitcounter == 17){
+			System.out.println("You Won!");
+		}
+		
+
+		GameEngine.textField.setVisible(false);
+		GameEngine.FireButton.setVisible(false);	
+		//GameEngine.MainMenuButton.setVisible(true);//NEEDS TO BE IMPLEMENTED
+	}
+	
+	public static void recievemessage(String x){
+	System.out.println("Mesage from input " + x);
+}
+	
+	
+	public static void setFire(String x){
+		realhit = ShipSetup.getRealHit(x);
+		hitlaunched = true;
+	}
+
+
+	
+
 	
 }
 
@@ -82,19 +179,20 @@ class Input implements Runnable{
 	public Input(DataInputStream in){
 		this.in = in;
 	}
+	
 	public void run() {
 		while(true){
 			String message;
-			try {
-				 message = in.readUTF();
-				System.out.println(message);
-				//GameEngine.buttonF[ShipSetup.getRealHit(message)].setBackground(Color.red);
- 
+			/*
+			  try {
+			 
+				message = in.readUTF();
+				Client.recievemessage(message);
+				System.out.println(" Message in Input is: " + message); 
 			} catch (IOException e) {
-				//e.printStackTrace();
-				LogIn.endofgamelog();
+				
 			}
+			*/
 		}
 	}
-	
 }

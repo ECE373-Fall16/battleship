@@ -7,7 +7,7 @@ import javax.swing.JOptionPane;
 import java.awt.Color;
 import java.io.*;
 
-public class Server {
+public class Server extends Client{
 
 	static ServerSocket serverSocket;
 	static Socket socket;
@@ -20,7 +20,7 @@ public class Server {
 	
 	public static void main(String[] args) throws Exception{		
 		System.out.println("Starting Server...");
-		serverSocket = new ServerSocket(22231);
+		serverSocket = new ServerSocket(3389);
 		Thread.sleep(1000);
 		System.out.println("Server Started");
 		while(true){
@@ -34,7 +34,6 @@ public class Server {
 			user[i] = new Users(out,in,user);
 		Thread thread = new Thread(user[i]);
 		thread.start();
-
 		break;
 		
 		}
@@ -47,6 +46,7 @@ public class Server {
 	
 }
 class Users implements Runnable{
+
 
 	DataOutputStream out;
 	DataInputStream in;
@@ -72,7 +72,6 @@ class Users implements Runnable{
 		} catch (IOException e1) {
 			//e1.printStackTrace();
 		}
-		
 		try {
 			shiplocations = in.readUTF();
 			} catch (IOException e1) {
@@ -81,15 +80,33 @@ class Users implements Runnable{
 
 		if(loggers == 0){
 			playerone = name;
+			try {
+				out.writeUTF("1");
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			loggers++;	
 		}else if(loggers == 1){
 			playertwo = name;
+			try {
+				out.writeUTF("2");
+
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			//loggers++;
 		}
 		
+		
+		System.out.println(shiplocations);
 		ShipSetup.setUserShips(shiplocations);
 		System.out.println("Player one is: " + playerone + " player two is: " + playertwo);
 
+		String tempwords = "";
+		int hitmarker;
 		
 		while(true){
 			while(!ShipSetup.gameover){
@@ -107,8 +124,14 @@ class Users implements Runnable{
 						}else{
 						  //  JOptionPane.showMessageDialog(null,name + ":(p1's turn) Message Here: " + message,"ERROR", 0);
 
-						user[i].out.writeUTF(name + ":(p1's turn) Message Here: " + message);
-						ShipSetup.removeEnemyShip(ShipSetup.getRealHit(message));
+						//user[i].out.writeUTF(name + ":(p1's turn) Message Here: " + message);
+						
+						hitmarker = ShipSetup.getRealHit(message);
+						tempwords = ShipSetup.removeEnemyShip(hitmarker);
+	
+						System.out.println(tempwords);
+						user[i].out.writeUTF(tempwords);
+
 						//GameEngine.buttonF[ShipSetup.getRealHit(message)].setBackground(Color.green);
 						}
 					}
@@ -122,14 +145,19 @@ class Users implements Runnable{
 					for(int i = 0; i < 2; i++){
 						if(user[i] != null){
 							if(name.equals(playerone)){
-							    //JOptionPane.showMessageDialog(null,playertwo + "'s turn currently, not " + playerone + "!","ERROR", 0);
 								user[i].out.writeUTF(playertwo + "'s turn currently, not " + playerone + "!");
 								changed = true;
 							}else{
-							   // JOptionPane.showMessageDialog(null,name + ":(p2's turn) Message Here: " + message,"ERROR", 0);
+								//user[i].out.writeUTF(name + ":(p2's turn) Message Here: " + message);
+							
+								hitmarker = ShipSetup.getRealHit(message);
+								tempwords = ShipSetup.removeShip(hitmarker);
+								
+								System.out.println("xxx" + tempwords);
 
-							user[i].out.writeUTF(name + ":(p2's turn) Message Here: " + message);
-							ShipSetup.removeShip(ShipSetup.getRealHit(message));
+								user[i].out.writeUTF(tempwords);
+
+
 							//GameEngine.buttonF[ShipSetup.getRealHit(message)].setBackground(Color.green);
 
 						}
