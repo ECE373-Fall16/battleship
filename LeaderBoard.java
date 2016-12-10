@@ -5,78 +5,46 @@ import java.util.Arrays;
 import java.util.Scanner;
 import javax.swing.*;
 import java.io.*;
+import javax.swing.*;
+import java.awt.*;
+import javax.swing.table.*;
 
 public class LeaderBoard extends JFrame
 {
 
-	public LeaderBoard() 
+public LeaderBoard() 
 		{
 			super("Fleet Destroyer Engine");
 		}
 
-	public void createLeaderBoard() 
+public void CreateLeaderBoard()
 	{
-		JFrame frame = new JFrame("LeaderBoard");
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setSize(500,500);
-		frame.setBackground(Color.BLACK);
-	
-	
-		frame.setVisible(true);
-		JPanel contentPane = new JPanel();
-	
-		contentPane.setPreferredSize(new Dimension(1500,1500));
-		contentPane.setOpaque(true);
-		frame.getContentPane().setBackground(new Color(204,204,255));
-		frame.add(contentPane);
-		//contentPane.setVisible(true);
-		contentPane.setBackground(Color.BLACK);
+		String [] columnNames = {"Position", "UserName", "Wins", "Loses", "Experience"};
+		Object [][] Data = {
+							{1, "Smith",0, 0, 0},
+							{2, "Doe"  ,0, 0, 0},
+							{3, "Black",0, 0, 0},
+							{4, "White",0, 0, 0},
+							{5, "Brown",0, 0, 0},
+							};
 		
-		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.X_AXIS));
-		
-		Font font = new Font("Comic Sans MS", Font.BOLD, 18);
-		
-		JTextArea Position = new JTextArea(5,5);
-		Position.setFont(font);
-		Position.setForeground(Color.BLUE);
-		Position.setText("Position");
-		Position.setEditable(false);
-		contentPane.add(Position);
-		//JTextArea.setBackground(new Color(204,204,255));
+		DefaultTableModel Model = new DefaultTableModel(Data,columnNames) 
+		{
+			@Override
+			public boolean isCellEditable(int row, int column) 
+			{
+				return false;
+			}
 			
-		JTextArea Name = new JTextArea();
-		Name.setFont(font);
-		Name.setForeground(Color.BLUE);
-		Name.setText("UserName");
-		Name.setEditable(false);
-		contentPane.add(Name);
-		System.out.println(Name.getPreferredSize());
-		
-		JTextArea Wins = new JTextArea();
-		Wins.setFont(font);
-		Wins.setForeground(Color.BLUE);
-		Wins.setText("Wins");
-		Wins.setEditable(false);
-		//contentPane.add(Wins);
-		
-		
-		JTextArea Loses = new JTextArea();
-		Loses.setFont(font);
-		Loses.setForeground(Color.BLUE);
-		Loses.setText("Loses");
-		Loses.setEditable(false);
-		contentPane.add(Loses);
-		
-		JTextArea Experience = new JTextArea();
-		Experience.setFont(font);
-		Experience.setForeground(Color.BLUE);
-		Experience.setText("EXP");
-		Experience.setEditable(false);
-		contentPane.add(Experience);
-		
-		frame.pack();
-		
-		//Reading from the File.
+		};					
+
+		JTable Table = new JTable(Model);
+		this.add(new JScrollPane(Table));
+        this.setTitle("Table ");
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);       
+        this.pack();
+        this.setVisible(true);
+		this.setPreferredSize(new Dimension(150,100));
 		GetLeaderBoardValues();
 		
 	}
@@ -101,16 +69,12 @@ public class LeaderBoard extends JFrame
     catch(IOException ex){System.out.println("Error reading file");}
 	}
 
-
-
-
-
-	public static void main(String[] args) throws Exception {
+public static void main(String[] args) throws Exception {
 			 SwingUtilities.invokeLater(new Runnable()
 			{
 				public void run()
 				{
-					new LeaderBoard().createLeaderBoard();
+					new LeaderBoard().CreateLeaderBoard();
 
 				}
 
