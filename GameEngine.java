@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,6 +11,8 @@ import java.util.Scanner;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+
 
 public class GameEngine extends JFrame
 {
@@ -21,6 +24,7 @@ public class GameEngine extends JFrame
     private JLabel positionLabel;
     private JLabel Xaxis;
 	public static int count = 0;
+
 	public String content;
 	static boolean set = false;
 	public boolean fire;
@@ -88,8 +92,6 @@ public class GameEngine extends JFrame
 	}
 	
 	
-	
-
 //--------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------
 
@@ -104,7 +106,6 @@ public void createAndDisplayGUI()
         JPanel contentPane = new JPanel();
 		contentPane.setLayout(null);
 		contentPane.setPreferredSize(new Dimension (1500,600));
-        contentPane.setBackground(Color.WHITE);
 		JPanel leftPanel = new JPanel();
 		leftPanel.setBounds(50,50,260,260);
         leftPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
@@ -112,10 +113,112 @@ public void createAndDisplayGUI()
         leftPanel.setForeground(Color.BLACK);
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));    
         JPanel LeftPanelFire = new JPanel();
+      
+      //-------------------------------------------------------------------
+      //-------------------------------------------------------------------	      
+        
+        //Background 
+        
+        contentPane.setBackground(Color.DARK_GRAY);
+        ImageIcon BackgroundWater = new ImageIcon("Background water.jpg");
+        BackgroundWater.setImage(BackgroundWater.getImage().getScaledInstance(1050, 620, Image.SCALE_DEFAULT));
+        JLabel BGridWater = new JLabel(BackgroundWater);
+        super.setContentPane(BGridWater);
+		BGridWater.setVisible(true);
+		BGridWater.setBounds(450,0,1050,620);
+		//contentPane.add(BGridWater);
 
+	      //-------------------------------------------------------------------
+	      //-------------------------------------------------------------------		
+		
+		ImageIcon GridWater = new ImageIcon("New Grid Water.gif");
+        GridWater.setImage(GridWater.getImage().getScaledInstance(400, 400, Image.SCALE_DEFAULT));
+    
+        
+        //Home ships grid
+		
+		JPanel ShipsPanel = new JPanel();
+		ShipsPanel.setBounds(1020,50,400,400);
+		
+		
+        //For adding GridWater to grids
+        
+		JLabel SGridWater = new JLabel(GridWater);
+		ShipsPanel.add(SGridWater);
+		SGridWater.setVisible(false);
+		contentPane.add(ShipsPanel);	
+
+		for (int i = 0; i < gridSize; i++)
+		{
+			for (int j = 0; j < gridSize; j++)
+			{
+
+				int y = j *10;
+				int z = y+i;
+				
+			    button[z] = new JButton();
+				
+			    button[z].setPreferredSize(new Dimension(35,35));
+			    button[z].setOpaque(true);
+			    button[z].setBorderPainted(false);
+			    button[z].setBackground(Color.BLUE);
+
+				button[z].setPreferredSize(new Dimension(35,35));
+
+				button[z].setBackground(Color.BLUE);
+				button[z].setOpaque(true);
+				
+				button[z].setActionCommand( j + "," + i );
+				
+				ShipsPanel.add(button[z]);
+				
+			}
+		}
+
+			
+		
+	//-------------------------------------------------------------------------
+	//-------------------------------------------------------------------------		
+							//Firing Grid
+    
+	JPanel FirePanel = new JPanel();
+	FirePanel.setBackground(Color.WHITE);	
+	// adding GridWater
+			
+			JLabel FGridWater = new JLabel(GridWater);
+			FirePanel.add(FGridWater);
+			FGridWater.setVisible(false);
+			contentPane.add(FirePanel);
+
+
+		//JLayeredPane FireLayer = new JLayeredPane();
+		//FireLayer.setBounds(520,50,400,400);
+		FirePanel.setBounds(520,50,400,400);	
+
+					for (int a = 0; a < gridSize; a++)
+					{
+						for (int b = 0; b < gridSize; b++)
+						{
+							int y = b*10;
+							int z = y+a;
+							
+						    buttonF[z] = new JButton();
+							
+						    buttonF[z].setPreferredSize(new Dimension(35,35));
+						    buttonF[z].setOpaque(true);
+						    buttonF[z].setBackground(Color.BLUE);
+						    
+						    buttonF[z].setActionCommand( b + "," + a );
+						    FirePanel.add(buttonF[z]);
+						    //buttonF[z].setBorderPainted(false);
+								}
+						}
+		
+		//-------------------------------------------------------------------
+		//-------------------------------------------------------------------		
+		
 		
 //Setting the Background and creating JLabels
-		contentPane.setBackground(Color.BLACK);
         JLabel x1 = new JLabel("0    1    2    3    4    5    6    7    8   9");
 		x1.setFont(new Font("Serif", Font.BOLD, 28));
 		contentPane.add(x1);
@@ -151,16 +254,15 @@ public void createAndDisplayGUI()
         positionLabel = new JLabel();
         positionLabel.setFont(new Font("Algerian", Font.BOLD, 22));
         labelPanel.setBounds(0, 100, 100, 100);
+
+
         
         //Chat
-		JTextField ChatBox = new JTextField("Chat!",5);
-		ChatBox.setBounds(100,450,300,100);
-		ChatBox.setColumns(10);	
+		 JPanel ChatBox = displayChat();
+		ChatBox.setBounds(75,375,300,200);
 		ChatBox.setVisible(false);
-		ChatBox.setFont(new Font("Algerian", Font.ROMAN_BASELINE, 36));
-		ChatBox.setHorizontalAlignment(SwingConstants.CENTER);
-		ChatBox.setBackground(Color.LIGHT_GRAY);
-			
+		
+		contentPane.add(BGridWater);	
 //--------------------------------------------------------------------------------------------		
 //--------------------------------------------------------------------------------------------	
 
@@ -175,22 +277,51 @@ public void createAndDisplayGUI()
 		RandomizeShips = new JButton("Randomize Ships");
 		FinalizeShips = new JButton("Finalize Ships");
 		FireButton = new JButton("Fire on Location");
+		
+		resetButton.setForeground(Color.red);
+		resetButton.setBackground(Color.DARK_GRAY);
+		resetButton.setFont(new Font("Times New Roman", Font.BOLD, 22));
+		aCarrier.setForeground(Color.red);
+		aCarrier.setBackground(Color.DARK_GRAY);
+		aCarrier.setFont(new Font("Times New Roman", Font.BOLD, 22));
+		bShip.setForeground(Color.red);
+		bShip.setBackground(Color.DARK_GRAY);
+		bShip.setFont(new Font("Times New Roman", Font.BOLD, 22));
+		cSub.setForeground(Color.red);
+		cSub.setBackground(Color.DARK_GRAY);
+		cSub.setFont(new Font("Times New Roman", Font.BOLD, 22));
+		dCruiser.setForeground(Color.red);
+		dCruiser.setBackground(Color.DARK_GRAY);
+		dCruiser.setFont(new Font("Times New Roman", Font.BOLD, 22));
+		eDestroyer.setForeground(Color.red);
+		eDestroyer.setBackground(Color.DARK_GRAY);
+		eDestroyer.setFont(new Font("Times New Roman", Font.BOLD, 22));
+		RandomizeShips.setForeground(Color.red);
+		RandomizeShips.setBackground(Color.DARK_GRAY);
+		RandomizeShips.setFont(new Font("Times New Roman", Font.BOLD, 22));
+		FinalizeShips.setForeground(Color.red);
+		FinalizeShips.setBackground(Color.DARK_GRAY);
+		FinalizeShips.setFont(new Font("Times New Roman", Font.BOLD, 22));
 		FireButton.setBackground(Color.red);
+		FireButton.setFont(new Font("Times New Roman", Font.BOLD, 22));
+		
 
 //left panel graphics
 		labelPanel.add(positionLabel);
 		//leftPanel.add(labelPanel);
 		
 		JPanel buttonLeftPanel = new JPanel();
-		buttonLeftPanel.setLayout(new BoxLayout(buttonLeftPanel, BoxLayout.Y_AXIS));		
+		//buttonLeftPanel.setLayout(new BoxLayout(buttonLeftPanel, BoxLayout.Y_AXIS));
+		buttonLeftPanel.setBackground(Color.GRAY);
+		leftPanel.setBounds(100,50,250,350); 
+		leftPanel.setBorder(new LineBorder(Color.black, 5));
 		
+
 		leftPanel.add(buttonLeftPanel);
 		contentPane.add(leftPanel);
 		contentPane.add(ChatBox);
 
-		
-		
-		
+
 		
 		 /*Dimension D = new Dimension();
 		 D = aCarrier.getPreferredSize();
@@ -452,7 +583,11 @@ RandomizeShips.addActionListener(new ActionListener()
 			System.out.println("The entered text is: " + textField.getText());
 			String FireCoordinates = textField.getText();
 			FireCoordinates = FireCoordinates.replace(",", "").replaceAll(" ", "");
-			int firecoordx = Integer.parseInt(FireCoordinates);
+			int FireCoordinate = Integer.parseInt(FireCoordinates);
+			System.out.println("FireXcoordinate = "+FireCoordinate);
+			
+			System.out.println(buttonF[FireCoordinate].getLocation());
+			//buttonF[FireCoordinate].setVisible(true);
 			///EDIT HERE NO PARSING NEED TO GET INDIVIDUAL CHARACTERS MULTIPLY AND ADDD
 			//ALSO MAKE SURE THROWSA EXCEPTION IF NUMBERS MORE THAN TWO DIGITS
 			
@@ -508,77 +643,80 @@ RandomizeShips.addActionListener(new ActionListener()
 						Cruiser = false;
 						Destroyer = false;
 						
-						leftPanel.setBounds(150,50,200,100);
 						
+						leftPanel.setBounds(105,50,250,100);
 						FinalizeShips.setVisible(false);
 						textField.setVisible(true);
 						ChatBox.setVisible(true);
 						FireButton.setVisible(true);
 						resetButton.setVisible(false);
 						RandomizeShips.setVisible(false);
+						ShipsPanel.setBackground(Color.BLACK);
 						
+						//FGridWater.setVisible(true);
+						SGridWater.setVisible(true);
 						
-						
-					
-					//puts all ship coordinates into 1 array 
-						
-						JOptionPane.showMessageDialog(null, "Your ships are set load the cannons!!");
-							int x = 0;
-							for(int z = 0; z < 20; z++){
-							
-								if(x == 4)
-								{x = 0;}
-								
-								if (z<4){
-									ShipLocation[z] = AircraftCoordinates[x];
-									x++;
-								}
-								else if(z>=4 && z<8){
-									ShipLocation[z] = BattleShipCoordinates[x];
-									x++;
-								}
-								else if(z>=8 && z<12){
-									ShipLocation[z] = SubmarineCoordinates[x];
-									x++;
-								}
-								else if(z>=12 && z<16){
-									ShipLocation[z] = CruiserCoordinates[x];
-									x++;
-								}
-								else if(z>=16 && z<20){
-									ShipLocation[z] = DestroyerCoordinates[x];
-									x++;
-								}	
-							}
-							String shipfinalcoordinates = "";
-							for(int i = 0 ; i <20; i++){
-								if(i==0){
-									shipfinalcoordinates += "AircraftCarrier ";
-								}
-								if(i==4){
-									shipfinalcoordinates += " BattleShip ";
-								}
-								if(i==8){
-									shipfinalcoordinates += " Submarine ";
-								}
-								if(i==12){
-									shipfinalcoordinates += " Cruiser ";
-								}
-								if(i==16){
-									shipfinalcoordinates += " Destroyer ";
-								}
 	
-								shipfinalcoordinates += "" + ShipLocation[i];
-								
+					
+				//puts all ship coordinates into 1 array 
+					
+					JOptionPane.showMessageDialog(null, "Your ships are set load the cannons!!");
+						int x = 0;
+						for(int z = 0; z < 20; z++){
+						
+							if(x == 4)
+							{x = 0;}
+							
+							if (z<4){
+								ShipLocation[z] = AircraftCoordinates[x];
+								x++;
 							}
-							setFinalCoordinates(shipfinalcoordinates);
+							else if(z>=4 && z<8){
+								ShipLocation[z] = BattleShipCoordinates[x];
+								x++;
+							}
+							else if(z>=8 && z<12){
+								ShipLocation[z] = SubmarineCoordinates[x];
+								x++;
+							}
+							else if(z>=12 && z<16){
+								ShipLocation[z] = CruiserCoordinates[x];
+								x++;
+							}
+							else if(z>=16 && z<20){
+								ShipLocation[z] = DestroyerCoordinates[x];
+								x++;
+							}	
+						}
+						String shipfinalcoordinates = "";
+						for(int i = 0 ; i <20; i++){
+							if(i==0){
+								shipfinalcoordinates += "AircraftCarrier ";
+							}
+							if(i==4){
+								shipfinalcoordinates += " BattleShip ";
+							}
+							if(i==8){
+								shipfinalcoordinates += " Submarine ";
+							}
+							if(i==12){
+								shipfinalcoordinates += " Cruiser ";
+							}
+							if(i==16){
+								shipfinalcoordinates += " Destroyer ";
+							}
+
+							shipfinalcoordinates += "" + ShipLocation[i];
+							
+						}
+						setFinalCoordinates(shipfinalcoordinates);
+		}
+			
+			else{
+				JOptionPane.showMessageDialog(null, "You haven't set up all of your ships yet");
 			}
-				
-				else{
-					JOptionPane.showMessageDialog(null, "You haven't set up all of your ships yet");
-				}
-				
-				set=true;
+			
+			set=true;
 		}
 	}
 );
@@ -586,97 +724,16 @@ RandomizeShips.addActionListener(new ActionListener()
 //-------------------------------------------------------------------
 		
 		
-//firing Grid	
-		JPanel FirePanel = new JPanel();
-			FirePanel.setBounds(520,50,400,400);
-
-		if(iterator == 0){
-			for (int a = 0; a < gridSize; a++)
-			{
-				for (int b = 0; b < gridSize; b++)
-				{
-					int y = b*10;
-					int z = y+a;
-					
-				    buttonF[z] = new JButton();
-					
-				    buttonF[z].setPreferredSize(new Dimension(35,35));
-				    buttonF[z].setOpaque(true);
-				    buttonF[z].setBorderPainted(false);
-				    buttonF[z].setBackground(Color.BLUE);
-				    
-				    buttonF[z].setActionCommand( b + "," + a );
-				    
-				    FirePanel.add(buttonF[z]);
-					
-
-						}
-				}
-			iterator++;
-		}
-			
-		if(iterator == 1){	
-			
-			for (int a = 0; a < gridSize; a++)
-			{
-				for (int b = 0; b < gridSize; b++)
-				{
-					int y = b*10;
-					int z = y+a;
-					
-				    buttonF2[z] = new JButton();
-					
-				    buttonF2[z].setPreferredSize(new Dimension(35,35));
-				    buttonF2[z].setOpaque(true);
-				    buttonF2[z].setBorderPainted(false);
-				    buttonF2[z].setBackground(Color.GREEN);
-				    
-				    buttonF2[z].setActionCommand( b + "," + a );
-				    
-				    FirePanel.add(buttonF[z]);
-					
-
-						}
-				}
-		}
-//-------------------------------------------------------------------
-//-------------------------------------------------------------------
-			
-			
-
-//Home ships grid
-		JPanel buttonPanel = new JPanel();
-			buttonPanel.setBounds(1020,50,400,400);
-			for (int i = 0; i < gridSize; i++)
-			{
-				for (int j = 0; j < gridSize; j++)
-				{
-	
-					int y = j *10;
-					int z = y+i;
-					
-				    button[z] = new JButton();
-					
-				    button[z].setPreferredSize(new Dimension(35,35));
-				    button[z].setOpaque(true);
-				    button[z].setBorderPainted(false);
-				    button[z].setBackground(Color.BLUE);
-
-					button[z].setPreferredSize(new Dimension(35,35));
-
-					button[z].setBackground(Color.BLUE);
-					button[z].setOpaque(true);
-					
-					button[z].setActionCommand( j + "," + i );
-					
-					buttonPanel.add(button[z]);
-//-------------------------------------------------------------------
-//-------------------------------------------------------------------			
 					
 //Action Listener for Home Ships Grid	
 	
-button[z].addActionListener(new ActionListener()
-{
+	for (int i = 0; i < gridSize; i++)
+	{
+		for (int j = 0; j < gridSize; j++)
+		{	
+			int z = j*10+i;
+	
+button[z].addActionListener(new ActionListener(){
 		
 	
 			
@@ -878,16 +935,18 @@ button[z].addActionListener(new ActionListener()
 			
 						}});
 				
-				
+		}
+	}
 					
-				}
-        }
-						contentPane.add(buttonPanel);
-						contentPane.add(FirePanel);
+				
+        
+
 						setContentPane(contentPane);
 						pack();
 						setLocationByPlatform(true);
 						setVisible(true);
+						
+						
 						//setExtendedState(JFrame.MAXIMIZED_BOTH);
 						
 						/*
@@ -1159,6 +1218,56 @@ public static void Reset(Integer[] Coor, int x){
 
 
 
+
+public JPanel displayChat() {
+	    JTextArea   chatBox;
+	    JTextField  messageField;
+	    String username = "Nick";
+	
+	
+    JPanel ChatBox = new JPanel();
+    ChatBox.setLayout(new BorderLayout());
+
+    JPanel chatPanel = new JPanel();
+    chatPanel.setBackground(Color.BLUE);
+    chatPanel.setLayout(new GridBagLayout());
+
+    messageField = new JTextField(25);
+    messageField.requestFocusInWindow();
+    chatBox = new JTextArea();
+
+    chatBox.setEditable(false);
+    chatBox.setFont(new Font("Serif", Font.PLAIN, 15));
+    chatBox.setLineWrap(true);
+   messageField.addActionListener(new ActionListener(){//hit enter to send text
+	    
+
+	        public void actionPerformed(ActionEvent event) {
+	            if (messageField.getText().length() < 1) {
+	            	
+	            } else if (messageField.getText().equals(".clear")) {
+	                chatBox.setText("CHAT CLEARED\n");
+	                messageField.setText("");
+	                
+	            } else {
+	                chatBox.append("<" + username + ">:  " + messageField.getText()+ "\n");
+	                messageField.setText("");
+	                
+	            }
+	            messageField.requestFocusInWindow();
+	        }
+		});
+    
+    
+    
+    ChatBox.add(new JScrollPane(chatBox), BorderLayout.CENTER);
+    chatPanel.add(messageField);
+
+    ChatBox.add(BorderLayout.SOUTH, chatPanel);
+	return ChatBox;
+
+    
+}
 
 //-------------------------------------------------------------------
 //-----------------------MAINNNNNNNNNN-------------------------------
