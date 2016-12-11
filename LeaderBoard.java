@@ -30,13 +30,23 @@ static int[][] SortLeaderBoard = new int[5][5];
 		{
 			GetLeaderBoardValues(); //Calls upon the values from the text file to fill the JTable.
 			SortLeaderBoardValues(LeaderBoardArray);
+							for(int i=0; i<=4;i++)
+				{
+					for(int j=0;j<=4;j++)
+					{
+						
+					System.out.print(LeaderBoardArray[i][j] + "   ");
+					}		
+					System.out.println("");
+				}
+				
 			String [] columnNames = {"Position", "UserName", "Wins", "Loses", "Experience"};
 			Object [][] Data = {
 								{1, LeaderBoardArray[0][0],LeaderBoardArray[0][1], LeaderBoardArray[0][2], LeaderBoardArray[0][3]},
-								{2, LeaderBoardArray[1][0],LeaderBoardArray[0][1], LeaderBoardArray[0][2], LeaderBoardArray[0][3]},
-								{3, LeaderBoardArray[2][0],LeaderBoardArray[0][1], LeaderBoardArray[0][2], LeaderBoardArray[0][3]},
-								{4, LeaderBoardArray[3][0],LeaderBoardArray[0][1], LeaderBoardArray[0][2], LeaderBoardArray[0][3]},
-								{5, LeaderBoardArray[4][0],LeaderBoardArray[0][1], LeaderBoardArray[0][2], LeaderBoardArray[0][3]},
+								{2, LeaderBoardArray[1][0],LeaderBoardArray[1][1], LeaderBoardArray[1][2], LeaderBoardArray[1][3]},
+								{3, LeaderBoardArray[2][0],LeaderBoardArray[2][1], LeaderBoardArray[2][2], LeaderBoardArray[2][3]},
+								{4, LeaderBoardArray[3][0],LeaderBoardArray[3][1], LeaderBoardArray[3][2], LeaderBoardArray[3][3]},
+								{5, LeaderBoardArray[4][0],LeaderBoardArray[4][1], LeaderBoardArray[4][2], LeaderBoardArray[4][3]},
 								};
 			
 			DefaultTableModel Model = new DefaultTableModel(Data,columnNames) 
@@ -79,7 +89,7 @@ static int[][] SortLeaderBoard = new int[5][5];
 						LineCount++;
 						//System.out.println(text);
 					}
-				for(int i=0; i<=4;i++)
+			/*	for(int i=0; i<=4;i++)
 				{
 					for(int j=0;j<=4;j++)
 					{
@@ -87,7 +97,7 @@ static int[][] SortLeaderBoard = new int[5][5];
 					System.out.print(LeaderBoardArray[i][j] + "   ");
 					}		
 					System.out.println("");
-				}
+				}*/
 				
 				
 				Reader.close();
