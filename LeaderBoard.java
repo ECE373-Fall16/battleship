@@ -51,14 +51,7 @@ static String[][]LeaderBoardArray = new String[5][5];
 			this.setVisible(true);
 			this.setPreferredSize(new Dimension(150,100));
 			GetLeaderBoardValues();
-			for(int i=0; i<=4;i++)
-				{
-					int j=0;
-					System.out.println(LeaderBoardArray[i][j]);
-					j++;
-					
-					
-				}
+			
 			
 		}
 		
@@ -78,6 +71,15 @@ static String[][]LeaderBoardArray = new String[5][5];
 						LineCount++;
 						//System.out.println(text);
 					}
+				for(int i=0; i<=4;i++)
+				{
+					for(int j=0;j<=4;j++)
+					{
+						
+					System.out.print(LeaderBoardArray[i][j] + "   ");
+					}		
+					System.out.println("");
+				}
 				
 				
 				Reader.close();
@@ -94,10 +96,7 @@ static String[][]LeaderBoardArray = new String[5][5];
 		int i = LineCount;
 		for(int j=0;j<=4;j++)
 		{
-			LeaderBoardArray[i][j] = Split[j];
-			//System.out.println(LeaderBoardArray[i][j]);
-			
-			
+			LeaderBoardArray[i][j] = Split[j];			
 		}
 		
 		
