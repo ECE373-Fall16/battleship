@@ -6,7 +6,7 @@ import java.util.Scanner;
 import javax.swing.*;
 import java.io.*;
 import javax.swing.*;
-import java.awt.*;
+import java.awt.Color;
 import javax.swing.table.*;
 
 public class LeaderBoard extends JFrame
@@ -24,13 +24,14 @@ static String[][]LeaderBoardArray = new String[5][5];
 
 	public void CreateLeaderBoard()
 		{
+			GetLeaderBoardValues();
 			String [] columnNames = {"Position", "UserName", "Wins", "Loses", "Experience"};
 			Object [][] Data = {
-								{1, "Smith",0, 0, 0},
-								{2, "Doe"  ,0, 0, 0},
-								{3, "Black",0, 0, 0},
-								{4, "White",0, 0, 0},
-								{5, "Brown",0, 0, 0},
+								{1, LeaderBoardArray[0][0],LeaderBoardArray[0][1], LeaderBoardArray[0][2], LeaderBoardArray[0][3]},
+								{2, LeaderBoardArray[1][0],LeaderBoardArray[0][1], LeaderBoardArray[0][2], LeaderBoardArray[0][3]},
+								{3, LeaderBoardArray[2][0],LeaderBoardArray[0][1], LeaderBoardArray[0][2], LeaderBoardArray[0][3]},
+								{4, LeaderBoardArray[3][0],LeaderBoardArray[0][1], LeaderBoardArray[0][2], LeaderBoardArray[0][3]},
+								{5, LeaderBoardArray[4][0],LeaderBoardArray[0][1], LeaderBoardArray[0][2], LeaderBoardArray[0][3]},
 								};
 			
 			DefaultTableModel Model = new DefaultTableModel(Data,columnNames) 
@@ -46,11 +47,13 @@ static String[][]LeaderBoardArray = new String[5][5];
 			JTable Table = new JTable(Model);
 			this.add(new JScrollPane(Table));
 			this.setTitle("Table ");
-			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);       
+			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
+			//this.setSelectionBackground(Color.BLUE);
+			//this.setSelectionForeground(Color.BLACK);
 			this.pack();
 			this.setVisible(true);
 			this.setPreferredSize(new Dimension(150,100));
-			GetLeaderBoardValues();
+			//GetLeaderBoardValues();
 			
 			
 		}
