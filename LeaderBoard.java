@@ -30,7 +30,8 @@ static int[][] SortLeaderBoard = new int[5][5];
 		{
 			GetLeaderBoardValues(); //Calls upon the values from the text file to fill the JTable.
 			SortLeaderBoardValues(LeaderBoardArray);
-							for(int i=0; i<=4;i++)
+			
+			for(int i=0; i<=4;i++)
 				{
 					for(int j=0;j<=4;j++)
 					{
@@ -63,12 +64,19 @@ static int[][] SortLeaderBoard = new int[5][5];
 			this.add(new JScrollPane(Table));
 			this.setTitle("Table ");
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
-			//this.setSelectionBackground(Color.BLUE);
-			//this.setSelectionForeground(Color.BLACK);
 			this.pack();
 			this.setVisible(true);
 			this.setPreferredSize(new Dimension(150,100));
-			//GetLeaderBoardValues();
+			OverWriteLeaderBoardValues();
+			for(int i=0; i<=4;i++)
+				{
+					for(int j=0;j<=4;j++)
+					{
+						
+					System.out.print(LeaderBoardArray[i][j] + "   ");
+					}		
+					System.out.println("");
+				}
 			
 			
 		}
@@ -134,6 +142,37 @@ static int[][] SortLeaderBoard = new int[5][5];
 		}
 		);
 		
+	}
+	
+	public static void OverWriteLeaderBoardValues()
+	{
+		File OverWrite = new File("C:\\Users\\Sai Yarram\\Documents\\GitHub\\battleship\\LeaderBoard.txt");
+		String append; 
+		
+		try
+		{
+			FileWriter OF = new FileWriter(OverWrite, false);
+			BufferedWriter BF = new BufferedWriter(OF);
+			for(int i=0; i<=4;i++)
+				{
+					for(int j=0;j<=4;j++)
+					{
+					append = LeaderBoardArray[i][j] + " ";
+					BF.write(append +"" );
+					
+					//append = "";
+					}		
+					BF.newLine();
+					//System.out.println("          ");
+				}
+				
+			BF.close();
+		}
+		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}           
 	}
 
 public static void main(String[] args) throws Exception {
