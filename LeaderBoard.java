@@ -5,15 +5,19 @@ import java.util.Arrays;
 import java.util.Scanner;
 import javax.swing.*;
 import java.io.*;
-import javax.swing.*;
 import java.awt.Color;
 import javax.swing.table.*;
+import java.util.Arrays;
+import java.util.Comparator;
+
+
 
 public class LeaderBoard extends JFrame
 {
 static String text = "";
 private static int LineCount = 0;
-static String[][]LeaderBoardArray = new String[5][5];
+static String[][] LeaderBoardArray = new String[5][5];
+static int[][] SortLeaderBoard = new int[5][5];
 
 
 
@@ -24,7 +28,8 @@ static String[][]LeaderBoardArray = new String[5][5];
 
 	public void CreateLeaderBoard()
 		{
-			GetLeaderBoardValues();
+			GetLeaderBoardValues(); //Calls upon the values from the text file to fill the JTable.
+			SortLeaderBoardValues(LeaderBoardArray);
 			String [] columnNames = {"Position", "UserName", "Wins", "Loses", "Experience"};
 			Object [][] Data = {
 								{1, LeaderBoardArray[0][0],LeaderBoardArray[0][1], LeaderBoardArray[0][2], LeaderBoardArray[0][3]},
@@ -66,10 +71,10 @@ static String[][]LeaderBoardArray = new String[5][5];
 				BufferedReader Reader = new BufferedReader(File);
 				String text = "";
 				String line = Reader.readLine();
-				while (line!= null)
+				while (line!= null) //While End of File. Grab Each Line of Text and send it to the method SetLeaderBoardValues
 					{
 						text= line;
-						GetLeaderBoardValues(text,LineCount);
+						SetLeaderBoardValues(text,LineCount);
 						line = Reader.readLine();
 						LineCount++;
 						//System.out.println(text);
@@ -91,7 +96,7 @@ static String[][]LeaderBoardArray = new String[5][5];
 		catch(IOException ex){System.out.println("Error reading file");}
 		}
 		
-	public static void GetLeaderBoardValues(String text, int LineCount)
+	public static void SetLeaderBoardValues(String text, int LineCount) //Splits the line and sets them in an array 
 	{
 		String str = text;
 		
@@ -102,6 +107,22 @@ static String[][]LeaderBoardArray = new String[5][5];
 			LeaderBoardArray[i][j] = Split[j];			
 		}
 		
+		
+	}
+	
+	public static void SortLeaderBoardValues(String[][] LeaderBoardArray){
+		
+		Arrays.sort(LeaderBoardArray, new Comparator<String[]>()
+		{
+			 @Override
+			public int compare(final String[] first, final String[] second){
+				
+				
+				return Double.valueOf(second[1]).compareTo(Double.valueOf(first[1]));
+			}
+		
+		}
+		);
 		
 	}
 
