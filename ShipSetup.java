@@ -1,15 +1,15 @@
 import java.io.*;
 import java.util.*;
 
-import javax.swing.JOptionPane;
 
-public class ShipSetup {
+public class ShipSetup extends GameEngine{
 	static int playernumber;
 	static int playernumberdatabase;
 	static String cxy,bxy,sxy,crxy,dxy;
 	static ArrayList<Integer> intList = new ArrayList<>();
 	static ArrayList<Integer> intListEnemy = new ArrayList<>();
 	static boolean gameover = false;
+	
 	
 	public static int getRealHit(String hit){
 		hit = hit.replaceAll("[^0-9]","");
@@ -24,58 +24,69 @@ public class ShipSetup {
 		int y1 = Character.getNumericValue(y);
 		
 		int firexy = (x1 * 10) + y1;
-		System.out.println("here is firexy" + firexy);
 		return firexy;
 	}
-	static int counterrs = 0;
-	public static void removeShip(int location){
-		if(counterrs == 0){
-		if(intList.contains(location)){
-			System.out.println(Arrays.toString(intList.toArray()));
-		    JOptionPane.showMessageDialog(null,"HIT","HIT RESULT", 0);
-
-			//System.out.println("HIT");
-			intList.remove(new Integer(location));
-			System.out.println(Arrays.toString(intList.toArray()));
-			ran_through = true;
-		}else{
-			if(ran_through == false){
-			    JOptionPane.showMessageDialog(null,"MISS","HIT RESULT", 0);
-
-			//System.out.println("MISS");
-			}
-		}	
-		counterrs++;
-		}else{
-			counterrs = 0;
-		}
-	}
 	
-	static boolean ran_through = false;
-	public static void removeEnemyShip(int location){
-		if(intListEnemy.contains(location)){
-			System.out.println(Arrays.toString(intListEnemy.toArray()));
-			//System.out.println("HIT");
-		    JOptionPane.showMessageDialog(null,"HIT","HIT RESULT", 0);
-
-			intListEnemy.remove(new Integer(location));
-			System.out.println(Arrays.toString(intListEnemy.toArray()));
-			ran_through = true;
-		}else{
-			if(ran_through == false){
-			    JOptionPane.showMessageDialog(null,"MISS","HIT RESULT", 0);
-
-				//System.out.println("MISS");
+	static int counteruser = 0;
+	
+	static String hitme = "mexxx";
+	public static String removeShip(int location){
+		if(ran_through_me == false){
+			if(intList.contains(location)){
+				System.out.println(Arrays.toString(intList.toArray()));
+				hitme = "HIT";
+			
+				System.out.println("HIT");
+			
+				intList.remove(new Integer(location));
+				System.out.println(Arrays.toString(intList.toArray()));
+				ran_through_me = true;
+			}else{
+				System.out.println("MISS");
+				hitme = "MISS";
+				ran_through_me = true;
 			}
+		}else if(ran_through_me == true){
+			ran_through_me = false;
 		}
+		
+		return hitme;
+	}
+	static boolean ran_through_me = false;
+	static boolean ran_through_enemy = false;
+
+	static String hitmeenemy = "enemeyxxx";
+
+	public static String removeEnemyShip(int location){
+		if(ran_through_enemy == false){
+			if(intListEnemy.contains(location)){
+				System.out.println(Arrays.toString(intListEnemy.toArray()));
+				System.out.println("HIT");
+				//GameEngine.setShotHit(true);
+			
+				hitmeenemy = "HIT";
+			
+
+				intListEnemy.remove(new Integer(location));
+				System.out.println(Arrays.toString(intListEnemy.toArray()));
+				ran_through_enemy = true;
+			}else{
+				hitmeenemy = "MISS";
+				System.out.println("MISS");
+				ran_through_enemy = true;
+			}
+		}else if(ran_through_enemy == true){
+			ran_through_enemy = false;
+		}
+		return hitmeenemy;
 	}	
 	
 	public static void gameOver(){//List<Integer> user, List<Integer> enemy){
 		if (intList.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Player: " + Users.playerone + " Lost!");
+            System.out.println("Player: " + Users.playerone + " Lost!");
             gameover = true;
         }else if(intListEnemy.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Player: " + Users.playertwo + " Lost!");
+        	System.out.println("Player: " + Users.playertwo + " Lost!");
             gameover = true;
         }
     }

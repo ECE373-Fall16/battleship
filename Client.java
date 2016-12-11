@@ -16,7 +16,7 @@ public class Client {
 	static boolean hitconnected = false;
 	static boolean hitrecieved = false;
 	static boolean hitlaunched = false;
-	static String hitrecievedvalue;
+	static int hitrecievedvalue;
 	static int hitcounter, realhit;
 	static String message = "";
 	static ArrayList<Integer> mylocations = new ArrayList<>();
@@ -24,7 +24,7 @@ public class Client {
 public static void main(String[] args) throws Exception{//run
 	System.out.println("Connecting...");//connecting
 	Thread.sleep(1000);
-	socket = new Socket("localhost",3389);//sets socket to ipaddress and port
+	socket = new Socket("localhost",3389);//104.196.169.95/sets socket to ipaddress and port
 	System.out.println("Connection Successful");//print it connected
 	Thread.sleep(1000);
 System.out.println();
@@ -49,7 +49,7 @@ System.out.println();
 	System.out.println("Current User is " + current);
 	out.writeUTF(current);
 		
-	while(!GameEngine.set){
+	while((!GameEngine.set) || (GameEngine.getFinalCoordinates().length() != 79)){
 	Thread.sleep(1000);
 	}
 	
@@ -72,20 +72,29 @@ System.out.println();
 	
 	while((mylocations.size() !=0) || (hitcounter != 17)){
 		System.out.println("I'm in here #1");
-		if(!myturn){
+		while(!myturn){
+			GameEngine.FireButton.setVisible(false);
+
 			System.out.println("I'm in here #2 because Im 2");
 
 			String hitR = in.readUTF();
+			hitR = hitR.replaceAll("[^0-9.]", "");
+
 			System.out.println("here we have hitR: " + hitR);
+			if(hitR.length() == 2){
+				hitrecievedvalue = Integer.parseInt(hitR);
+				hitrecieved = true;
+			}
 			while(!hitrecieved){
 				Thread.sleep(1000);
 			}
+			
+
 			System.out.println("I'm in here #3 I got a hit");
 
-			hitrecievedvalue = in.readUTF();
 			System.out.println("hitrecievedvalue" + hitrecievedvalue);
 
-			checkifhit(Integer.parseInt(hitrecievedvalue));
+			checkifhit(hitrecievedvalue);
 			hitrecieved = false;
 		}
 		
@@ -95,7 +104,7 @@ System.out.println();
 		
 		System.out.println("I'm in here #100 I sent a hit!: " + realhit);
 
-		String hitting = "" + realhit;
+		String hitting = playernumber + "" + realhit;
 		out.writeUTF(hitting);//see if it will send int
 		//Thread.sleep(1000);
 		checkifhitconnected();
@@ -118,28 +127,38 @@ System.out.println();
 		
 		if(mylocations.contains(location)){
 			GameEngine.button[location].setBackground(Color.RED);
-			mylocations.remove(location);
+			mylocations.remove(new Integer(location));
+			myturn = false;
 		}else{
 			GameEngine.button[location].setBackground(Color.WHITE);
+			GameEngine.FireButton.setVisible(true);
+			myturn = true;
 		}
 		
 	}
 	
 	public static void checkifhitconnected() throws IOException{
 		String hit = in.readUTF();
-		System.out.println(hit);
+        hit = hit.replaceAll("[^A-Z]","");
+
+		System.out.println(hit + "here I'm printing");
 		if(hit.equals("HIT")){
 			hitconnected = true;
 			GameEngine.buttonF[realhit].setBackground(Color.RED);
 			hitcounter++;
 			System.out.println("the hit counter is: " + hitcounter);
 			hitconnected = false;
+			myturn = true;
+
 		}else if(hit.equals("MISS")){
 			GameEngine.buttonF[realhit].setBackground(Color.WHITE);
+			myturn = false;
+			GameEngine.FireButton.setVisible(false);
+
+
 	}
 		
 		hitlaunched = false;
-		myturn = false;
 
 	}
 	
@@ -152,7 +171,7 @@ System.out.println();
 		
 
 		GameEngine.textField.setVisible(false);
-		GameEngine.FireButton.setVisible(false);	
+		//GameEngine.FireButton.setVisible(false);	
 		//GameEngine.MainMenuButton.setVisible(true);//NEEDS TO BE IMPLEMENTED
 	}
 	

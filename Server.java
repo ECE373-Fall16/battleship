@@ -110,76 +110,41 @@ class Users implements Runnable{
 		
 		while(true){
 			while(!ShipSetup.gameover){
-			try {
-				String message = in.readUTF();
-				
-				if(p1turn){
+			//try {
+				String message;
+				try {
+					message = in.readUTF();
+					String playernumber = message.substring(0,1);
+					message = message.substring(1,message.length());
+					int number = Integer.parseInt(playernumber);
+
+
 				for(int i = 0; i < 2; i++){
 					if(user[i] != null){
-						if(name.equals(playertwo)){
-						    //JOptionPane.showMessageDialog(null,playerone + "'s turn currently, not " + playertwo + "!","ERROR", 0);
-
-							user[i].out.writeUTF(playerone + "'s turn currently, not " + playertwo + "!");
-							changed = true;
-						}else{
-						  //  JOptionPane.showMessageDialog(null,name + ":(p1's turn) Message Here: " + message,"ERROR", 0);
-
-						//user[i].out.writeUTF(name + ":(p1's turn) Message Here: " + message);
 						
 						hitmarker = ShipSetup.getRealHit(message);
+						if(number == 1){
 						tempwords = ShipSetup.removeEnemyShip(hitmarker);
-	
-						System.out.println(tempwords);
-						user[i].out.writeUTF(tempwords);
+						}
+						if(number == 2){
+							tempwords = ShipSetup.removeShip(hitmarker);
+						}
+						System.out.println("An attack was launched by " + user[number - 1].name + " at: " + tempwords + "!");
+						
+						user[i].out.writeUTF(tempwords + "" + hitmarker);
 
-						//GameEngine.buttonF[ShipSetup.getRealHit(message)].setBackground(Color.green);
 						}
 					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					//e.printStackTrace();
 				}
-				if(!changed){
-				p1turn = false;
-				}
-				changed = false;
+					
 				
-				}else if(!p1turn){
-					for(int i = 0; i < 2; i++){
-						if(user[i] != null){
-							if(name.equals(playerone)){
-								user[i].out.writeUTF(playertwo + "'s turn currently, not " + playerone + "!");
-								changed = true;
-							}else{
-								//user[i].out.writeUTF(name + ":(p2's turn) Message Here: " + message);
-							
-								hitmarker = ShipSetup.getRealHit(message);
-								tempwords = ShipSetup.removeShip(hitmarker);
-								
-								System.out.println("xxx" + tempwords);
-
-								user[i].out.writeUTF(tempwords);
-
-
-							//GameEngine.buttonF[ShipSetup.getRealHit(message)].setBackground(Color.green);
-
-						}
-					}
-				}
-				if(!changed){
-					p1turn = true;
-				}
-					changed = false;
-				}
 				ShipSetup.gameOver();
 			} 
-			catch (IOException e) {
-			}
+			
 			}
 		}
-	}
-
-
-
 }
 	
-	
-	
-
