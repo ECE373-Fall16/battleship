@@ -18,6 +18,9 @@ static String text = "";
 private static int LineCount = 0;
 static String[][] LeaderBoardArray = new String[5][5];
 static int[][] SortLeaderBoard = new int[5][5];
+String PlayerA = "admin";
+String PlayerB = "nick";
+boolean Result = true;
 
 
 
@@ -67,8 +70,10 @@ static int[][] SortLeaderBoard = new int[5][5];
 			this.pack();
 			this.setVisible(true);
 			this.setPreferredSize(new Dimension(150,100));
+			UpdateLeaderBoardValues(LeaderBoardArray,PlayerA,PlayerB,Result);
 			OverWriteLeaderBoardValues();
-			for(int i=0; i<=4;i++)
+			
+			/*for(int i=0; i<=4;i++)
 				{
 					for(int j=0;j<=4;j++)
 					{
@@ -76,7 +81,7 @@ static int[][] SortLeaderBoard = new int[5][5];
 					System.out.print(LeaderBoardArray[i][j] + "   ");
 					}		
 					System.out.println("");
-				}
+				}*/
 			
 			
 		}
@@ -97,18 +102,7 @@ static int[][] SortLeaderBoard = new int[5][5];
 						LineCount++;
 						//System.out.println(text);
 					}
-			/*	for(int i=0; i<=4;i++)
-				{
-					for(int j=0;j<=4;j++)
-					{
-						
-					System.out.print(LeaderBoardArray[i][j] + "   ");
-					}		
-					System.out.println("");
-				}*/
-				
-				
-				Reader.close();
+			Reader.close();
 			}
 		catch(FileNotFoundException ex){System.out.println("Unable to open file ");}
 		catch(IOException ex){System.out.println("Error reading file");}
@@ -175,6 +169,68 @@ static int[][] SortLeaderBoard = new int[5][5];
 		}           
 	}
 
+	
+	
+	public static void UpdateLeaderBoardValues(String [][] LeaderBoardArray, String Player1, String Player2, boolean result){
+		
+		boolean found = false;
+		int Wins;
+		int Loses;
+		int Exp;
+		if(result == true)
+		{
+			while(found == false)
+			{
+				for(int i =0; i<=4;i++){
+					
+					if(LeaderBoardArray[i][0].equals(Player1))
+					{
+						String W = LeaderBoardArray[i][1];
+						Wins = Integer.parseInt(W);
+						Wins = Wins+1;
+						
+						
+						String E = LeaderBoardArray[i][3];
+						Exp = Integer.parseInt(E);
+						Exp = Exp*5;
+						
+						W = String.valueOf(Wins);
+						E = String.valueOf(Exp);
+						
+						LeaderBoardArray[i][1] = W;
+						LeaderBoardArray[i][3] = E;
+						break;
+						
+					}
+					else{System.out.println("User Not Found" + " " + LeaderBoardArray[i][0]);}
+					
+				}
+				for(int i =0; i<4;i++){
+					if(LeaderBoardArray[i][0].equals(Player2))
+					{
+						String L = LeaderBoardArray[i][2];
+						Loses = Integer.parseInt(L);
+						Loses = Loses+1;
+						
+						String E = LeaderBoardArray[i][3];
+						Exp = Integer.parseInt(E);
+						Exp = Exp*2;
+						
+						L = String.valueOf(Loses);
+						E = String.valueOf(Exp);
+						
+						LeaderBoardArray[i][2] = L;
+						LeaderBoardArray[i][3] = E;
+						break;
+						
+					}
+				}
+				found = true;
+				break;
+			}
+			
+		}
+	}
 public static void main(String[] args) throws Exception {
 			 SwingUtilities.invokeLater(new Runnable()
 			{
