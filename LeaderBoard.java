@@ -9,6 +9,7 @@ import java.awt.Color;
 import javax.swing.table.*;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.*;
 
 
 
@@ -20,7 +21,7 @@ static String[][] LeaderBoardArray = new String[5][5];
 static int[][] SortLeaderBoard = new int[5][5];
 String PlayerA = "admin";
 String PlayerB = "nick";
-boolean Result = true;
+boolean Result = false;
 
 
 
@@ -173,10 +174,15 @@ boolean Result = true;
 	
 	public static void UpdateLeaderBoardValues(String [][] LeaderBoardArray, String Player1, String Player2, boolean result){
 		
+		
+		
 		boolean found = false;
 		int Wins;
 		int Loses;
 		int Exp;
+		Random Rand = new Random();
+		
+		//If Result equals true then we know that Player1 won.
 		if(result == true)
 		{
 			while(found == false)
@@ -192,7 +198,8 @@ boolean Result = true;
 						
 						String E = LeaderBoardArray[i][3];
 						Exp = Integer.parseInt(E);
-						Exp = Exp*5;
+						int R = Rand.nextInt(5) + 6; 
+						Exp = Exp*R;
 						
 						W = String.valueOf(Wins);
 						E = String.valueOf(Exp);
@@ -202,7 +209,7 @@ boolean Result = true;
 						break;
 						
 					}
-					else{System.out.println("User Not Found" + " " + LeaderBoardArray[i][0]);}
+					else{System.out.println("User Not Found 1" + " " + LeaderBoardArray[i][0]);}
 					
 				}
 				for(int i =0; i<4;i++){
@@ -214,7 +221,67 @@ boolean Result = true;
 						
 						String E = LeaderBoardArray[i][3];
 						Exp = Integer.parseInt(E);
-						Exp = Exp*2;
+						int R = Rand.nextInt(5) + 2; 
+						Exp = Exp*R;
+						
+						
+						L = String.valueOf(Loses);
+						E = String.valueOf(Exp);
+						
+						LeaderBoardArray[i][2] = L;
+						LeaderBoardArray[i][3] = E;
+						break;
+						
+					}
+				}
+				found = true;
+				break;
+			}
+			
+		}
+		
+		if(result == false)
+		{
+			while(found == false)
+			{
+				for(int i =0; i<=4;i++){
+					
+					if(LeaderBoardArray[i][0].equals(Player2))
+					{
+						String W = LeaderBoardArray[i][1];
+						Wins = Integer.parseInt(W);
+						Wins = Wins+1;
+						
+						
+						String E = LeaderBoardArray[i][3];
+						Exp = Integer.parseInt(E);
+						int R = Rand.nextInt(5) + 6; 
+						Exp = Exp*R;
+						
+						W = String.valueOf(Wins);
+						E = String.valueOf(Exp);
+						
+						LeaderBoardArray[i][1] = W;
+						LeaderBoardArray[i][3] = E;
+						break;
+						
+					}
+					else{//System.out.println("User Not Found 2" + " " + LeaderBoardArray[i][0]);
+					}
+					
+				}
+				for(int i =0; i<4;i++){
+					if(LeaderBoardArray[i][0].equals(Player1))
+					{
+						String L = LeaderBoardArray[i][2];
+						Loses = Integer.parseInt(L);
+						Loses = Loses+1;
+						
+						String E = LeaderBoardArray[i][3];
+						Exp = Integer.parseInt(E);
+						int R = Rand.nextInt(5) + 2; 
+						Exp = Exp*R;
+						
 						
 						L = String.valueOf(Loses);
 						E = String.valueOf(Exp);
