@@ -1,5 +1,5 @@
-admin 0 0 0 admin
-one 0 0 0 two
-hadi 0 0 0 ghantous
-donald 0 0 0 sucks
-nick 0 0 0 raymond
+admin 14 6 1440 admin 
+nick 12 6 20736 raymond 
+hadi 5 0 1 ghantous 
+one 3 0 1 two 
+donald 2 0 1 sucks 
