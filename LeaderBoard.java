@@ -67,6 +67,8 @@ boolean Result = false;
 			JTable Table = new JTable(Model);
 			this.add(new JScrollPane(Table));
 			this.setTitle("Table ");
+			//this.setOpaque(false);
+			//this.setBackgroundImage(new ImageIcon("C:\\Users\\Sai Yarram\\Desktop\\Gifs\\Ship.PNG"));	
 			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
 			this.pack();
 			this.setVisible(true);
