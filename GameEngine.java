@@ -41,6 +41,8 @@ public class GameEngine extends JFrame
 	public JButton FireButton;
 	public JButton RandomizeShips;
 	public JButton FinalizeShips;
+	public JButton Output;
+	public JButton Refresh;
 	
 	public static JButton buttonF2[] = new JButton[100];
 	public static JButton buttonF[] = new JButton[100];
@@ -107,12 +109,45 @@ public void createAndDisplayGUI()
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         JPanel contentPane = new JPanel();
 		contentPane.setLayout(null);
-		contentPane.setPreferredSize(new Dimension (1500,600));
+		contentPane.setPreferredSize(new Dimension (1700,700));
 		JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));    
         JPanel LeftPanelFire = new JPanel();
         JPanel buttonLeftPanel = new JPanel();
-      
+        
+        ImageIcon ACImage = new ImageIcon("Aircraft.jpg");
+        JLabel ACPic = new JLabel(ACImage);
+        ACImage.setImage(ACImage.getImage().getScaledInstance(220, 20, Image.SCALE_DEFAULT));
+        ACPic.setBounds(1165,70,220,20);
+       contentPane.add(ACPic);
+   
+        
+        ImageIcon BSImage = new ImageIcon("Battleship.jpg");
+        JLabel BSPic = new JLabel(ACImage);
+        BSImage.setImage(BSImage.getImage().getScaledInstance(180, 20, Image.SCALE_DEFAULT));
+        BSPic.setBounds(1165,115,180,20);
+        contentPane.add(BSPic);
+     
+        
+        ImageIcon SUBImage = new ImageIcon("Submarine.jpg");
+        JLabel SUBPic = new JLabel(SUBImage);
+        SUBImage.setImage(SUBImage.getImage().getScaledInstance(130, 20, Image.SCALE_DEFAULT));
+        SUBPic.setBounds(1160,165,130,20);
+        contentPane.add(SUBPic);
+        
+        
+        ImageIcon CImage = new ImageIcon("Cruiser.jpg");
+        JLabel CPic = new JLabel(CImage);
+        CImage.setImage(CImage.getImage().getScaledInstance(130, 20, Image.SCALE_DEFAULT));
+        CPic.setBounds(1165,215,130,20);
+        contentPane.add(CPic);
+        
+        ImageIcon DImage = new ImageIcon("Destroyer.jpg");
+        JLabel DPic = new JLabel(DImage);
+        DImage.setImage(DImage.getImage().getScaledInstance(75, 20, Image.SCALE_DEFAULT));
+        DPic.setBounds(1165,270,75,20);
+        contentPane.add(DPic);
+        
       //-------------------------------------------------------------------
       //-------------------------------------------------------------------	      
         
@@ -121,14 +156,14 @@ public void createAndDisplayGUI()
         contentPane.setBackground(Color.DARK_GRAY);
         //ImageIcon BackgroundWater = new ImageIcon("Background water.jpg");
         ImageIcon BackgroundWater = new ImageIcon("Alt Background.jpg");
-        BackgroundWater.setImage(BackgroundWater.getImage().getScaledInstance(1050, 600, Image.SCALE_DEFAULT));
+        BackgroundWater.setImage(BackgroundWater.getImage().getScaledInstance(1400, 700, Image.SCALE_DEFAULT));
         JLabel BGridWater = new JLabel(BackgroundWater);
-		BGridWater.setBounds(450,0,1050,600);
+		BGridWater.setBounds(450,0,1400,700);
 		
         ImageIcon ButtonBackground = new ImageIcon("Walpaper.jpg");
-        ButtonBackground.setImage(ButtonBackground.getImage().getScaledInstance(450, 600, Image.SCALE_DEFAULT));
+        ButtonBackground.setImage(ButtonBackground.getImage().getScaledInstance(450, 700, Image.SCALE_DEFAULT));
         JLabel ButtonBack = new JLabel(ButtonBackground);
-        ButtonBack.setBounds(0, 0, 450, 600);
+        ButtonBack.setBounds(0, 0, 450, 700);
         
         buttonLeftPanel.setOpaque(false);
         leftPanel.setOpaque(false);
@@ -136,13 +171,13 @@ public void createAndDisplayGUI()
 	      //-------------------------------------------------------------------		
 		
 		ImageIcon GridWater = new ImageIcon("New Grid Water.gif");
-        GridWater.setImage(GridWater.getImage().getScaledInstance(400, 400, Image.SCALE_DEFAULT));
+        GridWater.setImage(GridWater.getImage().getScaledInstance(500, 500, Image.SCALE_DEFAULT));
     
         
         //Home ships grid
 		
         JPanel ShipsPanel = new JPanel();
-		ShipsPanel.setBounds(1020,50,400,400);
+		ShipsPanel.setBounds(1150,50,500,500);
 		
 		
         //For adding GridWater to grids
@@ -162,12 +197,11 @@ public void createAndDisplayGUI()
 				
 			    button[z] = new JButton();
 				
-			    button[z].setPreferredSize(new Dimension(35,35));
+			    button[z].setPreferredSize(new Dimension(45,45));
 			    button[z].setOpaque(true);
 			    button[z].setBorderPainted(false);
 			    button[z].setBackground(Color.BLUE);
 
-				button[z].setPreferredSize(new Dimension(35,35));
 
 				button[z].setBackground(Color.BLUE);
 				button[z].setOpaque(true);
@@ -180,6 +214,8 @@ public void createAndDisplayGUI()
 				
 			}
 		}
+		
+		
 		
 		//ShipsPanel.setOpaque(false);
 			
@@ -200,7 +236,7 @@ public void createAndDisplayGUI()
 
 		//JLayeredPane FireLayer = new JLayeredPane();
 		//FireLayer.setBounds(520,50,400,400);
-		FirePanel.setBounds(520,50,400,400);	
+		FirePanel.setBounds(520,50,500,500);	
 
 					for (int a = 0; a < gridSize; a++)
 					{
@@ -211,7 +247,7 @@ public void createAndDisplayGUI()
 							
 						    buttonF[z] = new JButton();
 							
-						    buttonF[z].setPreferredSize(new Dimension(35,35));
+						    buttonF[z].setPreferredSize(new Dimension(45,45));
 						    buttonF[z].setOpaque(true);
 						    buttonF[z].setBackground(Color.BLUE);
 						    
@@ -229,32 +265,32 @@ public void createAndDisplayGUI()
 		
 //Setting the Background and creating JLabels
         JLabel x1 = new JLabel("0    1    2    3    4    5    6    7    8   9");
-		x1.setFont(new Font("Serif", Font.BOLD, 28));
+		x1.setFont(new Font("Serif", Font.BOLD, 35));
 		contentPane.add(x1);
 		x1.setBounds(525,1,530,50);
 		x1.setForeground(Color.WHITE);
 		
 		JLabel x2 = new JLabel("0    1    2    3    4    5    6    7    8   9");
-		x2.setFont(new Font("Serif", Font.BOLD, 28));
+		x2.setFont(new Font("Serif", Font.BOLD, 35));
 		contentPane.add(x2);
-		x2.setBounds(1025,1,530,50);
+		x2.setBounds(1150,1,530,50);
 		x2.setForeground(Color.WHITE);
 		
 		JLabel y1 = new JLabel("<html>0<br>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</html>");
-		y1.setFont(new Font("Serif", Font.BOLD, 31));
+		y1.setFont(new Font("Serif", Font.BOLD, 38));
 		contentPane.add(y1);
-		y1.setBounds(960,3,530,500);
+		y1.setBounds(1075,50,530,500);
 		y1.setForeground(Color.WHITE);
 		
 		JLabel Opp = new JLabel("Target Range");
-			Opp.setBounds(645,445,200,50);
-			Opp.setFont(new Font("Times New Roman", Font.BOLD, 26));
+			Opp.setBounds(645,575,250,50);
+			Opp.setFont(new Font("Times New Roman", Font.BOLD, 38));
 			contentPane.add(Opp);
 			Opp.setForeground(Color.RED);
 				
 		JLabel Home = new JLabel("Your Ships");
-			Home.setBounds(1170,445,200,50);
-			Home.setFont(new Font("Times New Roman", Font.BOLD, 26));
+			Home.setBounds(1315,575,200,50);
+			Home.setFont(new Font("Times New Roman", Font.BOLD, 38));
 			Home.setForeground(Color.green);
 			contentPane.add(Home);
 			
@@ -279,15 +315,17 @@ public void createAndDisplayGUI()
 
         	
 //left side panel buttons
-        resetButton = new JButton("Reset");
+        resetButton = new JButton("Reset Board");
 		aCarrier = new JButton("Set Aircraft Carrier");
 		bShip = new JButton("Set BattleShip");
 		cSub = new JButton("Set Submarine");
 		dCruiser = new JButton("Set Cruiser");
 		eDestroyer = new JButton("Set Destroyer");
-		RandomizeShips = new JButton("Randomize Ships");
+		RandomizeShips = new JButton("Randomize Carrier");
 		FinalizeShips = new JButton("Finalize Ships");
 		FireButton = new JButton("Fire on Location");
+		Output = new JButton("Output");
+		Refresh = new JButton("Refresh Screen");
 		
 		resetButton.setForeground(Color.red);
 		resetButton.setBackground(Color.DARK_GRAY);
@@ -323,12 +361,12 @@ public void createAndDisplayGUI()
 		
 		
 		//buttonLeftPanel.setLayout(new BoxLayout(buttonLeftPanel, BoxLayout.Y_AXIS));
-		buttonLeftPanel.setBackground(Color.GRAY);
-		leftPanel.setBounds(100,50,250,350); 
+		leftPanel.setBounds(100,500,250,350); 
+		buttonLeftPanel.setBounds(100,50,250,350);
 		//leftPanel.setBorder(new LineBorder(Color.black, 5));
 		
 
-		leftPanel.add(buttonLeftPanel);
+		contentPane.add(buttonLeftPanel);
 		contentPane.add(leftPanel);
 		contentPane.add(ChatBox);
 
@@ -338,24 +376,48 @@ public void createAndDisplayGUI()
 		 D = aCarrier.getPreferredSize();
 		 resetButton.setPreferredSize(new Dimension (130,26));
 		 System.out.print(D);*/
+		RandomizeShips.setAlignmentX(Component.CENTER_ALIGNMENT);
+		FinalizeShips.setAlignmentX(Component.CENTER_ALIGNMENT);
+		FireButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		 
-		buttonLeftPanel.add(resetButton);
+		leftPanel.add(RandomizeShips);
+		leftPanel.add(FinalizeShips);
 		buttonLeftPanel.add(aCarrier);
 		buttonLeftPanel.add(bShip);
 		buttonLeftPanel.add(cSub);
 		buttonLeftPanel.add(dCruiser);
 		buttonLeftPanel.add(eDestroyer);
-		buttonLeftPanel.add(RandomizeShips);
-		buttonLeftPanel.add(FinalizeShips);
-		buttonLeftPanel.add(FireButton);
-		buttonLeftPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		buttonLeftPanel.add(resetButton);
+		leftPanel.add(FireButton);
+		//buttonLeftPanel.add(Output);
+		//buttonLeftPanel.add(Refresh);
 		
 		contentPane.add(ButtonBack);
 		contentPane.add(BGridWater);
 		
+		 
 //--------------------------------------------------------------------------------------------		
 //--------------------------------------------------------------------------------------------			
-			
+			//Test button for debugging
+		Output.addActionListener(new ActionListener() 
+		{
+		public void actionPerformed(ActionEvent ae){ 
+			System.out.println("  ");
+			System.out.println("  ");
+			System.out.println("Acpoints"+Arrays.toString(ACpoints));
+			System.out.println("ACcoordinates"+Arrays.toString(AircraftCoordinates));
+			System.out.println("BSpoints"+Arrays.toString(BSpoints));
+			System.out.println("BScoordinates"+Arrays.toString(BattleShipCoordinates));
+			System.out.println("SUBpoints"+Arrays.toString(SUBpoints));
+			System.out.println("SUBcoordinates"+Arrays.toString(SubmarineCoordinates));
+			System.out.println("Cpoints"+Arrays.toString(Cpoints));
+			System.out.println("Ccoordinates"+Arrays.toString(CruiserCoordinates));
+			System.out.println("Dpoints"+Arrays.toString(Dpoints));
+			System.out.println("Dcoordinates"+Arrays.toString(DestroyerCoordinates));
+			System.out.println("  ");
+			System.out.println("  ");
+		}});
+		
 		//protocol for placing the Aircraft Carrier
 	aCarrier.addActionListener(new ActionListener() 
 				{
@@ -374,8 +436,7 @@ public void createAndDisplayGUI()
 					JOptionPane.showMessageDialog(null, "Pick first and last coordinate for"
 							+ " your AircraftCarrier (5 spaces long)");
 
-					;}
-				});
+					}});
 	
 		//protocol for placing the Battleship
 	bShip.addActionListener(new ActionListener() 
@@ -463,14 +524,14 @@ public void createAndDisplayGUI()
 RandomizeShips.addActionListener(new ActionListener() 
 {
 	public void actionPerformed(ActionEvent ae){
-		if (random == -1){
+		/*if (random == -1){
 			FullSizeAC = false;
 			FullSizeBS = false;
 			FullSizeSUB = false;
 			FullSizeC = false;
 			FullSizeD = false;
 			random = 0;
-		}
+		}*/
 
 		boolean next = false;
 		
@@ -482,34 +543,36 @@ RandomizeShips.addActionListener(new ActionListener()
 			//random = 0;
 			
 			if(random == 0){
-				FullSizeAC = false;
+				
 				Size = 4;
 				while (next == false){
+					FullSizeAC = false;
 					Reset(AircraftCoordinates,5);
 					int RxCoor1 = rand.nextInt(9);
 					int RxCoor2 = 0;
 					int RyCoor1 = rand.nextInt(9);
 					int RyCoor2 = 0;
 					int Direction = rand.nextInt(4);
+					
 				if (Direction ==1){
 					RyCoor2 = RyCoor1;
 					RxCoor2 = Math.abs(RxCoor1+Size)%10;
-					System.out.println(RxCoor2);
+					//System.out.println(RxCoor2);
 				}
 				if (Direction ==2){
 					RyCoor2 = RyCoor1;
 					RxCoor2 = Math.abs(RxCoor1-Size)%10;
-					System.out.println(RxCoor2);
+					//System.out.println(RxCoor2);
 				}
 				if (Direction ==3){
 					RyCoor2 = Math.abs(RyCoor1+Size)%10;
 					RxCoor2 = RxCoor1;
-					System.out.println(RyCoor2);
+					//System.out.println(RyCoor2);
 				}
 				if (Direction ==4){
 					RyCoor2 = Math.abs(RyCoor1-Size)%10;
 					RxCoor2 = RxCoor1;
-					System.out.println(RyCoor2);
+					//System.out.println(RyCoor2);
 				}
 					
 					AircraftCarrier = true;
@@ -530,6 +593,8 @@ RandomizeShips.addActionListener(new ActionListener()
 						if (JumpShip == false){
 							next =true;
 							aCarrier.setVisible(false);
+							RandomizeShips.setText("Randomize BattleShip");
+							RefreshScreen();
 							JOptionPane.showMessageDialog(null, "Your AircraftCarrier is in position");
 							random = random+1;
 						}
@@ -538,11 +603,11 @@ RandomizeShips.addActionListener(new ActionListener()
 				}
 			}
 			
-			System.out.println("random ="+random);
 			if(random == 1){
-				FullSizeBS = false;
+				
 					Size = 3;
 				while (next == false){
+					FullSizeBS = false;
 					Reset(BattleShipCoordinates,4);
 					int RxCoor1 = rand.nextInt(9);
 					int RxCoor2 = 0;
@@ -553,22 +618,22 @@ RandomizeShips.addActionListener(new ActionListener()
 					if (Direction ==1){
 						RyCoor2 = RyCoor1;
 						RxCoor2 = Math.abs(RxCoor1+Size)%10;
-						System.out.println(RxCoor2);
+						//System.out.println(RxCoor2);
 					}
 					if (Direction ==2){
 						RyCoor2 = RyCoor1;
 						RxCoor2 = Math.abs(RxCoor1-Size)%10;
-						System.out.println(RxCoor2);
+						//System.out.println(RxCoor2);
 					}
 					if (Direction ==3){
 						RyCoor2 = Math.abs(RyCoor1+Size)%10;
 						RxCoor2 = RxCoor1;
-						System.out.println(RyCoor2);
+						//System.out.println(RyCoor2);
 					}
 					if (Direction ==4){
 						RyCoor2 = Math.abs(RyCoor1-Size)%10;
 						RxCoor2 = RxCoor1;
-						System.out.println(RyCoor2);
+						//System.out.println(RyCoor2);
 					}
 					AircraftCarrier = false;
 					BattleShip = true;
@@ -585,6 +650,8 @@ RandomizeShips.addActionListener(new ActionListener()
 						if (JumpShip == false){
 							next =true;
 							bShip.setVisible(false);
+							RandomizeShips.setText("Randomize Submarine");
+							RefreshScreen();
 							JOptionPane.showMessageDialog(null, "Your BattleShip is in position");
 							random = random+1;
 						}
@@ -595,9 +662,10 @@ RandomizeShips.addActionListener(new ActionListener()
 			
 			
 			if(random == 2){
-				FullSizeSUB = false;
+
 				Size = 2;
 				while (next == false){
+					FullSizeSUB = false;
 					Reset(SubmarineCoordinates,3);
 					int RxCoor1 = rand.nextInt(9);
 					int RxCoor2 = 0;
@@ -608,22 +676,22 @@ RandomizeShips.addActionListener(new ActionListener()
 					if (Direction ==1){
 						RyCoor2 = RyCoor1;
 						RxCoor2 = Math.abs(RxCoor1+Size)%10;
-						System.out.println(RxCoor2);
+						//System.out.println(RxCoor2);
 					}
 					if (Direction ==2){
 						RyCoor2 = RyCoor1;
 						RxCoor2 = Math.abs(RxCoor1-Size)%10;
-						System.out.println(RxCoor2);
+						//System.out.println(RxCoor2);
 					}
 					if (Direction ==3){
 						RyCoor2 = Math.abs(RyCoor1+Size)%10;
 						RxCoor2 = RxCoor1;
-						System.out.println(RyCoor2);
+						//System.out.println(RyCoor2);
 					}
 					if (Direction ==4){
 						RyCoor2 = Math.abs(RyCoor1-Size)%10;
 						RxCoor2 = RxCoor1;
-						System.out.println(RyCoor2);
+						//System.out.println(RyCoor2);
 					}
 					AircraftCarrier = false;
 					BattleShip = false;
@@ -641,6 +709,8 @@ RandomizeShips.addActionListener(new ActionListener()
 						if (JumpShip == false){
 							next =true;
 							cSub.setVisible(false);
+							RandomizeShips.setText("Randomize Cruiser");
+							RefreshScreen();
 							JOptionPane.showMessageDialog(null, "Your Submarine is in position");
 							random = random+1;
 						}
@@ -650,9 +720,10 @@ RandomizeShips.addActionListener(new ActionListener()
 			}
 		
 			if(random == 3){
-				FullSizeC = false;
+				
 					Size = 2;
 					while (next == false){
+						FullSizeC = false;
 						Reset(CruiserCoordinates,3);
 						int RxCoor1 = rand.nextInt(9);
 						int RxCoor2 = 0;
@@ -663,22 +734,22 @@ RandomizeShips.addActionListener(new ActionListener()
 						if (Direction ==1){
 							RyCoor2 = RyCoor1;
 							RxCoor2 = Math.abs(RxCoor1+Size)%10;
-							System.out.println(RxCoor2);
+							//System.out.println(RxCoor2);
 						}
 						if (Direction ==2){
 							RyCoor2 = RyCoor1;
 							RxCoor2 = Math.abs(RxCoor1-Size)%10;
-							System.out.println(RxCoor2);
+							//System.out.println(RxCoor2);
 						}
 						if (Direction ==3){
 							RyCoor2 = Math.abs(RyCoor1+Size)%10;
 							RxCoor2 = RxCoor1;
-							System.out.println(RyCoor2);
+							//System.out.println(RyCoor2);
 						}
 						if (Direction ==4){
 							RyCoor2 = Math.abs(RyCoor1-Size)%10;
 							RxCoor2 = RxCoor1;
-							System.out.println(RyCoor2);
+							//System.out.println(RyCoor2);
 						}
 						AircraftCarrier = false;
 						BattleShip = false;
@@ -695,6 +766,8 @@ RandomizeShips.addActionListener(new ActionListener()
 							if (JumpShip == false){
 								next =true;
 								dCruiser.setVisible(false);
+								RandomizeShips.setText("Randomize Destroyer");
+								RefreshScreen();
 								JOptionPane.showMessageDialog(null, "Your Cruiser is in position");
 								random = random+1;
 							}
@@ -704,9 +777,10 @@ RandomizeShips.addActionListener(new ActionListener()
 			}
 			
 			if(random == 4){
-				FullSizeD = false;
+				
 					Size = 1;
 					while (next == false){
+						FullSizeD = false;
 						Reset(DestroyerCoordinates,2);
 						int RxCoor1 = rand.nextInt(9);
 						int RxCoor2 = 0;
@@ -717,22 +791,22 @@ RandomizeShips.addActionListener(new ActionListener()
 						if (Direction ==1){
 							RyCoor2 = RyCoor1;
 							RxCoor2 = Math.abs(RxCoor1+Size)%10;
-							System.out.println(RxCoor2);
+							//System.out.println(RxCoor2);
 						}
 						if (Direction ==2){
 							RyCoor2 = RyCoor1;
 							RxCoor2 = Math.abs(RxCoor1-Size)%10;
-							System.out.println(RxCoor2);
+							//System.out.println(RxCoor2);
 						}
 						if (Direction ==3){
 							RyCoor2 = Math.abs(RyCoor1+Size)%10;
 							RxCoor2 = RxCoor1;
-							System.out.println(RyCoor2);
+							//System.out.println(RyCoor2);
 						}
 						if (Direction ==4){
 							RyCoor2 = Math.abs(RyCoor1-Size)%10;
 							RxCoor2 = RxCoor1;
-							System.out.println(RyCoor2);
+							//System.out.println(RyCoor2);
 						}
 						AircraftCarrier = false;
 						BattleShip = false;
@@ -751,8 +825,10 @@ RandomizeShips.addActionListener(new ActionListener()
 							if (JumpShip == false){
 								next =true;
 								eDestroyer.setVisible(false);
+								RandomizeShips.setText("Randomize Carrier");
+								RefreshScreen();
 								JOptionPane.showMessageDialog(null, "Your Destroyer is in position");
-								random = -1;
+								random = 0;
 							}
 							else{Reset(DestroyerCoordinates,2);}
 						}
@@ -892,6 +968,13 @@ RandomizeShips.addActionListener(new ActionListener()
 			}
 		}
 				);
+		
+		Refresh.addActionListener(new ActionListener()
+		{
+			public void actionPerformed(ActionEvent ae)
+			{
+				RefreshScreen();
+			}});
 //-------------------------------------------------------------------
 //-------------------------------------------------------------------	
 		//protocol for locking in ships
@@ -1013,182 +1096,197 @@ button[z].addActionListener(new ActionListener(){
 
 	public void actionPerformed(ActionEvent ae)
 						{
-							if(AircraftCarrier == true){
-							 count = count +1;
-							JButton but = (JButton) ae.getSource();
-							Action = but.getActionCommand();
-							String [] strArray = Action.split(",");
-							int [] intArray = new int [strArray.length];
+					if(AircraftCarrier == true){
+					 count = count +1;
+					JButton but = (JButton) ae.getSource();
+					Action = but.getActionCommand();
+					String [] strArray = Action.split(",");
+					int [] intArray = new int [strArray.length];
+				
+					for (int i = 0; i < strArray.length; i++)
+						{
+							intArray[i] = Integer.parseInt(strArray[i]);
+							ASx = intArray[0];
+							ASy = intArray[1];
+						}
+						//aCarrier(ASx,ASy);
+						takeCoordinates(ASx, ASy, AircraftCoordinates, FullSizeAC,4);
 						
-							for (int i = 0; i < strArray.length; i++)
-								{
-									intArray[i] = Integer.parseInt(strArray[i]);
-									ASx = intArray[0];
-									ASy = intArray[1];
-								}
-								//aCarrier(ASx,ASy);
-								takeCoordinates(ASx, ASy, AircraftCoordinates, FullSizeAC,4);
-								
-								z1 = (ASx*10)+ASy;
-								button[z1].setBackground(Color.black);
-								
-								if(count == 2 && FullSizeAC == true){
-									count = 0;
-									FillInShip(AircraftCoordinates,5, ACpoints);
-									AircraftCarrier = false;
-										if(JumpShip == false){
-											JOptionPane.showMessageDialog(null, "Your AircraftCarrier is in position");
-											aCarrier.setVisible(false);
-										}
-									}
-									
-								else if(count == 2 && FullSizeAC != true){
-									JOptionPane.showMessageDialog(null, "Repick your second coordinate or press Set Aircraft Carrier to start again");
-									count = 1;
-									button[z1].setBackground(Color.BLUE);
-								}
-							
-							}
-							
-							
-							else if(BattleShip == true){
-								count = count + 1;
-							JButton but = (JButton) ae.getSource(); 
-							Action = but.getActionCommand();
-							String [] strArray = Action.split(",");
-							int [] intArray = new int [strArray.length];
+						z1 = (ASx*10)+ASy;
+						button[z1].setBackground(Color.black);
 						
-							for (int i = 0; i < strArray.length; i++){
-									intArray[i] = Integer.parseInt(strArray[i]);
-									BSx = intArray[0];
-									BSy = intArray[1];
-									
-								}
-									//bBattleShip(BSx,BSy);
-									takeCoordinates(BSx, BSy, BattleShipCoordinates, FullSizeBS,3 );
-									
-									z1 = ((BSx*10)+BSy);
-									
-									button[z1].setBackground(Color.black);
-									
-									if(count == 2 && FullSizeBS == true){
-										count = 0;
-										FillInShip(BattleShipCoordinates,4, BSpoints);
-										BattleShip = false;	
-										if(JumpShip == false){
-											JOptionPane.showMessageDialog(null, "Your BattleShip is in Position");
-											bShip.setVisible(false);
-										}
-									}
-									else if(count == 2 && FullSizeBS != true){
-										JOptionPane.showMessageDialog(null, "Repick your second coordinate or press Set BattleShip to start again");
-										count = 1;
-										button[z1].setBackground(Color.BLUE);
+						if(count == 2 && FullSizeAC == true){
+							count = 0;
+							FillInShip(AircraftCoordinates,5, ACpoints);
+							AircraftCarrier = false;
+								if(JumpShip == false){
+									JOptionPane.showMessageDialog(null, "Your AircraftCarrier is in position");
+									aCarrier.setVisible(false);
+								}else{
+									FullSizeAC =false;
+									JOptionPane.showMessageDialog(null, "Abondon Ship!");
 									}
 							}
-							else if (Submarine == true){
-								count = count + 1;
-							JButton but = (JButton) ae.getSource(); 
-							Action = but.getActionCommand();
-							String [] strArray = Action.split(",");
-							int [] intArray = new int [strArray.length];
-						
-							for (int i = 0; i < strArray.length; i++){
-									intArray[i] = Integer.parseInt(strArray[i]);
-									SSx = intArray[0];
-									SSy = intArray[1];	
+							
+						else if(count == 2 && FullSizeAC != true){
+							JOptionPane.showMessageDialog(null, "Repick your second coordinate or press Set Aircraft Carrier to start again");
+							count = 1;
+							button[z1].setBackground(Color.BLUE);
+						}
+					
+					}
+					
+					
+					else if(BattleShip == true){
+						count = count + 1;
+					JButton but = (JButton) ae.getSource(); 
+					Action = but.getActionCommand();
+					String [] strArray = Action.split(",");
+					int [] intArray = new int [strArray.length];
+				
+					for (int i = 0; i < strArray.length; i++){
+							intArray[i] = Integer.parseInt(strArray[i]);
+							BSx = intArray[0];
+							BSy = intArray[1];
+							
+						}
+							//bBattleShip(BSx,BSy);
+							takeCoordinates(BSx, BSy, BattleShipCoordinates, FullSizeBS,3 );
+							
+							z1 = ((BSx*10)+BSy);
+							
+							button[z1].setBackground(Color.black);
+							
+							if(count == 2 && FullSizeBS == true){
+								count = 0;
+								FillInShip(BattleShipCoordinates,4, BSpoints);
+								BattleShip = false;	
+								if(JumpShip == false){
+									JOptionPane.showMessageDialog(null, "Your BattleShip is in Position");
+									bShip.setVisible(false);
+								}else{
+									FullSizeBS =false;
+									JOptionPane.showMessageDialog(null, "Abondon Ship!");
+									}
+							}
+							else if(count == 2 && FullSizeBS != true){
+								JOptionPane.showMessageDialog(null, "Repick your second coordinate or press Set BattleShip to start again");
+								count = 1;
+								button[z1].setBackground(Color.BLUE);
+							}
+					}
+					else if (Submarine == true){
+						count = count + 1;
+					JButton but = (JButton) ae.getSource(); 
+					Action = but.getActionCommand();
+					String [] strArray = Action.split(",");
+					int [] intArray = new int [strArray.length];
+				
+					for (int i = 0; i < strArray.length; i++){
+							intArray[i] = Integer.parseInt(strArray[i]);
+							SSx = intArray[0];
+							SSy = intArray[1];	
 
-								}
-									//cSubmarine(SSx,SSy);
-									takeCoordinates(SSx, SSy, SubmarineCoordinates, FullSizeSUB,2 );
-									
-									z1 = (SSx*10)+SSy;
-									button[z1].setBackground(Color.black);
-									
-									if(count == 2 && FullSizeSUB == true){	
-										count = 0;
-										FillInShip(SubmarineCoordinates,3,SUBpoints);
-										Submarine = false;
-										if(JumpShip == false){
-											JOptionPane.showMessageDialog(null, "Your Submarine is in Position");
-											cSub.setVisible(false);
-										}
-									}
-									else if(count == 2 && FullSizeSUB != true){
-										JOptionPane.showMessageDialog(null, "Repick your second coordinate or press Set Submarine to start again");
-										count = 1;
-										button[z1].setBackground(Color.BLUE);
-									}
-							}
-							else if (Cruiser == true){
-								count = count+1;
-							JButton but = (JButton) ae.getSource();
-							Action = but.getActionCommand();
-							String [] strArray = Action.split(",");
-							int [] intArray = new int [strArray.length];
-						
-							for (int i = 0; i < strArray.length; i++){
-									intArray[i] = Integer.parseInt(strArray[i]);
-									CSx = intArray[0];
-									CSy = intArray[1];
-
-								}
-									//dCruiser(CSx,CSy);
-									takeCoordinates(CSx, CSy, CruiserCoordinates, FullSizeC,2 );
+						}
+							//cSubmarine(SSx,SSy);
+							takeCoordinates(SSx, SSy, SubmarineCoordinates, FullSizeSUB,2 );
 							
-									z1 = (CSx*10)+CSy;
-									button[z1].setBackground(Color.black);
-									
-									if(count == 2 && FullSizeC == true){										
-										count = 0;
-										FillInShip(CruiserCoordinates,3,Cpoints);
-										Cruiser = false;
-										if(JumpShip == false){
-											JOptionPane.showMessageDialog(null, "Your Cruiser is in position");
-											dCruiser.setVisible(false);
-										}
-									}
-									else if(count == 2 && FullSizeC != true){
-										JOptionPane.showMessageDialog(null, "Repick your second coordinate or press Set Cruiser to start again");
-										count = 1;
-										button[z1].setBackground(Color.BLUE);
+							z1 = (SSx*10)+SSy;
+							button[z1].setBackground(Color.black);
+							
+							if(count == 2 && FullSizeSUB == true){	
+								count = 0;
+								FillInShip(SubmarineCoordinates,3,SUBpoints);
+								Submarine = false;
+								if(JumpShip == false){
+									JOptionPane.showMessageDialog(null, "Your Submarine is in Position");
+									cSub.setVisible(false);
+								}else{
+									FullSizeSUB =false;
+									JOptionPane.showMessageDialog(null, "Abondon Ship!");
 									}
 							}
-							else if (Destroyer == true){
-								count = count +1;
-							JButton but = (JButton) ae.getSource();
-							//but.setBackground(Color.gray); 
-							Action = but.getActionCommand();
-							String [] strArray = Action.split(",");
-							int [] intArray = new int [strArray.length];
-						
-							for (int i = 0; i < strArray.length; i++){
-									intArray[i] = Integer.parseInt(strArray[i]);
-									DSx = intArray[0];
-									DSy = intArray[1];
+							else if(count == 2 && FullSizeSUB != true){
+								JOptionPane.showMessageDialog(null, "Repick your second coordinate or press Set Submarine to start again");
+								count = 1;
+								button[z1].setBackground(Color.BLUE);
+							}
+					}
+					else if (Cruiser == true){
+						count = count+1;
+					JButton but = (JButton) ae.getSource();
+					Action = but.getActionCommand();
+					String [] strArray = Action.split(",");
+					int [] intArray = new int [strArray.length];
+				
+					for (int i = 0; i < strArray.length; i++){
+							intArray[i] = Integer.parseInt(strArray[i]);
+							CSx = intArray[0];
+							CSy = intArray[1];
 
-								}
-									//eDestroyer(DSx,DSy);
-									takeCoordinates(DSx, DSy, DestroyerCoordinates, FullSizeD,1 );
-									
-									z1 = (DSx*10)+DSy;
-									button[z1].setBackground(Color.black);
-									
-									if(count == 2 && FullSizeD == true){										
-										count = 0;
-										FillInShip(DestroyerCoordinates,2,Dpoints);
-										Destroyer = false;
-										if(JumpShip == false){
-											JOptionPane.showMessageDialog(null, "Your Destoyer is in position");
-											eDestroyer.setVisible(false);
-										}
-									}
-									else if(count == 2 && FullSizeD != true){
-										JOptionPane.showMessageDialog(null, "Repick your second coordinate or press Set Destroyer to start again");
-										count = 1;
-										button[z1].setBackground(Color.BLUE);
+						}
+							//dCruiser(CSx,CSy);
+							takeCoordinates(CSx, CSy, CruiserCoordinates, FullSizeC,2 );
+					
+							z1 = (CSx*10)+CSy;
+							button[z1].setBackground(Color.black);
+							
+							if(count == 2 && FullSizeC == true){										
+								count = 0;
+								FillInShip(CruiserCoordinates,3,Cpoints);
+								Cruiser = false;
+								if(JumpShip == false){
+									JOptionPane.showMessageDialog(null, "Your Cruiser is in position");
+									dCruiser.setVisible(false);
+								}else{
+									FullSizeC =false;
+									JOptionPane.showMessageDialog(null, "Abondon Ship!");
 									}
 							}
+							else if(count == 2 && FullSizeC != true){
+								JOptionPane.showMessageDialog(null, "Repick your second coordinate or press Set Cruiser to start again");
+								count = 1;
+								button[z1].setBackground(Color.BLUE);
+							}
+					}
+					else if (Destroyer == true){
+						count = count +1;
+					JButton but = (JButton) ae.getSource();
+					//but.setBackground(Color.gray); 
+					Action = but.getActionCommand();
+					String [] strArray = Action.split(",");
+					int [] intArray = new int [strArray.length];
+				
+					for (int i = 0; i < strArray.length; i++){
+							intArray[i] = Integer.parseInt(strArray[i]);
+							DSx = intArray[0];
+							DSy = intArray[1];
+
+						}
+							//eDestroyer(DSx,DSy);
+							takeCoordinates(DSx, DSy, DestroyerCoordinates, FullSizeD,1 );
+							
+							z1 = (DSx*10)+DSy;
+							button[z1].setBackground(Color.black);
+							
+							if(count == 2 && FullSizeD == true){										
+								count = 0;
+								FillInShip(DestroyerCoordinates,2,Dpoints);
+								Destroyer = false;
+								if(JumpShip == false){
+									JOptionPane.showMessageDialog(null, "Your Destoyer is in position");
+									eDestroyer.setVisible(false);
+								}else{
+								FullSizeD =false;
+								JOptionPane.showMessageDialog(null, "Abondon Ship!");
+								}
+							}
+							else if(count == 2 && FullSizeD != true){
+								JOptionPane.showMessageDialog(null, "Repick your second coordinate or press Set Destroyer to start again");
+								count = 1;
+								button[z1].setBackground(Color.BLUE);
+							}
+					}
 							
 							
 							/*JButton but = (JButton) ae.getSource();
@@ -1259,6 +1357,21 @@ public void takeCoordinates(int X, int Y, Integer Coordinates[], boolean Full, i
 			if((x1 == x2) && (Math.abs(DeltaY)==Size)){ 
 				
 				Full = true;
+				if(random==0){
+					System.out.println("AC" + Arrays.toString(Coordinates));
+				}
+				if(random==1){
+					System.out.println("BS" + Arrays.toString(Coordinates));
+					}
+				if(random==2){
+					System.out.println("SUB" + Arrays.toString(Coordinates));
+					}
+				if(random==3){
+					System.out.println("C" + Arrays.toString(Coordinates));
+					}
+				if(random==4){
+					System.out.println("D" + Arrays.toString(Coordinates));
+					}
 				//System.out.println("DY"+DeltaX+","+DeltaY);
 				
 				//Temporary until we get Full to manipulate the actual booleans		
@@ -1271,7 +1384,21 @@ public void takeCoordinates(int X, int Y, Integer Coordinates[], boolean Full, i
 			else if((y1==y2) && (Math.abs(DeltaX)==Size)){
 				
 				Full = true;
-				System.out.println("Array" + Arrays.toString(Coordinates));
+				if(random==0){
+					System.out.println("AC" + Arrays.toString(Coordinates));
+				}
+				if(random==1){
+					System.out.println("BS" + Arrays.toString(Coordinates));
+					}
+				if(random==2){
+					System.out.println("SUB" + Arrays.toString(Coordinates));
+					}
+				if(random==3){
+					System.out.println("C" + Arrays.toString(Coordinates));
+					}
+				if(random==4){
+					System.out.println("D" + Arrays.toString(Coordinates));
+					}
 				//System.out.println("DX"+ DeltaX+","+DeltaY);
 				
 				//Temporary until we get Full to manipulate the actual booleans		
@@ -1281,6 +1408,27 @@ public void takeCoordinates(int X, int Y, Integer Coordinates[], boolean Full, i
 				if(Cruiser == true){FullSizeC = true;}
 				if(Destroyer == true){FullSizeD = true;}
 			}		
+	}
+}
+
+
+public void RefreshScreen(){
+	for(int i = 0; i<5; i++){
+		if(ACpoints[i] != null){
+			button[ACpoints[i]].setBackground(Color.black);
+		}
+		if(BSpoints[i] != null){
+			button[BSpoints[i]].setBackground(Color.black);
+		}
+		if(SUBpoints[i] != null){
+			button[SUBpoints[i]].setBackground(Color.black);
+		}
+		if(Cpoints[i] != null){
+			button[Cpoints[i]].setBackground(Color.black);
+		}
+		if(Dpoints[i] != null){
+			button[Dpoints[i]].setBackground(Color.black);
+		}
 	}
 }
 
@@ -1363,37 +1511,40 @@ public static void FillInShip(Integer[] Coor,int x, Integer[] blocks){
 		//static Integer[] matchPoints = new Integer[45];
 		int spot = 0;
 		
+		//checks new ship point a with every point of each ship b
+		//the puts them in an array matchPoints at AC(0-4)+BS(10-14)+SUB(20-24)+C(30-34)+D(40-44)
+		
 			for (int a = 0; a<5;a++){
 				for (int b = 0;b<5;b++){
 					if((points[a] == ACpoints[b]) && (points[a] != null) && points != ACpoints ){
 						matchAC = matchAC + 1;
 							spot = a;
 							matchPoints[spot] = points[a];
-							System.out.println("Counting AC points");
+							System.out.println("Match at AC point"+ACpoints[b]);
 					}
 					if((points[a] == BSpoints[b]) && (points[a] != null) && points != BSpoints){
 						matchBS = matchBS + 1;
 							spot = 10+a;
 							matchPoints[spot] = points[a];
-							System.out.println("Counting BS points");
+							System.out.println("Match at BS point"+BSpoints[b]);
 					}	
 					if((points[a] == SUBpoints[b]) && (points[a] != null) && points != SUBpoints ){
 						matchSUB = matchSUB + 1;	
 							spot = 20+a;
 							matchPoints[spot] = points[a];
-							System.out.println("Counting sub points");
+							System.out.println("Match at SUB point"+SUBpoints[b]);
 					}	
 					if((points[a] == Cpoints[b]) && (points[a] != null) && points != Cpoints ){
 						matchC = matchC + 1;	
 							spot = 30+a;
 							matchPoints[spot] = points[a];
-							System.out.println("counting cruiser points");
+							System.out.println("Match at C point"+Cpoints[b]);
 					}
 					if((points[a] == Dpoints[b]) && (points[a] != null) && points != Dpoints ){
 						matchD = matchD + 1;
 							spot = 40+a;
 							matchPoints[spot] = points[a];
-							System.out.println("counting destroyer points");
+							System.out.println("Match at D point"+Dpoints[b]);
 					}
 					
 				}
@@ -1403,19 +1554,19 @@ public static void FillInShip(Integer[] Coor,int x, Integer[] blocks){
 			if(match != 0){
 				JumpShip = true;
 				Reset(Coor,x);
-				
 				for(int i = 0; i<5;i++){
 					points[i] = null;
 				}
+				
 			for (int i = 0;i<45;i++){
 				if(matchPoints[i]!=null){
+					System.out.println("Make point"+matchPoints[i]+ "Black");
 					button[matchPoints[i]].setBackground(Color.black);
-					System.out.println("MatchArray" + Arrays.toString(matchPoints));
+					//System.out.println("MatchArray" + Arrays.toString(matchPoints));
 					matchPoints[i] = null;
 				}
 			}
 			
-						JOptionPane.showMessageDialog(null, "Abondon Ship!");
 			}
 			
 			
@@ -1423,6 +1574,7 @@ public static void FillInShip(Integer[] Coor,int x, Integer[] blocks){
 }
 
 		//Takes ship off the board and replaces the 'overlap block' for the other ship
+		//Use points not coordinates and say if != match points
 public static void Reset(Integer[] Coor, int x){
 		
 	if((Coor[1]!=null) && (Coor[2]!=null)){
@@ -1472,6 +1624,7 @@ public static void Reset(Integer[] Coor, int x){
 		} 
 		count = 0;
 	}
+
 
 }
 
