@@ -44,6 +44,8 @@ public class GameEngine extends JFrame
 	public JButton Output;
 	public JButton Refresh;
 	
+	public static JLabel ACPic;
+	
 	public static JButton buttonF2[] = new JButton[100];
 	public static JButton buttonF[] = new JButton[100];
 	public static JButton button[] = new JButton[100];
@@ -89,6 +91,8 @@ public class GameEngine extends JFrame
 	int ShipY; int ASx,ASy,BSx,BSy,SSx,SSy,CSx,CSy,DSx,DSy =0;
 	public int z1 = 0;
 	public int z2 = 0;
+	static int PicX = 0;
+	static int PicY = 0;
 	
 	
 	static int[] Sendship(int[] ShipLocation) {
@@ -107,7 +111,14 @@ public GameEngine()
 public void createAndDisplayGUI()
     {       
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        JPanel contentPane = new JPanel();
+        JPanel contentPane = new JPanel()
+        {
+            @Override
+            public boolean isOptimizedDrawingEnabled()
+            {
+                return false;
+            }
+        };
 		contentPane.setLayout(null);
 		contentPane.setPreferredSize(new Dimension (1700,700));
 		JPanel leftPanel = new JPanel();
@@ -118,34 +129,35 @@ public void createAndDisplayGUI()
         ImageIcon ACImage = new ImageIcon("Aircraft.jpg");
         JLabel ACPic = new JLabel(ACImage);
         ACImage.setImage(ACImage.getImage().getScaledInstance(220, 20, Image.SCALE_DEFAULT));
-        ACPic.setBounds(1165,70,220,20);
+        //ACPic.setBounds(1165,70,220,20);
        contentPane.add(ACPic);
+       
    
         
         ImageIcon BSImage = new ImageIcon("Battleship.jpg");
         JLabel BSPic = new JLabel(ACImage);
         BSImage.setImage(BSImage.getImage().getScaledInstance(180, 20, Image.SCALE_DEFAULT));
-        BSPic.setBounds(1165,115,180,20);
+        //BSPic.setBounds(1165,115,180,20);
         contentPane.add(BSPic);
      
         
         ImageIcon SUBImage = new ImageIcon("Submarine.jpg");
         JLabel SUBPic = new JLabel(SUBImage);
         SUBImage.setImage(SUBImage.getImage().getScaledInstance(130, 20, Image.SCALE_DEFAULT));
-        SUBPic.setBounds(1160,165,130,20);
+        //SUBPic.setBounds(1160,165,130,20);
         contentPane.add(SUBPic);
         
         
         ImageIcon CImage = new ImageIcon("Cruiser.jpg");
         JLabel CPic = new JLabel(CImage);
         CImage.setImage(CImage.getImage().getScaledInstance(130, 20, Image.SCALE_DEFAULT));
-        CPic.setBounds(1165,215,130,20);
+        //CPic.setBounds(1165,215,130,20);
         contentPane.add(CPic);
         
         ImageIcon DImage = new ImageIcon("Destroyer.jpg");
         JLabel DPic = new JLabel(DImage);
         DImage.setImage(DImage.getImage().getScaledInstance(75, 20, Image.SCALE_DEFAULT));
-        DPic.setBounds(1165,270,75,20);
+        //DPic.setBounds(1165,270,75,20);
         contentPane.add(DPic);
         
       //-------------------------------------------------------------------
@@ -428,6 +440,8 @@ public void createAndDisplayGUI()
 					Cruiser = false;
 					Destroyer = false;
 					
+					ACPic.setVisible(false);
+					
 					if(AircraftCoordinates[2] != null){
 						Reset(AircraftCoordinates,5);
 						FullSizeAC = false;
@@ -448,6 +462,8 @@ public void createAndDisplayGUI()
 					Cruiser = false;
 					Destroyer = false;
 					
+					BSPic.setVisible(false);
+					
 					if(BattleShipCoordinates[2] != null){
 						Reset(BattleShipCoordinates,4);
 						FullSizeBS = false;
@@ -466,6 +482,8 @@ public void createAndDisplayGUI()
 					Submarine = true;
 					Cruiser = false;
 					Destroyer = false;
+					
+					SUBPic.setVisible(false);
 					
 					if(SubmarineCoordinates[2] != null){
 						Reset(SubmarineCoordinates,3);
@@ -486,6 +504,8 @@ public void createAndDisplayGUI()
 					Cruiser = true;
 					Destroyer = false;
 					
+					CPic.setVisible(false);
+					
 					if(CruiserCoordinates[2] != null){
 						Reset(CruiserCoordinates,3);
 						FullSizeC = false;
@@ -505,6 +525,8 @@ public void createAndDisplayGUI()
 					Submarine = false;
 					Cruiser = false;
 					Destroyer = true;
+					
+					DPic.setVisible(false);
 					
 					if(DestroyerCoordinates[2] != null){
 						Reset(DestroyerCoordinates,2);
@@ -543,6 +565,7 @@ RandomizeShips.addActionListener(new ActionListener()
 			//random = 0;
 			
 			if(random == 0){
+				
 				
 				Size = 4;
 				while (next == false){
@@ -583,7 +606,7 @@ RandomizeShips.addActionListener(new ActionListener()
 					
 					takeCoordinates(RxCoor1, RyCoor1, AircraftCoordinates, FullSizeAC,4);
 					takeCoordinates(RxCoor2, RyCoor2, AircraftCoordinates, FullSizeAC,4);
-					
+					ACPic.setVisible(false);
 					//takeCoordinates(0, 0, AircraftCoordinates, FullSizeAC,4);
 					//takeCoordinates(4, 0, AircraftCoordinates, FullSizeAC,4);
 					
@@ -596,6 +619,8 @@ RandomizeShips.addActionListener(new ActionListener()
 							RandomizeShips.setText("Randomize BattleShip");
 							RefreshScreen();
 							JOptionPane.showMessageDialog(null, "Your AircraftCarrier is in position");
+							ACPic.setVisible(true);
+							ACPic.setBounds(PicX,PicY,220,20);
 							random = random+1;
 						}
 						else{Reset(AircraftCoordinates,5);}
@@ -642,6 +667,7 @@ RandomizeShips.addActionListener(new ActionListener()
 					Destroyer = false;
 					takeCoordinates(RxCoor1, RyCoor1, BattleShipCoordinates, FullSizeBS,3 );
 					takeCoordinates(RxCoor2, RyCoor2, BattleShipCoordinates, FullSizeBS,3 );
+					BSPic.setVisible(false);
 					//takeCoordinates(0, 1, BattleShipCoordinates, FullSizeBS,3 );
 					//takeCoordinates(3, 1, BattleShipCoordinates, FullSizeBS,3 );
 					
@@ -653,6 +679,8 @@ RandomizeShips.addActionListener(new ActionListener()
 							RandomizeShips.setText("Randomize Submarine");
 							RefreshScreen();
 							JOptionPane.showMessageDialog(null, "Your BattleShip is in position");
+							BSPic.setVisible(true);
+							BSPic.setBounds(PicX-10,PicY,180,20);
 							random = random+1;
 						}
 						else{Reset(BattleShipCoordinates,4);}
@@ -662,7 +690,7 @@ RandomizeShips.addActionListener(new ActionListener()
 			
 			
 			if(random == 2){
-
+				
 				Size = 2;
 				while (next == false){
 					FullSizeSUB = false;
@@ -700,7 +728,7 @@ RandomizeShips.addActionListener(new ActionListener()
 					Destroyer = false;
 					takeCoordinates(RxCoor1, RyCoor1, SubmarineCoordinates, FullSizeSUB,2 );
 					takeCoordinates(RxCoor2, RyCoor2, SubmarineCoordinates, FullSizeSUB,2 );
-
+					SUBPic.setVisible(false);
 					//takeCoordinates(0, 2, SubmarineCoordinates, FullSizeSUB,2 );
 					//takeCoordinates(2, 2, SubmarineCoordinates, FullSizeSUB,2 );
 					
@@ -712,6 +740,8 @@ RandomizeShips.addActionListener(new ActionListener()
 							RandomizeShips.setText("Randomize Cruiser");
 							RefreshScreen();
 							JOptionPane.showMessageDialog(null, "Your Submarine is in position");
+							SUBPic.setVisible(true);
+							SUBPic.setBounds(PicX-10,PicY,130,20);
 							random = random+1;
 						}
 						else{Reset(SubmarineCoordinates,3);}
@@ -756,8 +786,10 @@ RandomizeShips.addActionListener(new ActionListener()
 						Submarine = false;
 						Cruiser = true;
 						Destroyer = false;
+						
 						takeCoordinates(RxCoor1, RyCoor1, CruiserCoordinates, FullSizeC,2 );
 						takeCoordinates(RxCoor2, RyCoor2, CruiserCoordinates, FullSizeC,2 );
+						CPic.setVisible(false);
 						//takeCoordinates(0, 3, CruiserCoordinates, FullSizeC,2 );
 						//takeCoordinates(2, 3, CruiserCoordinates, FullSizeC,2 );
 							
@@ -769,6 +801,8 @@ RandomizeShips.addActionListener(new ActionListener()
 								RandomizeShips.setText("Randomize Destroyer");
 								RefreshScreen();
 								JOptionPane.showMessageDialog(null, "Your Cruiser is in position");
+								CPic.setVisible(true);
+								CPic.setBounds(PicX-10,PicY,130,20);
 								random = random+1;
 							}
 							else{Reset(CruiserCoordinates,3);}	
@@ -815,7 +849,7 @@ RandomizeShips.addActionListener(new ActionListener()
 						Destroyer = true;
 						takeCoordinates(RxCoor1, RyCoor1, DestroyerCoordinates, FullSizeD,1 );
 						takeCoordinates(RxCoor2, RyCoor2, DestroyerCoordinates, FullSizeD,1 );
-						
+						DPic.setVisible(false);
 						//takeCoordinates(0, 4, DestroyerCoordinates, FullSizeD,1 );
 						//takeCoordinates(1, 4, DestroyerCoordinates, FullSizeD,1 );
 						
@@ -828,6 +862,8 @@ RandomizeShips.addActionListener(new ActionListener()
 								RandomizeShips.setText("Randomize Carrier");
 								RefreshScreen();
 								JOptionPane.showMessageDialog(null, "Your Destroyer is in position");
+								DPic.setVisible(true);
+								DPic.setBounds(PicX-10,PicY,75,20);
 								random = 0;
 							}
 							else{Reset(DestroyerCoordinates,2);}
@@ -923,6 +959,12 @@ RandomizeShips.addActionListener(new ActionListener()
 		{
 			public void actionPerformed(ActionEvent ae)
 			{
+				ACPic.setVisible(false);
+				BSPic.setVisible(false);
+				SUBPic.setVisible(false);
+				CPic.setVisible(false);
+				DPic.setVisible(false);
+				
 				if(AircraftCoordinates[2] != null){
 					Reset(AircraftCoordinates,5);
 					FullSizeAC = false;
@@ -1122,6 +1164,8 @@ button[z].addActionListener(new ActionListener(){
 								if(JumpShip == false){
 									JOptionPane.showMessageDialog(null, "Your AircraftCarrier is in position");
 									aCarrier.setVisible(false);
+									ACPic.setVisible(true);
+									ACPic.setBounds(PicX,PicY,220,20);
 								}else{
 									FullSizeAC =false;
 									JOptionPane.showMessageDialog(null, "Abondon Ship!");
@@ -1164,6 +1208,8 @@ button[z].addActionListener(new ActionListener(){
 								if(JumpShip == false){
 									JOptionPane.showMessageDialog(null, "Your BattleShip is in Position");
 									bShip.setVisible(false);
+									BSPic.setVisible(true);
+									BSPic.setBounds(PicX-10,PicY,180,20);
 								}else{
 									FullSizeBS =false;
 									JOptionPane.showMessageDialog(null, "Abondon Ship!");
@@ -1201,6 +1247,8 @@ button[z].addActionListener(new ActionListener(){
 								if(JumpShip == false){
 									JOptionPane.showMessageDialog(null, "Your Submarine is in Position");
 									cSub.setVisible(false);
+									SUBPic.setVisible(true);
+									SUBPic.setBounds(PicX-10,PicY,130,20);
 								}else{
 									FullSizeSUB =false;
 									JOptionPane.showMessageDialog(null, "Abondon Ship!");
@@ -1238,6 +1286,8 @@ button[z].addActionListener(new ActionListener(){
 								if(JumpShip == false){
 									JOptionPane.showMessageDialog(null, "Your Cruiser is in position");
 									dCruiser.setVisible(false);
+									CPic.setVisible(true);
+									CPic.setBounds(PicX-10,PicY,130,20);
 								}else{
 									FullSizeC =false;
 									JOptionPane.showMessageDialog(null, "Abondon Ship!");
@@ -1276,6 +1326,8 @@ button[z].addActionListener(new ActionListener(){
 								if(JumpShip == false){
 									JOptionPane.showMessageDialog(null, "Your Destoyer is in position");
 									eDestroyer.setVisible(false);
+									DPic.setVisible(true);
+									DPic.setBounds(PicX-10,PicY,75,20);
 								}else{
 								FullSizeD =false;
 								JOptionPane.showMessageDialog(null, "Abondon Ship!");
@@ -1457,14 +1509,16 @@ public static void FillInShip(Integer[] Coor,int x, Integer[] blocks){
 	
 	// right
 		if( Coor[1] == Coor[3] && Coor[0]<Coor[2]){
-					
+
 							for(int a = 0; a<x;a++){
 								int t = (Coor[0]*10) + Coor[1];
 								t = t + a*10;
-								button[t].setBackground(Color.black);
+								button[t].setBackground(Color.black);								
 								points[a] = t;
 								
 							}
+							//Bound = button[].getAlignmentX();
+					
 			}
 		
 		// left
@@ -1501,6 +1555,10 @@ public static void FillInShip(Integer[] Coor,int x, Integer[] blocks){
 								
 							}
 		}
+		
+		PicX = 1165+(button[points[0]].getX());
+		PicY = 60+(button[points[0]].getY());
+		
 		int match = 0;
 		int matchAC = 0;
 		int matchBS = 0;
