@@ -13,7 +13,7 @@ import java.util.*;
 
 
 
-public class LeaderBoard extends JFrame
+public class LeaderBoard extends JPanel
 {
 static String text = "";
 private static int LineCount = 0;
@@ -25,28 +25,17 @@ boolean Result = false;
 
 
 
-	public LeaderBoard() 
+	/*public LeaderBoard() 
 			{
 				super("Fleet Destroyer Engine");
-			}
+			}*/
 
-	public void CreateLeaderBoard()
-		{
-			GetLeaderBoardValues(); //Calls upon the values from the text file to fill the JTable.
-			SortLeaderBoardValues(LeaderBoardArray);
-			
-			for(int i=0; i<=4;i++)
-				{
-					for(int j=0;j<=4;j++)
-					{
-						
-					System.out.print(LeaderBoardArray[i][j] + "   ");
-					}		
-					System.out.println("");
-				}
-				
-			String [] columnNames = {"Position", "UserName", "Wins", "Loses", "Experience"};
-			Object [][] Data = {
+	public LeaderBoard()
+	
+	{
+		setLayout(new BorderLayout());
+		String [] columnNames = {"Position", "UserName", "Wins", "Loses", "Experience"};
+		Object [][] Data = {
 								{1, LeaderBoardArray[0][0],LeaderBoardArray[0][1], LeaderBoardArray[0][2], LeaderBoardArray[0][3]},
 								{2, LeaderBoardArray[1][0],LeaderBoardArray[1][1], LeaderBoardArray[1][2], LeaderBoardArray[1][3]},
 								{3, LeaderBoardArray[2][0],LeaderBoardArray[2][1], LeaderBoardArray[2][2], LeaderBoardArray[2][3]},
@@ -63,28 +52,51 @@ boolean Result = false;
 				}
 				
 			};					
+		JTable table = new JTable(Model);
+        table.setOpaque( false );
+        DefaultTableCellRenderer renderer =
+            (DefaultTableCellRenderer)table.getDefaultRenderer(Object.class);
+        renderer.setOpaque(false);
 
-			JTable Table = new JTable(Model);
-			this.add(new JScrollPane(Table));
-			this.setTitle("Table ");
-			//this.setOpaque(false);
-			//this.setBackgroundImage(new ImageIcon("C:\\Users\\Sai Yarram\\Desktop\\Gifs\\Ship.PNG"));	
-			this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
-			this.pack();
-			this.setVisible(true);
-			this.setPreferredSize(new Dimension(150,100));
+        JScrollPane scrollPane = new JScrollPane( table );
+        scrollPane.setOpaque( false );
+        scrollPane.getViewport().setOpaque( false );
+
+        final ImageIcon icon = new ImageIcon("C:\\Users\\Sai Yarram\\Documents\\GitHub\\battleship\\LeaderBoardImage.jpg");
+
+        JPanel background = new JPanel( new BorderLayout() )
+        {
+            @Override
+            protected void paintComponent(Graphics g)
+            {
+                super.paintComponent(g);
+
+                g.drawImage(icon.getImage(), 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+        background.add( scrollPane );
+        add(background);
+		
+		
+	}
+	
+	public void CreateLeaderBoard()
+		{
+			GetLeaderBoardValues(); //Calls upon the values from the text file to fill the JTable.
+			SortLeaderBoardValues(LeaderBoardArray);
+			
+			JPanel panel = new JPanel();
+
+			JFrame frame = new JFrame("LeaderBoard");
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.add(new LeaderBoard());
+			frame.setLocationByPlatform( true );
+			frame.pack();
+			frame.setVisible( true );
+			
 			UpdateLeaderBoardValues(LeaderBoardArray,PlayerA,PlayerB,Result);
 			OverWriteLeaderBoardValues();
 			
-			/*for(int i=0; i<=4;i++)
-				{
-					for(int j=0;j<=4;j++)
-					{
-						
-					System.out.print(LeaderBoardArray[i][j] + "   ");
-					}		
-					System.out.println("");
-				}*/
 			
 			
 		}
@@ -301,7 +313,7 @@ boolean Result = false;
 		}
 	}
 public static void main(String[] args) throws Exception {
-			 SwingUtilities.invokeLater(new Runnable()
+			 EventQueue.invokeLater(new Runnable()
 			{
 				public void run()
 				{
