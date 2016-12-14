@@ -1,67 +1,29 @@
-import java.awt.*;
-import java.awt.event.*;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.Random;
-import java.util.Scanner;
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
-
-public class HelpScreen extends JFrame
-{
-
-	public HelpScreen()
-	{
-		super("Fleet Destroyer Engine");
-	}
-
-	public void CreateAndDisplayGUI()
-	{
-
-		setTitle("Help Screen");
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		JPanel contentPane = new JPanel();
-		contentPane.set
-		
-		ImageIcon Icon = new ImageIcon("C:\\Users\\Sai Yarram\\Documents\\GitHub\\battleship\\Help.JPEG");
-		JLabel label = new JLabel("", Icon, JLabel.CENTER);
-		contentPane.setPreferredSize(new Dimension (500,500));
-		contentPane.add(label);
-		contentPane.setBackground(Color.BLACK);
-		
-		
-		
-		
-		JTextField userName = new JTextField(20);
-		contentPane.add(userName);
-		add(contentPane);
-		setVisible(true);
-		pack();
-		
-	
-		
-		
-		
-		
-	}
-
-	public static void main(String[] args){
-         SwingUtilities.invokeLater(new Runnable()
-        {
-            public void run()
-            {
-                new HelpScreen().CreateAndDisplayGUI();
-
-            }
-
-        });
-   
-
-    }
-
-
+import java.awt.*;
+  
+public class Help {
+   public static void main(String args[]) {
+      JFrame frame = new JFrame("JTextField Background Demonstration");
+      final ImageIcon imageIcon = new ImageIcon("C:\\Users\\Sai Yarram\\Documents\\GitHub\\battleship\\Help.JPG");
+	  
+	  
+      JTextArea textField = new JTextArea(Help) {
+         Image image = imageIcon.getImage();
+         {
+            setOpaque(false);
+         }
+         public void paintComponent (Graphics g) {
+            g.drawImage(image, 0, 0, this);
+            setForeground(Color.yellow);
+            super.paintComponent(g);
+         }
+      };
+      textField.setFont(new Font("Helvetica", Font.BOLD, 16));
+  
+      frame.getContentPane().add(BorderLayout.CENTER, textField);
+      frame.setDefaultCloseOperation(3);
+      frame.setSize(600, 600);
+      frame.setVisible(true);
+      frame.setResizable(false);
+   }
 }
