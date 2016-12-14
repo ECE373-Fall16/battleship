@@ -106,6 +106,7 @@ public class GameEngine extends JFrame
 public GameEngine()
     {
         super("Fleet Destroyer Engine");
+        super.setResizable(false);
     }
 
 public void createAndDisplayGUI()
@@ -168,9 +169,9 @@ public void createAndDisplayGUI()
         contentPane.setBackground(Color.DARK_GRAY);
         //ImageIcon BackgroundWater = new ImageIcon("Background water.jpg");
         ImageIcon BackgroundWater = new ImageIcon("Alt Background.jpg");
-        BackgroundWater.setImage(BackgroundWater.getImage().getScaledInstance(1400, 700, Image.SCALE_DEFAULT));
+        BackgroundWater.setImage(BackgroundWater.getImage().getScaledInstance(1250, 700, Image.SCALE_DEFAULT));
         JLabel BGridWater = new JLabel(BackgroundWater);
-		BGridWater.setBounds(450,0,1400,700);
+		BGridWater.setBounds(450,0,1250,700);
 		
         ImageIcon ButtonBackground = new ImageIcon("Walpaper.jpg");
         ButtonBackground.setImage(ButtonBackground.getImage().getScaledInstance(450, 700, Image.SCALE_DEFAULT));
@@ -373,7 +374,7 @@ public void createAndDisplayGUI()
 		
 		
 		//buttonLeftPanel.setLayout(new BoxLayout(buttonLeftPanel, BoxLayout.Y_AXIS));
-		leftPanel.setBounds(100,500,250,350); 
+		leftPanel.setBounds(100,575,250,350); 
 		buttonLeftPanel.setBounds(100,50,250,350);
 		//leftPanel.setBorder(new LineBorder(Color.black, 5));
 		
