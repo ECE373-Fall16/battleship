@@ -1,12 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
   
-public class Help {
+public class HelpScreen {
    public static void main(String args[]) {
       JFrame frame = new JFrame("JTextField Background Demonstration");
       final ImageIcon imageIcon = new ImageIcon("C:\\Users\\Sai Yarram\\Documents\\GitHub\\battleship\\Help.JPG");
 	  
-	  
+	  String Help = "HHIIII\n HII";
       JTextArea textField = new JTextArea(Help) {
          Image image = imageIcon.getImage();
          {
@@ -24,6 +24,6 @@ public class Help {
       frame.setDefaultCloseOperation(3);
       frame.setSize(600, 600);
       frame.setVisible(true);
-      frame.setResizable(false);
+      frame.setResizable(true);
    }
 }

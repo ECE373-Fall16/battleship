@@ -1,5 +1,5 @@
-admin 14 6 1440 admin 
-nick 12 6 20736 raymond 
+admin 14 7 5760 admin 
+nick 13 6 207360 raymond 
 hadi 5 0 1 ghantous 
 one 3 0 1 two 
 donald 2 0 1 sucks 

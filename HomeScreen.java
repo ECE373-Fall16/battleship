@@ -68,12 +68,6 @@ import javax.swing.*;
 				  } catch (LineUnavailableException e) {
 					 e.printStackTrace();
 				  }
-							
-				
-				
-				
-				
-				
 				
 			}
 			public void GameStartEvent(){
