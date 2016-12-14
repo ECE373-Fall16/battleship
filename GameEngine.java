@@ -1,13 +1,7 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.Random;
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -38,7 +32,7 @@ public class GameEngine extends JFrame
 	public JButton cSub;
 	public JButton dCruiser;
 	public JButton eDestroyer;
-	public JButton FireButton;
+	static JButton FireButton;
 	public JButton RandomizeShips;
 	public JButton FinalizeShips;
 	public JButton Output;
@@ -106,7 +100,6 @@ public class GameEngine extends JFrame
 public GameEngine()
     {
         super("Fleet Destroyer Engine");
-        super.setResizable(false);
     }
 
 public void createAndDisplayGUI()
@@ -127,7 +120,7 @@ public void createAndDisplayGUI()
         JPanel LeftPanelFire = new JPanel();
         JPanel buttonLeftPanel = new JPanel();
         
-        ImageIcon ACImage = new ImageIcon("Aircraft.jpg");
+        ImageIcon ACImage = new ImageIcon("A.png");
         JLabel ACPic = new JLabel(ACImage);
         ACImage.setImage(ACImage.getImage().getScaledInstance(220, 20, Image.SCALE_DEFAULT));
         //ACPic.setBounds(1165,70,220,20);
@@ -135,27 +128,27 @@ public void createAndDisplayGUI()
        
    
         
-        ImageIcon BSImage = new ImageIcon("Battleship.jpg");
+        ImageIcon BSImage = new ImageIcon("B.png");
         JLabel BSPic = new JLabel(ACImage);
         BSImage.setImage(BSImage.getImage().getScaledInstance(180, 20, Image.SCALE_DEFAULT));
         //BSPic.setBounds(1165,115,180,20);
         contentPane.add(BSPic);
      
         
-        ImageIcon SUBImage = new ImageIcon("Submarine.jpg");
+        ImageIcon SUBImage = new ImageIcon("water1.png");
         JLabel SUBPic = new JLabel(SUBImage);
         SUBImage.setImage(SUBImage.getImage().getScaledInstance(130, 20, Image.SCALE_DEFAULT));
         //SUBPic.setBounds(1160,165,130,20);
         contentPane.add(SUBPic);
         
         
-        ImageIcon CImage = new ImageIcon("Cruiser.jpg");
+        ImageIcon CImage = new ImageIcon("C.png");
         JLabel CPic = new JLabel(CImage);
         CImage.setImage(CImage.getImage().getScaledInstance(130, 20, Image.SCALE_DEFAULT));
         //CPic.setBounds(1165,215,130,20);
         contentPane.add(CPic);
         
-        ImageIcon DImage = new ImageIcon("Destroyer.jpg");
+        ImageIcon DImage = new ImageIcon("D.png");
         JLabel DPic = new JLabel(DImage);
         DImage.setImage(DImage.getImage().getScaledInstance(75, 20, Image.SCALE_DEFAULT));
         //DPic.setBounds(1165,270,75,20);
@@ -169,9 +162,9 @@ public void createAndDisplayGUI()
         contentPane.setBackground(Color.DARK_GRAY);
         //ImageIcon BackgroundWater = new ImageIcon("Background water.jpg");
         ImageIcon BackgroundWater = new ImageIcon("Alt Background.jpg");
-        BackgroundWater.setImage(BackgroundWater.getImage().getScaledInstance(1250, 700, Image.SCALE_DEFAULT));
+        BackgroundWater.setImage(BackgroundWater.getImage().getScaledInstance(1400, 700, Image.SCALE_DEFAULT));
         JLabel BGridWater = new JLabel(BackgroundWater);
-		BGridWater.setBounds(450,0,1250,700);
+		BGridWater.setBounds(450,0,1400,700);
 		
         ImageIcon ButtonBackground = new ImageIcon("Walpaper.jpg");
         ButtonBackground.setImage(ButtonBackground.getImage().getScaledInstance(450, 700, Image.SCALE_DEFAULT));
@@ -214,10 +207,6 @@ public void createAndDisplayGUI()
 			    button[z].setOpaque(true);
 			    button[z].setBorderPainted(false);
 			    button[z].setBackground(Color.BLUE);
-
-
-				button[z].setBackground(Color.BLUE);
-				button[z].setOpaque(true);
 				
 				button[z].setActionCommand( j + "," + i );
 				
@@ -260,13 +249,15 @@ public void createAndDisplayGUI()
 							
 						    buttonF[z] = new JButton();
 							
+						    
+
+						    
 						    buttonF[z].setPreferredSize(new Dimension(45,45));
 						    buttonF[z].setOpaque(true);
+						    buttonF[z].setBorderPainted(false);
 						    buttonF[z].setBackground(Color.BLUE);
-						    
 						    buttonF[z].setActionCommand( b + "," + a );
 						    FirePanel.add(buttonF[z]);
-						    //buttonF[z].setBorderPainted(false);
 								}
 						}
 					
@@ -374,7 +365,7 @@ public void createAndDisplayGUI()
 		
 		
 		//buttonLeftPanel.setLayout(new BoxLayout(buttonLeftPanel, BoxLayout.Y_AXIS));
-		leftPanel.setBounds(100,575,250,350); 
+		leftPanel.setBounds(100,500,250,350); 
 		buttonLeftPanel.setBounds(100,50,250,350);
 		//leftPanel.setBorder(new LineBorder(Color.black, 5));
 		
@@ -415,7 +406,9 @@ public void createAndDisplayGUI()
 		Output.addActionListener(new ActionListener() 
 		{
 		public void actionPerformed(ActionEvent ae){ 
-			System.out.println("  ");
+			/*
+			 * System.out.println("  ");
+			 
 			System.out.println("  ");
 			System.out.println("Acpoints"+Arrays.toString(ACpoints));
 			System.out.println("ACcoordinates"+Arrays.toString(AircraftCoordinates));
@@ -429,6 +422,7 @@ public void createAndDisplayGUI()
 			System.out.println("Dcoordinates"+Arrays.toString(DestroyerCoordinates));
 			System.out.println("  ");
 			System.out.println("  ");
+			*/
 		}});
 		
 		//protocol for placing the Aircraft Carrier
@@ -924,28 +918,18 @@ RandomizeShips.addActionListener(new ActionListener()
 		{
 		
 		public void actionPerformed(ActionEvent event) {
-			//Client.setFire(textField.getText());
-			System.out.println("The entered text is: " + textField.getText());
-				
-			//Client.setFire(textField.getText());
-			System.out.println("The entered text is: " + textField.getText());
+			Client.setFire(textField.getText());
+			//System.out.println("The entered text is: " + textField.getText());
+			//System.out.println("The entered text is: " + textField.getText());
 			String FireCoordinates = textField.getText();
 			FireCoordinates = FireCoordinates.replace(",", "").replaceAll(" ", "");
 			int FireCoordinate = Integer.parseInt(FireCoordinates);
-			System.out.println("FireXcoordinate = "+FireCoordinate);
+			//System.out.println("FireXcoordinate = "+FireCoordinate);
 			
-			System.out.println(buttonF[FireCoordinate].getLocation());
-			//buttonF[FireCoordinate].setVisible(true);
-			///EDIT HERE NO PARSING NEED TO GET INDIVIDUAL CHARACTERS MULTIPLY AND ADDD
-			//ALSO MAKE SURE THROWSA EXCEPTION IF NUMBERS MORE THAN TWO DIGITS
-			
-			//*****buttonF[firecoordx].setBackground(Color.black);
+		//	System.out.println(buttonF[FireCoordinate].getLocation());
 			textField.setText("");
-			//buttonF2[firecoordx].setBackground(Color.green);
-			//textField.setText("");
-			//******delete later****
 			content = textField.getText();
-			System.out.print(content);
+			//System.out.print(content);
 			}
 			
 
@@ -1411,19 +1395,19 @@ public void takeCoordinates(int X, int Y, Integer Coordinates[], boolean Full, i
 				
 				Full = true;
 				if(random==0){
-					System.out.println("AC" + Arrays.toString(Coordinates));
+					//System.out.println("AC" + Arrays.toString(Coordinates));
 				}
 				if(random==1){
-					System.out.println("BS" + Arrays.toString(Coordinates));
+					//System.out.println("BS" + Arrays.toString(Coordinates));
 					}
 				if(random==2){
-					System.out.println("SUB" + Arrays.toString(Coordinates));
+					//System.out.println("SUB" + Arrays.toString(Coordinates));
 					}
 				if(random==3){
-					System.out.println("C" + Arrays.toString(Coordinates));
+					//System.out.println("C" + Arrays.toString(Coordinates));
 					}
 				if(random==4){
-					System.out.println("D" + Arrays.toString(Coordinates));
+					//System.out.println("D" + Arrays.toString(Coordinates));
 					}
 				//System.out.println("DY"+DeltaX+","+DeltaY);
 				
@@ -1438,19 +1422,19 @@ public void takeCoordinates(int X, int Y, Integer Coordinates[], boolean Full, i
 				
 				Full = true;
 				if(random==0){
-					System.out.println("AC" + Arrays.toString(Coordinates));
+					//System.out.println("AC" + Arrays.toString(Coordinates));
 				}
 				if(random==1){
-					System.out.println("BS" + Arrays.toString(Coordinates));
+					//System.out.println("BS" + Arrays.toString(Coordinates));
 					}
 				if(random==2){
-					System.out.println("SUB" + Arrays.toString(Coordinates));
+					//System.out.println("SUB" + Arrays.toString(Coordinates));
 					}
 				if(random==3){
-					System.out.println("C" + Arrays.toString(Coordinates));
+					//System.out.println("C" + Arrays.toString(Coordinates));
 					}
 				if(random==4){
-					System.out.println("D" + Arrays.toString(Coordinates));
+					//System.out.println("D" + Arrays.toString(Coordinates));
 					}
 				//System.out.println("DX"+ DeltaX+","+DeltaY);
 				
@@ -1579,31 +1563,31 @@ public static void FillInShip(Integer[] Coor,int x, Integer[] blocks){
 						matchAC = matchAC + 1;
 							spot = a;
 							matchPoints[spot] = points[a];
-							System.out.println("Match at AC point"+ACpoints[b]);
+							//System.out.println("Match at AC point"+ACpoints[b]);
 					}
 					if((points[a] == BSpoints[b]) && (points[a] != null) && points != BSpoints){
 						matchBS = matchBS + 1;
 							spot = 10+a;
 							matchPoints[spot] = points[a];
-							System.out.println("Match at BS point"+BSpoints[b]);
+							//System.out.println("Match at BS point"+BSpoints[b]);
 					}	
 					if((points[a] == SUBpoints[b]) && (points[a] != null) && points != SUBpoints ){
 						matchSUB = matchSUB + 1;	
 							spot = 20+a;
 							matchPoints[spot] = points[a];
-							System.out.println("Match at SUB point"+SUBpoints[b]);
+						//	System.out.println("Match at SUB point"+SUBpoints[b]);
 					}	
 					if((points[a] == Cpoints[b]) && (points[a] != null) && points != Cpoints ){
 						matchC = matchC + 1;	
 							spot = 30+a;
 							matchPoints[spot] = points[a];
-							System.out.println("Match at C point"+Cpoints[b]);
+						//	System.out.println("Match at C point"+Cpoints[b]);
 					}
 					if((points[a] == Dpoints[b]) && (points[a] != null) && points != Dpoints ){
 						matchD = matchD + 1;
 							spot = 40+a;
 							matchPoints[spot] = points[a];
-							System.out.println("Match at D point"+Dpoints[b]);
+							//System.out.println("Match at D point"+Dpoints[b]);
 					}
 					
 				}
@@ -1619,7 +1603,7 @@ public static void FillInShip(Integer[] Coor,int x, Integer[] blocks){
 				
 			for (int i = 0;i<45;i++){
 				if(matchPoints[i]!=null){
-					System.out.println("Make point"+matchPoints[i]+ "Black");
+					//System.out.println("Make point"+matchPoints[i]+ "Black");
 					button[matchPoints[i]].setBackground(Color.black);
 					//System.out.println("MatchArray" + Arrays.toString(matchPoints));
 					matchPoints[i] = null;
@@ -1694,7 +1678,7 @@ public static void Reset(Integer[] Coor, int x){
 public JPanel displayChat() {
 	    JTextArea   chatBox;
 	    JTextField  messageField;
-	    String username = "Nick";
+	    String username = Player.getCurrentUser();
 	
 	
     JPanel ChatBox = new JPanel();
@@ -1730,11 +1714,8 @@ public JPanel displayChat() {
 	            } else if (messageField.getText().equals(".clear")) {
 	                chatBox.setText("CHAT CLEARED\n");
 	                messageField.setText("");
-	               //chatPanel.requestFocusInWindow();
 	            } else {
 	                chatBox.append("<" + username + ">:  " + messageField.getText()+ "\n");
-	                messageField.setText("");
-	                //chatBox.requestFocusInWindow();
 	            }
 	            messageField.requestFocusInWindow();
 	        }

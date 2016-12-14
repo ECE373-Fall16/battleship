@@ -1,6 +1,8 @@
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
+
 import javax.swing.*;
 
 public class MainChatGUI {
@@ -56,8 +58,11 @@ public class MainChatGUI {
                 messageField.setText("");
                 
             } else {
-                chatBox.append("<" + username + ">:  " + messageField.getText()+ "\n");
-                messageField.setText("");
+            	String message = "<" + Player.getCurrentUser() + ">:  " + messageField.getText()+ "\n";
+                try {
+					ChatClient.sendMessage(message);
+				} catch (IOException e) {}
+            	messageField.setText("");
                 
             }
             messageField.requestFocusInWindow();

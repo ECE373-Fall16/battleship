@@ -14,13 +14,13 @@ public  class SignUp extends JFrame{
 	JPanel signupScreen = new JPanel();
 	JTextField newuserField = new JTextField();
 	JPasswordField newpasswordField = new JPasswordField();
-	GridLayout experimentLayout = new GridLayout(0,1);
+	FlowLayout experimentLayout = new FlowLayout();
 	JLabel newloginLabel = new JLabel("Username: ");
 	JLabel newpasswordLabel = new JLabel("Password: ");
 
 	SignUp(){
 		super("User Authenticication");
-		setSize(300,200);
+		setSize(600,600);
 		super.setLocationRelativeTo(null);
 
 		signupScreen.setLayout(experimentLayout);

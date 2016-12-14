@@ -1,172 +1,104 @@
 import java.util.*;
 import java.io.*;
 
-public class PlayerDatabase{
-	
-	 static int num;
-     static List<Player> players = new ArrayList();
-     static Scanner scan = new Scanner(System.in);
+public class PlayerDatabase {
 
-     
-	public static void main(String[] args){
+	static int num;
+	static List<Player> players = new ArrayList();
+	static Scanner scan = new Scanner(System.in);
+
+	public static void main(String[] args) {
 		initializedb();
 	}
-		
-	/*Incase we want to initialize new users from here
-	 *      public static void initializenewusers(){   
 
-        System.out.println("Create Your Database, How Many New Users?");
-        num = scan.nextInt();
-        scan.nextLine();
-
-        for(int i = 0; i < num; i++){        	
-            System.out.println("Enter Username: ");
-            String newUser = scan.nextLine();
-            System.out.println("Enter Password: ");
-            String newPassword = scan.nextLine();            
-            
-            try {
-                File db = new File("Database");
-                PrintWriter printer = new PrintWriter(new FileWriter(db, true));
-                    printer.write(newUser + " " + newPassword + "\n");
-                    printer.flush();
-                }catch (IOException e){
-				e.printStackTrace();
-			}
-        }
-        initializedb();
-	}
-	 */
-     
-     public static void initializedb(){                
-         System.out.println("Initializing Database...");
-         try {
+	public static void initializedb() {
+		System.out.println("Initializing FleetDestroyer Database...");
+		try {
 			Thread.sleep(2000);
-		} catch (InterruptedException e1) {
-			e1.printStackTrace();
-		}
-         
-         String [] ids;
-         File file = new File("Database");
-         String user = null;
-         String pass = null;
-         BufferedReader br = null;
-         
+		} catch (InterruptedException e1) {}
+		System.out.println("Database Initialized!");
+
+		String[] ids;
+		File file = new File("Database");
+		String user = null;
+		String pass = null;
+		BufferedReader br = null;
+
 		try {
 			br = new BufferedReader(new InputStreamReader(new FileInputStream(file)));
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		}
-		
-         String line = null;
-         try {
-			while( (line = br.readLine())!= null ){
-			 	Player newPerson = new Player();
-			      ids = line.split("\\s+");
-			      user = ids[0];
-			      pass = ids[1];  
-			      newPerson.setUser(user);
-			      newPerson.setPassword(pass);
-			      players.add(newPerson);
-			     // System.out.println("*" + user + "-" + pass + "*");
 
-			 }
+		String line = null;
+		try {
+			while ((line = br.readLine()) != null) {
+				Player newPerson = new Player();
+				ids = line.split("\\s+");
+				user = ids[0];
+				pass = ids[1];
+				newPerson.setUser(user);
+				newPerson.setPassword(pass);
+				players.add(newPerson);
+
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-         
-         /*
-         
-         System.out.println("Do You Want To Add New Users?(Y/N): ");
-         String addition = scan.nextLine();
 
 
-         	(if(addition.equals("y")){
-         		initializenewusers();
-         	}else{
-         		System.out.println("ALL DONE");
-         		//LogIn.main(null);;
-         		InitialScreen.main(null);
-         	}
-         	*/    
+	}
+
+	public static boolean runme(String user, String password) {
+
+		String userresponse = user;
+		String passresponse = password;
+
+		boolean found = false;
+		String currentUser = null;
+
+		for (Player u : players) {
+			if ((u.getUser() != null && u.getUser().equals(userresponse))
+					&& (u.getPass() != null && u.getPass().equals(passresponse))) {
+				found = true;
+				currentUser = u.getUser();
+			}
+		}
+
+		return found;
+
+	}
+
+	public static boolean newUserForm(String userx, String passx) {
+		String user = userx;
+		String pass = passx;
+		boolean added = true;
+		Player newUser = new Player();
+
+		for (Player u : players) {
+			if ((u.getUser() != null && u.getUser().equals(user))) {
+				added = false;
+				System.out.println("Kill me");
+			}
+		}
+		if (added) {
+			newUser.setUser(user);
+			newUser.setPassword(pass);
+			players.add(newUser);
 			try {
-				Thread.sleep(1000);
-				System.out.println("Launching FleetDestroyer...");
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
+				File db = new File("Database");
+				PrintWriter printer = new PrintWriter(new FileWriter(db, true));
+				printer.write(user + " " + pass + "\n");
+				printer.flush();
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		}
 
-         
-  		InitialScreen.main(null);
+		return added;
 
-         }
+	}
 
-         
-	public static boolean runme(String user, String password){
-    	 
-    	 String userresponse = user;
-    	 String passresponse = password;
-         
-         boolean found = false;
-         String currentUser = null;
-         
-         for(Player u : players){
-             if((u.getUser() != null && u.getUser().equals(userresponse)) && (u.getPass() != null && u.getPass().equals(passresponse))){
-             	found = true;
-             	currentUser = u.getUser();
-             }
-         }
-         
-         return found;
-     
- 	}
-     
-     public static boolean newUserForm(String userx, String passx){
-    	 String user = userx;
-    	 String pass = passx;
-    	 boolean added = true;
-         Player newUser = new Player();
-         
-         for(Player u : players){
-             if((u.getUser() != null && u.getUser().equals(user))){
-             added = false;
-            	 System.out.println("Kill me");
-             }
-         }
-         if(added){
-        	 newUser.setUser(user);
-        	 newUser.setPassword(pass);
-        	 players.add(newUser);
-	            try {
-	                File db = new File("Database");
-	                PrintWriter printer = new PrintWriter(new FileWriter(db, true));
-	                    printer.write(user + " " + pass + "\n");
-	                    printer.flush();
-	                }catch (IOException e){
-					e.printStackTrace();
-				}
-         }
-         
-         return added;
-     
-     }
-     static ArrayList<String> loggedinplayers = new ArrayList<String>();
-     
-     synchronized static void login(String xuserx){
-     	loggedinplayers.add(xuserx);
-     	System.out.println("added: " + xuserx);
-         System.out.println(loggedinplayers);
+	static ArrayList<String> loggedinplayers = new ArrayList<String>();
 
-     }
-     
-     synchronized static void alreadyloggedin(String xuserx){
-         System.out.println("current is: " + loggedinplayers);
-             if(loggedinplayers.contains(xuserx)){
-             	System.out.println("error already logged in");
-                 System.out.println("****" + loggedinplayers);
-
-             
-         }
-     } 
 }
