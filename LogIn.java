@@ -2,7 +2,11 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
-
+ 
+import java.awt.Font;
+ 
+import javax.swing.JApplet;
+import javax.swing.JLabel;
 import javax.swing.*;
 
 public  class LogIn extends JFrame{
@@ -16,25 +20,35 @@ public  class LogIn extends JFrame{
 	
 	JButton loginButton = new JButton("Login");
 	JPanel loginScreen = new JPanel();
-	JTextField userField = new JTextField();
-	JPasswordField passwordField = new JPasswordField();
+	JTextField userField = new JTextField(10);
+	JPasswordField passwordField = new JPasswordField(10);
 	GridLayout experimentLayout = new GridLayout(0,1);
-	JLabel loginLabel = new JLabel("Username: ");
-	JLabel passwordLabel = new JLabel("Password: ");
+	JLabel loginLabel = new JLabel("Username");
+	JLabel passwordLabel = new JLabel("Password");
+	
+	ImageIcon imageIcon = new ImageIcon("C:\\Users\\Sai Yarram\\Documents\\GitHub\\battleship\\Help.JPG");
+	
 
 	LogIn(){
 		super("User Authenticication");
-		setSize(300,200);
+		setSize(600,600);
 		super.setLocationRelativeTo(null);
-
-		loginScreen.setLayout(experimentLayout);
+		loginScreen.setLayout(null);
+		JLabel Background = new JLabel();
+		Background.setIcon(imageIcon);
+		loginScreen.setOpaque(false);
+		loginScreen.setLayout(new GridBagLayout());
+		
+		loginScreen.add(Background);
 		loginScreen.add(loginLabel);
 		loginScreen.add(userField);
 		loginScreen.add(passwordLabel);
 		loginScreen.add(passwordField);
 		loginScreen.add(loginButton);
+		
 
-
+		loginLabel.setFont(new Font("Courier New Bold", Font.PLAIN, 18));
+		passwordLabel.setFont(new Font("Courier New Bold", Font.PLAIN, 18));
 		getContentPane().add(loginScreen);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);

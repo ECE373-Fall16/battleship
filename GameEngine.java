@@ -13,6 +13,9 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
+import javax.sound.sampled.*;
+import java.io.*;
+
 
 public class GameEngine extends JFrame
 {
@@ -106,6 +109,7 @@ public GameEngine()
 
 public void createAndDisplayGUI()
     {       
+		Music();
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         JPanel contentPane = new JPanel();
 		contentPane.setLayout(null);
@@ -1446,6 +1450,7 @@ public static String getFinalCoordinates(){
 
 		//Places ship on board and checks for overlap (might want to split to two methods)
 public static void FillInShip(Integer[] Coor,int x, Integer[] blocks){
+	Setup();
 	Integer[] points = blocks;
 	//int x = points.length;
 	
@@ -1628,7 +1633,45 @@ public static void Reset(Integer[] Coor, int x){
 
 }
 
+public static void Music(){
+				try {
+				File Music = new File("C:\\Users\\Sai Yarram\\Documents\\GitHub\\battleship\\Boat.wav");
+				 AudioInputStream audioIn = AudioSystem.getAudioInputStream(Music);
+				 Clip clip = AudioSystem.getClip();
+				 clip.open(audioIn);
+				 clip.loop(5);
+				 
+				 }
+				 
+				 catch (UnsupportedAudioFileException e) {
+					 e.printStackTrace();
+				  } catch (IOException e) {
+					 e.printStackTrace();
+				  } catch (LineUnavailableException e) {
+					 e.printStackTrace();
+				  }
+				
+			}
 
+public static void Setup(){
+				try {
+				File Music = new File("C:\\Users\\Sai Yarram\\Documents\\GitHub\\battleship\\Reload.wav");
+				 AudioInputStream audioIn = AudioSystem.getAudioInputStream(Music);
+				 Clip clip = AudioSystem.getClip();
+				 clip.open(audioIn);
+				 clip.loop(5);
+				 
+				 }
+				 
+				 catch (UnsupportedAudioFileException e) {
+					 e.printStackTrace();
+				  } catch (IOException e) {
+					 e.printStackTrace();
+				  } catch (LineUnavailableException e) {
+					 e.printStackTrace();
+				  }
+				
+			}
 
 
 
