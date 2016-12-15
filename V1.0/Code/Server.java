@@ -224,21 +224,23 @@ class Users implements Runnable {
 	}
 
 	public void sendHit(String tempwords, int hitmarker, int playernumber, String message) throws IOException {
+		
+		hitmarker = Integer.parseInt(message);
+		if (playernumber == 1) {
+			tempwords = ShipSetup.removeEnemyShip(hitmarker);
+		}
+		if (playernumber == 2) {
+			tempwords = ShipSetup.removeShip(hitmarker);
+		}
+		
 		for (int i = 0; i < 2; i++) {
 			if (user[i] != null) {
 
-				hitmarker = Integer.parseInt(message);
-				if (playernumber == 1) {
-					tempwords = ShipSetup.removeEnemyShip(hitmarker);
-				}
-				if (playernumber == 2) {
-					tempwords = ShipSetup.removeShip(hitmarker);
-				}
 				System.out.println(
 						"An attack was launched by " + user[playernumber - 1].name + " at: " + tempwords + "!");
 
 				user[i].out.writeUTF(tempwords + "" + hitmarker);
-
+				user[i].out.flush();
 			}
 		}
 	}
