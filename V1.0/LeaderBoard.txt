@@ -1,5 +1,0 @@
-hadi 15 0 18000 ghantous 
-admin 14 8 63040 admin 
-nick 14 6 120000 raymond 
-sai 13 8 10890 duck 
-mike 2 2 100 audi 
