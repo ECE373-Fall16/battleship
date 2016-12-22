@@ -4,7 +4,7 @@ import java.io.*;
 public class PlayerDatabase {
 
 	static int num;
-	static List<Player> players = new ArrayList();
+	static List<Player> players = new ArrayList<Player>();
 	static Scanner scan = new Scanner(System.in);
 
 	public static void main(String[] args) {
@@ -55,13 +55,12 @@ public class PlayerDatabase {
 		String passresponse = password;
 
 		boolean found = false;
-		String currentUser = null;
 
 		for (Player u : players) {
 			if ((u.getUser() != null && u.getUser().equals(userresponse))
 					&& (u.getPass() != null && u.getPass().equals(passresponse))) {
 				found = true;
-				currentUser = u.getUser();
+				u.getUser();
 			}
 		}
 
@@ -78,7 +77,6 @@ public class PlayerDatabase {
 		for (Player u : players) {
 			if ((u.getUser() != null && u.getUser().equals(user))) {
 				added = false;
-				System.out.println("Kill me");
 			}
 		}
 		if (added) {
@@ -90,6 +88,7 @@ public class PlayerDatabase {
 				PrintWriter printer = new PrintWriter(new FileWriter(db, true));
 				printer.write(user + " " + pass + "\n");
 				printer.flush();
+				printer.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

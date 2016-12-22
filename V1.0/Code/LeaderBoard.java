@@ -1,18 +1,14 @@
 import java.awt.*;
-import java.awt.event.*;
-import java.awt.Frame;
 import java.util.Arrays;
-import java.util.Scanner;
 import javax.swing.*;
 import java.io.*;
-import java.awt.Color;
 import javax.swing.table.*;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.*;
 
 
 
+@SuppressWarnings("serial")
 public class LeaderBoard extends JPanel
 {
 static String text = "";
@@ -85,8 +81,6 @@ boolean Result = false;
 			GetLeaderBoardValues(); //Calls upon the values from the text file to fill the JTable.
 			SortLeaderBoardValues(LeaderBoardArray);
 			
-			JPanel panel = new JPanel();
-
 			JFrame frame = new JFrame("LeaderBoard");
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			frame.add(new LeaderBoard());
@@ -180,7 +174,7 @@ boolean Result = false;
 		catch (IOException e)
 		{
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
 		}           
 	}
 

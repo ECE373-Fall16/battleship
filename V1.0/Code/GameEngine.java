@@ -4,48 +4,35 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.*;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 
 import java.awt.Color;
 
-import java.awt.Graphics;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
-import java.util.*;
-import sun.audio.*;
-import java.io.*;
-import java.net.URL;
 import javax.sound.sampled.*;
-import javax.swing.*;
 
 
+@SuppressWarnings("serial")
 public class GameEngine extends JFrame
 {
 	
 	static Integer[] matchPoints = new Integer[45];
 	static int firecoord;
-    private static final String INITIAL_TEXT = "Nothing Pressed";
-    private static final String ADDED_TEXT = " was Pressed";
     private JLabel positionLabel;
-    private JLabel Xaxis;
 	public static int count = 0;
 	public static int random = 0;
-
+	public static JTextField textField; 
 	public String content;
 	static boolean set = false;
 	public boolean fire;
-	
+	public static  JTextArea   chatBox;
+
   //Initializing the buttons
   
     private JButton resetButton;
@@ -55,6 +42,7 @@ public class GameEngine extends JFrame
 	public JButton dCruiser;
 	public JButton eDestroyer;
 	static JButton FireButton;
+	static JButton EndGameButton;
 	public JButton RandomizeShips;
 	public JButton FinalizeShips;
 	public JButton Output;
@@ -121,7 +109,8 @@ public class GameEngine extends JFrame
 
 public GameEngine()
     {
-        super("Fleet Destroyer Engine");
+        super("Fleet Destroyer Engine - " + Player.getCurrentUser());
+        super.setLocationRelativeTo(null);
     }
 
 public void createAndDisplayGUI()
@@ -135,44 +124,43 @@ public void createAndDisplayGUI()
                 return false;
             }
         };
-        Music();
+      //  Music();
 		contentPane.setLayout(null);
 		contentPane.setPreferredSize(new Dimension (1700,700));
-		JPanel leftPanel = new JPanel();
+		final JPanel leftPanel = new JPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));    
-        JPanel LeftPanelFire = new JPanel();
         JPanel buttonLeftPanel = new JPanel();
         
-        ImageIcon ACImage = new ImageIcon("A.png");
-        JLabel ACPic = new JLabel(ACImage);
+        ImageIcon ACImage = new ImageIcon("");
+        final JLabel ACPic = new JLabel(ACImage);
         ACImage.setImage(ACImage.getImage().getScaledInstance(220, 20, Image.SCALE_DEFAULT));
         //ACPic.setBounds(1165,70,220,20);
        contentPane.add(ACPic);
        
    
         
-        ImageIcon BSImage = new ImageIcon("B.png");
-        JLabel BSPic = new JLabel(ACImage);
+        ImageIcon BSImage = new ImageIcon("");
+        final JLabel BSPic = new JLabel(ACImage);
         BSImage.setImage(BSImage.getImage().getScaledInstance(180, 20, Image.SCALE_DEFAULT));
         //BSPic.setBounds(1165,115,180,20);
         contentPane.add(BSPic);
      
         
-        ImageIcon SUBImage = new ImageIcon("water1.png");
-        JLabel SUBPic = new JLabel(SUBImage);
+        ImageIcon SUBImage = new ImageIcon("");
+        final JLabel SUBPic = new JLabel(SUBImage);
         SUBImage.setImage(SUBImage.getImage().getScaledInstance(130, 20, Image.SCALE_DEFAULT));
         //SUBPic.setBounds(1160,165,130,20);
         contentPane.add(SUBPic);
         
         
-        ImageIcon CImage = new ImageIcon("C.png");
-        JLabel CPic = new JLabel(CImage);
+        ImageIcon CImage = new ImageIcon("");
+        final JLabel CPic = new JLabel(CImage);
         CImage.setImage(CImage.getImage().getScaledInstance(130, 20, Image.SCALE_DEFAULT));
         //CPic.setBounds(1165,215,130,20);
         contentPane.add(CPic);
         
-        ImageIcon DImage = new ImageIcon("D.png");
-        JLabel DPic = new JLabel(DImage);
+        ImageIcon DImage = new ImageIcon("");
+        final JLabel DPic = new JLabel(DImage);
         DImage.setImage(DImage.getImage().getScaledInstance(75, 20, Image.SCALE_DEFAULT));
         //DPic.setBounds(1165,270,75,20);
         contentPane.add(DPic);
@@ -205,7 +193,7 @@ public void createAndDisplayGUI()
         
         //Home ships grid
 		
-        JPanel ShipsPanel = new JPanel();
+        final JPanel ShipsPanel = new JPanel();
 		ShipsPanel.setBounds(1150,50,500,500);
 		
 		
@@ -330,7 +318,7 @@ public void createAndDisplayGUI()
 
         
         //Chat
-		 JPanel ChatBox = displayChat();
+		 final JPanel ChatBox = displayChat();
 		ChatBox.setBounds(25,490,400,100);
 		ChatBox.setVisible(false);
 		ChatBox.setOpaque(false);
@@ -351,6 +339,7 @@ public void createAndDisplayGUI()
 		RandomizeShips = new JButton("Randomize Carrier");
 		FinalizeShips = new JButton("Finalize Ships");
 		FireButton = new JButton("Fire on Location");
+		EndGameButton = new JButton("Exit Game");
 		Output = new JButton("Output");
 		Refresh = new JButton("Refresh Screen");
 		
@@ -380,6 +369,8 @@ public void createAndDisplayGUI()
 		FinalizeShips.setFont(new Font("Times New Roman", Font.BOLD, 22));
 		FireButton.setBackground(Color.red);
 		FireButton.setFont(new Font("Times New Roman", Font.BOLD, 22));
+		EndGameButton.setBackground(Color.red);
+		EndGameButton.setFont(new Font("Times New Roman", Font.BOLD, 22));
 		
 
 //left panel graphics
@@ -406,6 +397,7 @@ public void createAndDisplayGUI()
 		RandomizeShips.setAlignmentX(Component.CENTER_ALIGNMENT);
 		FinalizeShips.setAlignmentX(Component.CENTER_ALIGNMENT);
 		FireButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		EndGameButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		 
 		leftPanel.add(RandomizeShips);
 		leftPanel.add(FinalizeShips);
@@ -416,6 +408,7 @@ public void createAndDisplayGUI()
 		buttonLeftPanel.add(eDestroyer);
 		buttonLeftPanel.add(resetButton);
 		leftPanel.add(FireButton);
+		leftPanel.add(EndGameButton);
 		//buttonLeftPanel.add(Output);
 		//buttonLeftPanel.add(Refresh);
 		
@@ -900,7 +893,7 @@ RandomizeShips.addActionListener(new ActionListener()
 	//Firing Functionality
 		
 // JTEXTFIELD FOCUS,WHERE WE ENTER COORDINATES	
-		JTextField textField = new JTextField("Enter Coordiantes to Fire!",5);
+		textField = new JTextField("Enter Coordiantes to Fire!",5);
 		textField.setFont(new Font("Times New Roman", Font.ROMAN_BASELINE, 14));
 		leftPanel.add(textField);
 		textField.requestFocusInWindow();
@@ -912,6 +905,7 @@ RandomizeShips.addActionListener(new ActionListener()
 		
 		textField.setVisible(false);
 		FireButton.setVisible(false);
+		EndGameButton.setVisible(false);
 		
 		//clear text field and re populates when focus lost
 		textField.addFocusListener(new FocusListener() {
@@ -932,7 +926,7 @@ RandomizeShips.addActionListener(new ActionListener()
 		public void actionPerformed(ActionEvent event)
 			{
 			content = textField.getText();
-			System.out.print(content);
+			//System.out.print(content);
 			}
 		});
 		
@@ -941,18 +935,26 @@ RandomizeShips.addActionListener(new ActionListener()
 		{
 		
 		public void actionPerformed(ActionEvent event) {
-			Client.setFire(textField.getText());
-			//System.out.println("The entered text is: " + textField.getText());
-			//System.out.println("The entered text is: " + textField.getText());
 			String FireCoordinates = textField.getText();
-			FireCoordinates = FireCoordinates.replace(",", "").replaceAll(" ", "");
-			int FireCoordinate = Integer.parseInt(FireCoordinates);
-			//System.out.println("FireXcoordinate = "+FireCoordinate);
+			FireCoordinates = FireCoordinates.replaceAll("[^0-9.]", "");
+			if(FireCoordinates.length() == 2){
+				Client.setFire(textField.getText());
+			}
 			
-		//	System.out.println(buttonF[FireCoordinate].getLocation());
 			textField.setText("");
 			content = textField.getText();
 			//System.out.print(content);
+			}
+			
+
+		
+		});
+		//button for firing on coordinates
+		EndGameButton.addActionListener(new ActionListener()
+		{
+		
+		public void actionPerformed(ActionEvent event) {
+			dispose();
 			}
 			
 
@@ -1699,9 +1701,7 @@ public static void Reset(Integer[] Coor, int x){
 
 
 public JPanel displayChat() {
-	    JTextArea   chatBox;
-	    JTextField  messageField;
-	    String username = Player.getCurrentUser();
+	    final JTextField  messageField;
 	
 	
     JPanel ChatBox = new JPanel();
@@ -1738,22 +1738,25 @@ public JPanel displayChat() {
 	                chatBox.setText("CHAT CLEARED\n");
 	                messageField.setText("");
 	            } else {
-	                chatBox.append("<" + username + ">:  " + messageField.getText()+ "\n");
-	            }
-	            messageField.requestFocusInWindow();
-	        }
+	            	String message = "<" + Player.getCurrentUser() + ">:  " + messageField.getText()+ "\n";
+	                try {
+						ChatClient.sendMessage(message);
+					} catch (IOException e) {}
+	            	messageField.setText("");
+	            }}
+	            
 		});
     
 	messageField.addFocusListener(new FocusListener() {
 		public void focusGained(FocusEvent e) {
 			messageField.setText("");
 			messageField.setFont(new Font("Serif", Font.PLAIN, 20));
-			System.out.print("gained");
+			//System.out.print("gained");
       }
       public void focusLost(FocusEvent e) {
     	  messageField.setText("Send Message");
     	  messageField.setFont(new Font("Serif", Font.ITALIC,20));
-    	  System.out.print("lost");
+    	 // System.out.print("lost");
     	  
       }});
     
@@ -1797,8 +1800,7 @@ public static void main(String[] args){
         {
             public void run()
             {
-                new GameEngine().createAndDisplayGUI();
-
+               new GameEngine().createAndDisplayGUI();
             }
 
         });

@@ -1,5 +1,4 @@
 import java.net.*;
-import java.util.Scanner;
 import java.io.*;
 
 public class ChatClient {
@@ -17,8 +16,6 @@ public static void main(String[] args) throws Exception{//run
 	Input input = new Input(in);
 	Thread thread = new Thread(input);
 	thread.start();
-	@SuppressWarnings("resource")
-	Scanner sc = new Scanner(System.in);
 	
 	MainChatGUI.main(null);
 }
@@ -31,7 +28,6 @@ public static void sendMessage(String message) throws IOException {
 
 public static void displayMessage(String message){
 	MainChatGUI.chatBox.append(message);
-
 }
 }
 

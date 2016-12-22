@@ -2,10 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import javax.sound.sampled.*;
 import java.io.*;
-import sun.audio.*;
   
 public class HelpScreen {
-   public static void main(String args[]) {
+   @SuppressWarnings("serial")
+public static void main(String args[]) {
 	   Music();
       JFrame frame = new JFrame("Help");
       final ImageIcon imageIcon = new ImageIcon("Help.JPG");

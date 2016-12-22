@@ -1,7 +1,7 @@
-import java.io.*;
 import java.util.*;
 
 
+@SuppressWarnings("serial")
 public class ShipSetup extends GameEngine{
 	static int playernumber;
 	static int playernumberdatabase;
@@ -27,11 +27,10 @@ public class ShipSetup extends GameEngine{
 		return firexy;
 	}
 	
-	static int counteruser = 0;
 	
-	static String hitme = "mexxx";
+	
 	public static String removeShip(int location){
-		if(ran_through_me == false){
+		String hitme = "";
 			if(intList.contains(location)){
 				System.out.println(Arrays.toString(intList.toArray()));
 				hitme = "HIT";
@@ -39,45 +38,32 @@ public class ShipSetup extends GameEngine{
 				System.out.println("HIT");
 			
 				intList.remove(new Integer(location));
+				
 				System.out.println(Arrays.toString(intList.toArray()));
-				ran_through_me = true;
 			}else{
 				System.out.println("MISS");
 				hitme = "MISS";
-				ran_through_me = true;
 			}
-		}else if(ran_through_me == true){
-			ran_through_me = false;
-		}
-		
 		return hitme;
 	}
-	static boolean ran_through_me = false;
-	static boolean ran_through_enemy = false;
-
-	static String hitmeenemy = "enemeyxxx";
+	
+	
 
 	public static String removeEnemyShip(int location){
-		if(ran_through_enemy == false){
+		String hitmeenemy = "";
+
 			if(intListEnemy.contains(location)){
 				System.out.println(Arrays.toString(intListEnemy.toArray()));
 				System.out.println("HIT");
-				//GameEngine.setShotHit(true);
 			
 				hitmeenemy = "HIT";
 			
-
 				intListEnemy.remove(new Integer(location));
 				System.out.println(Arrays.toString(intListEnemy.toArray()));
-				ran_through_enemy = true;
 			}else{
 				hitmeenemy = "MISS";
 				System.out.println("MISS");
-				ran_through_enemy = true;
 			}
-		}else if(ran_through_enemy == true){
-			ran_through_enemy = false;
-		}
 		return hitmeenemy;
 	}	
 	
@@ -91,16 +77,8 @@ public class ShipSetup extends GameEngine{
         }
     }
 	
-	public static void setUserShips(String shiplocations){
-
-		String ships = "";
-		if(playernumberdatabase == 0){
-			ships = "player_one's_ships";
-			playernumberdatabase++;
-		}else if(playernumberdatabase == 1){
-			ships = "player_two's_ships";
-			playernumberdatabase++;
-		}	
+	public static void setUserShips(String shiplocations, int userNumber){
+		playernumber = userNumber;
 	
         String fleet[] = shiplocations.split(" ");
         cxy = fleet[1];
@@ -115,25 +93,14 @@ public class ShipSetup extends GameEngine{
         setCruiser(crxy);
         setDestroyer(dxy);        
         
-		try {
-			PrintWriter printer = new PrintWriter(new FileWriter(new File(ships)));
-			if(playernumber == 0){
-		        System.out.println("Here " + Arrays.toString(intList.toArray()));
+			if(playernumber == 1){
+		        System.out.println("Player One " + Arrays.toString(intList.toArray()));
 
-			printer.write(Arrays.toString(intList.toArray()));
-			}else if(playernumber == 1){
-		        System.out.println("Enemy " + Arrays.toString(intListEnemy.toArray()));
-				printer.write(Arrays.toString(intListEnemy.toArray()));
+			}else if(playernumber == 2){
+		        System.out.println("Player Two " + Arrays.toString(intListEnemy.toArray()));
 			}
-			
-			printer.flush();
-			printer.close();
-	        playernumber++;
-
-		}catch (IOException e){
-			e.printStackTrace();
-		}
 	}
+	
 
 	///SETTING SHIPS METODS///
 	public static void setCarrier(String xy){//start setCarrier()
@@ -179,14 +146,14 @@ public class ShipSetup extends GameEngine{
 		 	}
 	 	}		
 	 	
-	 if(playernumber == 0){
+	 if(playernumber == 1){
 	 intList.add(x1y1);
 	 intList.add(x2y2);
 	 intList.add(x3y3);
 	 intList.add(x4y4);
 	 intList.add(x5y5);
 	 }
-	 else if(playernumber == 1){
+	 else if(playernumber == 2){
 		 intListEnemy.add(x1y1);
 		 intListEnemy.add(x2y2);
 		 intListEnemy.add(x3y3);
@@ -231,12 +198,12 @@ public class ShipSetup extends GameEngine{
 	 	}
  	}		
  
-	if(playernumber == 0){
+	if(playernumber == 1){
 		intList.add(x1y1);
 		intList.add(x2y2);
 		intList.add(x3y3);
 		intList.add(x4y4);
-	}else if(playernumber == 1){
+	}else if(playernumber == 2){
 		intListEnemy.add(x1y1);
 		intListEnemy.add(x2y2);
 		intListEnemy.add(x3y3);
@@ -277,11 +244,11 @@ public class ShipSetup extends GameEngine{
  	}		
  
  
- 	if(playernumber == 0){
+ 	if(playernumber == 1){
  		intList.add(x1y1);
  		intList.add(x2y2);
  		intList.add(x3y3);
- 	}else if(playernumber == 1){
+ 	}else if(playernumber == 2){
  		intListEnemy.add(x1y1);
  		intListEnemy.add(x2y2);
  		intListEnemy.add(x3y3);
@@ -321,11 +288,11 @@ public class ShipSetup extends GameEngine{
  	}		
  
 
-	if(playernumber == 0){
+	if(playernumber == 1){
 		intList.add(x1y1);
 		intList.add(x2y2);
 		intList.add(x3y3);
-	}else if(playernumber == 1){
+	}else if(playernumber == 2){
 		intListEnemy.add(x1y1);
 		intListEnemy.add(x2y2);
 	 	intListEnemy.add(x3y3);
@@ -361,10 +328,10 @@ public class ShipSetup extends GameEngine{
 	 	}
  	}		
 	
-	if(playernumber == 0){
+	if(playernumber == 1){
 		intList.add(x1y1);
 		intList.add(x2y2);
-	}else if(playernumber == 1){
+	}else if(playernumber == 2){
 	 intListEnemy.add(x1y1);
 	 intListEnemy.add(x2y2);
 	}

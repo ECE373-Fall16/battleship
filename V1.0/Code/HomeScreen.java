@@ -13,13 +13,10 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
-import sun.audio.*;
-import java.io.*;
-import java.net.URL;
 import javax.sound.sampled.*;
-import javax.swing.*;
 
 
+@SuppressWarnings("serial")
 public class HomeScreen extends JFrame {
     public static void main(String[] args) {
         new HomeScreen();
@@ -39,9 +36,8 @@ public class HomeScreen extends JFrame {
         
         JPanel container = new MyBackground();
 		container.setLayout(null);
-		Color lightBlue= new Color(0,204,255,255);
 		
-		GameStart.setBounds(160,50,200,100);
+		GameStart.setBounds(200,51,200,100);
 		GameStart.setOpaque(false);
 		GameStart.setContentAreaFilled(false);
 		GameStart.setBorderPainted(true);
@@ -49,7 +45,7 @@ public class HomeScreen extends JFrame {
 		GameStart.setForeground(Color.WHITE);
 		GameStart.setBorder(BorderFactory.createLineBorder(Color.WHITE, 5));
 		
-		LeaderBoardB.setBounds(160,151,200,100);
+		LeaderBoardB.setBounds(200,151,200,100);
 		LeaderBoardB.setOpaque(false);
 		LeaderBoardB.setContentAreaFilled(false);
 		LeaderBoardB.setBorderPainted(true);
@@ -57,7 +53,7 @@ public class HomeScreen extends JFrame {
 		LeaderBoardB.setForeground(Color.WHITE);
 		LeaderBoardB.setBorder(BorderFactory.createLineBorder(Color.WHITE, 4));
 		
-		Chat.setBounds(160,251,200,100);
+		Chat.setBounds(200,251,200,100);
 		Chat.setOpaque(false);
 		Chat.setContentAreaFilled(false);
 		Chat.setBorderPainted(true);
@@ -65,7 +61,7 @@ public class HomeScreen extends JFrame {
 		Chat.setForeground(Color.WHITE);
 		Chat.setBorder(BorderFactory.createLineBorder(Color.WHITE, 4));	
 
-		Options.setBounds(160,351,200,100);
+		Options.setBounds(200,351,200,100);
 		Options.setOpaque(false);
 		Options.setContentAreaFilled(false);
 		Options.setBorderPainted(true);
@@ -73,7 +69,7 @@ public class HomeScreen extends JFrame {
 		Options.setForeground(Color.WHITE);
 		Options.setBorder(BorderFactory.createLineBorder(Color.WHITE, 4));	
         
-		Help.setBounds(160,451,200,100);
+		Help.setBounds(200,451,200,100);
 		Help.setOpaque(false);
 		Help.setContentAreaFilled(false);
 		Help.setBorderPainted(true);
@@ -83,7 +79,9 @@ public class HomeScreen extends JFrame {
 		
 		add(container);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
+    	super.setLocationRelativeTo(null);
         setSize(600, 600);
+    	super.setLocationRelativeTo(null);
 		container.add(GameStart);
 		container.add(LeaderBoardB);
 		container.add(Chat);
@@ -98,7 +96,7 @@ public class HomeScreen extends JFrame {
 		OptionsEvent();
 		HelpEvent();
     }
-    public class MyBackground extends JPanel {
+	public class MyBackground extends JPanel {
         public MyBackground() {
             setBackground(new Color(0, true));
         }
@@ -131,31 +129,45 @@ public class HomeScreen extends JFrame {
 				
 			}
 			
+	
+	public void GameStartEventtttt(){
+		GameStart.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent enter) {
+				
+				File file = new File("loggedinplayers");
+
+				try {
+				    Scanner scanner = new Scanner(file);
+				    int lineNum = 0;
+				    while (scanner.hasNextLine()) {
+				        scanner.nextLine();
+				        lineNum++;
+				        }
+				    scanner.close();
+				    if(lineNum > 1){							
+				    	GameEngine.main(null);
+				    	dispose();
+				    }else{
+				    JOptionPane.showMessageDialog(null,"Waiting For Opponent To Connect...","Connecting...", 1);
+				    }
+				    
+				}catch(FileNotFoundException e) { 
+				    //handle this
+				}	
+		}
+		
+	});
+}
+	
 		
 				public void GameStartEvent(){
 					GameStart.addActionListener(new ActionListener(){
 						public void actionPerformed(ActionEvent enter) {
-							
-							File file = new File("loggedinplayers");
-
-							try {
-							    Scanner scanner = new Scanner(file);
-							    int lineNum = 0;
-							    while (scanner.hasNextLine()) {
-							        String line = scanner.nextLine();
-							        lineNum++;
-							        }
-							    if(lineNum > 1){							
+											
 							    	GameEngine.main(null);
 							    	dispose();
-							    }else{
-							    JOptionPane.showMessageDialog(null,"Waiting For Opponent To Connect...","Connecting...", 1);
-							    }
-							    
-							}catch(FileNotFoundException e) { 
-							    //handle this
-							}	
-					}
+								
+						}
 					
 				});
 			}

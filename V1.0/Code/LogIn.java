@@ -7,19 +7,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.*;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-import java.util.*;
-import sun.audio.*;
-import java.io.*;
-import java.net.URL;
 import javax.sound.sampled.*;
-import javax.swing.*;
 
 
 
+@SuppressWarnings("serial")
 public class LogIn extends JFrame {
 	static Player currentUser = new Player();
 	static boolean found = false;
@@ -28,6 +23,7 @@ public class LogIn extends JFrame {
 
     public static void main(String[] args) {
 		new LogIn();
+
     }
     private Image image;
 	
@@ -44,11 +40,8 @@ public class LogIn extends JFrame {
 
 	
 	JPanel container = new MyBackground();
-	super.setLocationRelativeTo(null);
 
 	container.setLayout(null);
-	super.setLocationRelativeTo(null);
-
 	userField.setBounds(605,590,135,25);
 	userField.setFont(new Font("Serif", Font.BOLD, 24));
 	userField.setBackground(Grey);
@@ -60,8 +53,6 @@ public class LogIn extends JFrame {
 	passwordField.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 	
 	loginButton.setBounds(450,650,290,35);
-	//loginButton.setOpaque(false);
-	//loginButton.setContentAreaFilled(false);
 	loginButton.setBorderPainted(true);
 	loginButton.setFont(new Font("Serif", Font.BOLD, 24));
 	loginButton.setForeground(Color.BLACK);
@@ -91,11 +82,15 @@ public class LogIn extends JFrame {
 	
 	add(container);
 	setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+	super.setLocationRelativeTo(null);
 	setBounds(800,400,800,800);
+	super.setLocationRelativeTo(null);
+
     setVisible(true);
 	setResizable(false);
 	loginEvent();
-	Music();
+	//Music();
     }
 	
 
@@ -103,6 +98,7 @@ public class LogIn extends JFrame {
 			loginButton.addActionListener(new ActionListener(){
 				public void actionPerformed(ActionEvent e) {
 					String username = userField.getText().toLowerCase();
+					@SuppressWarnings("deprecation")
 					String password = passwordField.getText();
 					
 					Client.sendUser(username, password);
@@ -117,7 +113,7 @@ public class LogIn extends JFrame {
 						userField.setText("");
 						passwordField.setText("");
 						userField.requestFocus();
-					    JOptionPane.showMessageDialog(null,"Wrong Username / Password","ERROR", 2);
+					    JOptionPane.showMessageDialog(null,"ERROR SIGNING IN","ERROR", 2);
 
 					}
 					
@@ -151,7 +147,7 @@ public class LogIn extends JFrame {
 	
 	
 	
-    public class MyBackground extends JPanel {
+	public class MyBackground extends JPanel {
         public MyBackground() {
             setBackground(new Color(0, true));
         }

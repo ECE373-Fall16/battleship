@@ -1,11 +1,5 @@
 import java.net.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
-
-import javax.swing.JOptionPane;
-
-import java.awt.Color;
 import java.io.*;
 
 public class Server extends Client {
@@ -15,7 +9,7 @@ public class Server extends Client {
 	static DataOutputStream out;
 	static DataInputStream in;
 
-	static Users[] user = new Users[2];
+	static Users[] user = new Users[10];
 
 	public static void main(String[] args) throws Exception {
 		System.out.println("Starting FleetDestroyer Server...");
@@ -26,7 +20,7 @@ public class Server extends Client {
 		resetLoggedInPlayers();
 		while (true) {
 			socket = serverSocket.accept();
-			for (int i = 0; i < 2; i++) {
+			for (int i = 0; i < 10; i++) {
 
 				System.out.println("Connection from: " + socket.getInetAddress());
 				out = new DataOutputStream(socket.getOutputStream());
@@ -47,7 +41,7 @@ public class Server extends Client {
 			writer = new PrintWriter("loggedinplayers");
 			writer.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			
 		}
 	}
 }
@@ -56,7 +50,7 @@ class Users implements Runnable {
 
 	DataOutputStream out;
 	DataInputStream in;
-	Users[] user = new Users[2];
+	Users[] user = new Users[10];
 	String name;
 	String shiplocations;
 
@@ -67,6 +61,7 @@ class Users implements Runnable {
 	static boolean changed = false;
 	static String username = "";
 	static String password = "";
+	static int playerNumber;
 
 	public Users(DataOutputStream out, DataInputStream in, Users[] user) {
 		this.out = out;
@@ -80,7 +75,6 @@ class Users implements Runnable {
 			try {
 				username = in.readUTF();
 				password = in.readUTF();
-				System.out.println(username + "   " + password);
 
 			} catch (IOException e) {
 			}
@@ -93,7 +87,6 @@ class Users implements Runnable {
 					out.writeUTF("Login Confirmed!");
 					
 					String values = LeaderBoard.returnLeaderBoard();
-					System.out.println(values);
 					out.writeUTF(values);
 				} catch (IOException e) {
 				}
@@ -108,50 +101,51 @@ class Users implements Runnable {
 
 		}
 		
-		System.out.println("we made it out");
+		
+		
+		try {
+			name = in.readUTF();
+		} catch (IOException e1) {
+		}
+		
+		try {
+			shiplocations = in.readUTF();
+		} catch (IOException e1) {
+		}
+		
+			
+		
 		if (loggers == 0) {
-			playerone = username;
+			playerone = name;
+			playerNumber = 1;
 			try {
 				out.writeUTF("1");
-				System.out.println("we sent out");
-
+				
+				ShipSetup.setUserShips(shiplocations,playerNumber);
+				
+				
 			} catch (IOException e) {}
 			loggers++;
 		} else if (loggers == 1) {
-			playertwo = username;
+			playertwo = name;
+			playerNumber = 2;
 			try {
 				out.writeUTF("2");
-				System.out.println("we sent out again");
-
+				
+				ShipSetup.setUserShips(shiplocations,playerNumber);
 			} catch (IOException e) {}
 			loggers++;
 		}
-		while(loggers != 2){
+		while(loggers < 2){
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {}
 		}
-		System.out.println("We got two");
 		
 		try {
 			out.writeUTF("MatchSet");
 		} catch (IOException e2) {}
 
-		System.out.println("We sent the matchset");
-		try {
-			name = in.readUTF();
-		} catch (IOException e1) {
-		}
-		try {
-			shiplocations = in.readUTF();
-		} catch (IOException e1) {
-		}
-
-
-
-		System.out.println(shiplocations);
-		ShipSetup.setUserShips(shiplocations);
-		System.out.println("Player one is: " + playerone + " player two is: " + playertwo);
 
 		String tempwords = "";
 		int hitmarker = 0;
@@ -163,12 +157,12 @@ class Users implements Runnable {
 				String message;
 				try {
 					message = in.readUTF();
-					System.out.println("the hit I recieved initially is: " + message);
+					//System.out.println("the hit I recieved initially is: " + message);
 
 					String command = message.substring(0, 1);
-					System.out.println("The command is: " + command);
+					//System.out.println("The command is: " + command);
 					message = message.substring(1, message.length());
-					System.out.println("The message therefore is: " + message);
+					//System.out.println("The message therefore is: " + message);
 
 					if (command.equals("1")) {
 						playernumber = 1;
@@ -182,9 +176,11 @@ class Users implements Runnable {
 					// System.out.println("ERROR");
 				}
 
-				// ShipSetup.gameOver();
+				ShipSetup.gameOver();
 
 			}
+			System.out.println("GAME OVER");
+			break;
 		}
 	}
 
@@ -196,7 +192,6 @@ class Users implements Runnable {
 			writer.write(username + "\n");
 			writer.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 		}
 	}
 
@@ -217,7 +212,7 @@ class Users implements Runnable {
 			scan.close();
 
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
+			
 		}
 
 		return loggedin;
@@ -237,7 +232,7 @@ class Users implements Runnable {
 			if (user[i] != null) {
 
 				System.out.println(
-						"An attack was launched by " + user[playernumber - 1].name + " at: " + tempwords + "!");
+						"An attack was launched by " + user[playernumber - 1].name + " at: " + hitmarker + "!");
 
 				user[i].out.writeUTF(tempwords + "" + hitmarker);
 				user[i].out.flush();
